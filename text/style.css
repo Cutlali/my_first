@@ -1,0 +1,1160 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+body {
+    background-color: #fafbfc;
+    background-image: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========== 固定背景层 ========== */
+.fixed-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+/* ========== 重置各板块背景 ========== */
+.transition-page,
+.data-overview,
+.chart-section,
+.line-bar-chart-section,
+.map-section,
+.stories {
+    background: transparent !important;
+    background-image: none !important;
+    position: relative;
+    z-index: 1;
+}
+
+/* 移除过渡页的渐变背景 */
+.transition-bg {
+    display: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* 顶部滚动进度条 */
+.progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #0F3460, #1A5F7A);
+    width: 0%;
+    z-index: 9999;
+}
+
+/* 右侧悬浮导航 */
+.side-nav {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    z-index: 999;
+}
+.nav-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #ccc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.nav-dot:hover,
+.nav-dot.active {
+    background: #0F3460;
+    transform: scale(1.3);
+}
+
+/* 全局渐入动画：移出视口自动重置 */
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.fade-in.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 通用板块样式 */
+section {
+    width: 100%;
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ========== 字体引入 ========== */
+/* 参考 readymag 网站的字体风格 - 使用更艺术化的字体 */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Noto+Sans+SC:wght@300;400;700;900&family=DM+Serif+Display&family=Cormorant+Garamond:wght@300;400;600;700&display=swap');
+
+/* ========== 封面页 - 高级版 ========== */
+.cover {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #0a0e27;
+}
+
+/* 背景渐变 */
+/* 封面页顶部光晕 */
+.cover-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(74, 144, 226, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 50%, rgba(74, 144, 226, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(15, 52, 96, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
+        linear-gradient(180deg, #0a0e27 0%, #0f1535 50%, #0a0e27 100%);
+}
+
+
+/* 粒子画布 */
+#particleCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* 光晕效果 */
+.cover-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    animation: glowPulse 6s ease-in-out infinite;
+}
+
+.cover-glow-1 {
+    width: 400px;
+    height: 400px;
+    background: rgba(74, 144, 226, 0.15);
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.cover-glow-2 {
+    width: 300px;
+    height: 300px;
+    background: rgba(100, 180, 255, 0.1);
+    bottom: 25%;
+    right: 15%;
+    animation-delay: 3s;
+}
+
+@keyframes glowPulse {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.2); opacity: 0.8; }
+}
+
+/* 网格线装饰 */
+.cover-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-image: 
+        linear-gradient(rgba(74, 144, 226, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74, 144, 226, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+
+/* 封面内容 */
+.cover-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px 20px;
+    max-width: 900px;
+}
+
+/* 顶部标签 */
+.cover-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: rgba(74, 144, 226, 0.1);
+    border: 1px solid rgba(74, 144, 226, 0.3);
+    border-radius: 50px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 40px;
+    animation: fadeInUp 1s ease 0.2s both;
+    letter-spacing: 2px;
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+.badge-dot {
+    width: 6px;
+    height: 6px;
+    background: #4a90e2;
+    border-radius: 50%;
+    animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(74, 144, 226, 0.6); }
+    50% { box-shadow: 0 0 0 8px rgba(74, 144, 226, 0); }
+}
+
+/* ========== 主标题 - 跟随滚动滑出 ========== */
+.main-title {
+    font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+    font-weight: 700;
+    margin-bottom: 24px;
+    position: relative;
+    overflow: hidden;
+}
+
+.title-line {
+    display: block;
+    will-change: transform, opacity;
+}
+
+/* 第一行：医保目录的 */
+.title-left {
+    font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: rgba(255, 255, 255, 0.9);
+    letter-spacing: 8px;
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* 第二行：人群地图 */
+.title-right {
+    font-family: 'DM Serif Display', 'Noto Serif SC', serif;
+    font-size: clamp(3.5rem, 9vw, 7rem);
+    background: linear-gradient(135deg, #4a90e2 0%, #64b5f6 30%, #90caf9 60%, #4a90e2 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease-in-out infinite;
+    letter-spacing: 16px;
+    font-weight: 900;
+    filter: drop-shadow(0 0 40px rgba(74, 144, 226, 0.4));
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* 副标题 */
+.cover-subtitle {
+    font-family: 'Cormorant Garamond', 'Noto Serif SC', serif;
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 30px;
+    letter-spacing: 4px;
+    font-style: italic;
+    font-weight: 300;
+    will-change: transform, opacity;
+}
+
+/* 分割线 */
+.cover-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    will-change: opacity;
+}
+
+.divider-line {
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(74, 144, 226, 0.5), transparent);
+}
+
+.divider-icon {
+    color: rgba(74, 144, 226, 0.6);
+    font-size: 10px;
+}
+
+/* 数据亮点 */
+.cover-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin-bottom: 50px;
+    will-change: transform, opacity;
+}
+
+.cover-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.stat-number {
+    font-family: 'DM Serif Display', 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: #4a90e2;
+    letter-spacing: 2px;
+}
+
+.stat-label {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.35);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* 底部信息 */
+.cover-footer {
+    will-change: opacity;
+}
+
+.source {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.3);
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+}
+
+/* 滚动提示 */
+.scroll-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 12px;
+    letter-spacing: 3px;
+    animation: fadeInUp 1s ease 1.4s both;
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+.scroll-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    animation: scrollBounce 2s ease-in-out infinite;
+}
+
+.scroll-arrow span {
+    display: block;
+    width: 8px;
+    height: 8px;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    transform: rotate(45deg);
+}
+
+@keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); opacity: 0.3; }
+    50% { transform: translateY(10px); opacity: 0.8; }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .cover-stats {
+        gap: 30px;
+    }
+    
+    .cover-glow-1 {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .cover-glow-2 {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .title-right {
+        letter-spacing: 8px;
+    }
+    
+    .title-left {
+        letter-spacing: 4px;
+    }
+}
+
+/* ========== 过渡页：肿瘤——最先被看见 ========== */
+.transition-page {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    background: transparent !important;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.transition-bg {
+    display: none;
+}
+.transition-content {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 50px 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    max-width: 900px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* 过渡页标题：初始隐藏，中间渐入 */
+.transition-title {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: #0F3460;
+    letter-spacing: 8px;
+    text-shadow: 2px 2px 4px rgba(15, 52, 96, 0.25);
+    margin-bottom: 20px;
+    line-height: 1.2;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.transition-title.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.transition-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: #555;
+    margin-bottom: 50px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+}
+
+.transition-subtitle.visible {
+    opacity: 0.8;
+    transform: translateY(0);
+}
+
+/* ========== 过渡页：肿瘤——最先被看见 ========== */
+.transition-page {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.transition-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+    opacity: 0.3;
+}
+.transition-content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 900px;
+    padding: 40px 20px;
+}
+
+/* 过渡页标题：初始隐藏，中间渐入 */
+.transition-title {
+    font-family: "Noto Serif SC", serif;
+    font-weight: 700;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    color: #0F3460;
+    letter-spacing: 8px;
+    text-shadow: 2px 2px 4px rgba(15, 52, 96, 0.25);
+    margin-bottom: 20px;
+    line-height: 1.2;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.transition-title.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.transition-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
+    color: #555;
+    margin-bottom: 50px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
+}
+
+.transition-subtitle.visible {
+    opacity: 0.8;
+    transform: translateY(0);
+}
+
+/* ========== 过渡页内嵌小图表 ========== */
+.transition-chart-container {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 16px;
+    padding: 30px 20px 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    backdrop-filter: blur(10px);
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.transition-chart-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.mini-chart-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #111;
+    margin-bottom: 20px;
+    font-family: "Noto Serif SC", serif;
+}
+
+.mini-chart-wrapper {
+    position: relative;
+    height: 220px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    padding: 0 8px;
+    border-left: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    margin-bottom: 15px;
+}
+
+.mini-chart-wrapper .peak-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 11%;
+    position: relative;
+}
+
+.mini-chart-wrapper .peak {
+    width: 0;
+    height: 0;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 0 solid #4a90e2;
+    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    opacity: 0;
+}
+
+.mini-chart-wrapper .peak.animated {
+    opacity: 1;
+}
+
+.mini-chart-wrapper .peak-label {
+    position: absolute;
+    top: -25px;
+    font-size: 12px;
+    color: #111;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.mini-chart-wrapper .peak-label.show {
+    opacity: 1;
+}
+
+.mini-chart-wrapper .year-label {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #555;
+}
+
+.mini-source {
+    font-size: 11px;
+    color: #999;
+    margin-top: 10px;
+}
+
+/* ========== 数据总览左右布局 ========== */
+.data-overview h2 {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #0F3460;
+    margin-bottom: 60px;
+}
+
+.data-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 600px;
+    width: 100%;
+}
+.data-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+.data-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(15, 52, 96, 0.15);
+}
+
+.data-card .num {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #0F3460;
+    margin-bottom: 10px;
+}
+.data-card .desc {
+    font-size: 1.1rem;
+    color: #333;
+}
+.overview-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    max-width: 1000px;
+    width: 100%;
+    padding: 0 20px;
+}
+
+.overview-wrapper .data-grid {
+    flex: 0 0 auto;
+    max-width: 500px;
+}
+
+.overview-text {
+    flex: 1;
+    min-width: 200px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 30px 28px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.overview-text p {
+    font-family: "Noto Serif SC", "PingFang SC", serif;
+    font-size: 1.1rem;
+    line-height: 2;
+    color: #1a1a2e;
+    letter-spacing: 0.5px;
+    text-align: left;
+    margin: 0;
+}
+
+/*手机端*/
+@media (max-width: 768px) {
+    .overview-wrapper {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .overview-wrapper .data-grid {
+        max-width: 100%;
+    }
+    
+    .overview-text {
+        text-align: center;
+        padding: 24px 20px;
+    }
+    
+    .overview-text p {
+        text-align: center;
+        font-size: 1rem;
+    }
+}
+
+
+/* ========== 环形递进图表板块 ========== */
+.chart-section {
+    background: #ffffff;
+    padding: 60px 20px;
+}
+.chart-top-text {
+    max-width: 800px;
+    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #444;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+.chart-section h2 {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #222;
+    margin-bottom: 10px;
+    text-align: left;
+    max-width: 800px;
+    width: 100%;
+    padding: 0 20px;
+}
+.chart-unit {
+    font-size: 0.9rem;
+    color: #555;
+    text-align: left;
+    max-width: 800px;
+    width: 100%;
+    padding: 0 20px;
+    margin-bottom: 20px;
+}
+/*.chart-container.large-chart {
+    max-width: 700px;
+    margin: 0 auto;
+}*/
+.chart-container.large-chart {
+    max-width: 700px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.chart-container.big-chart {
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.chart-text {
+    margin-top: 30px;
+    max-width: 800px;
+    text-align: left;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #444;
+    padding: 0 20px;
+}
+.chart-text p {
+    margin-bottom: 12px;
+}
+/* ========== 高级饼状图样式 ========== */
+.pie-chart-advanced {
+    position: relative;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.pie-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pie-wrapper canvas {
+    cursor: pointer;
+    transition: filter 0.3s ease;
+}
+
+.pie-wrapper canvas:hover {
+    filter: drop-shadow(0 0 30px rgba(74, 144, 226, 0.3));
+}
+
+/* ========== 悬停弹出卡片 ========== */
+.pie-popup-card {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.6) translateY(20px);
+    transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 16px;
+    width: 220px;
+    z-index: 100;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(74, 144, 226, 0.1),
+        0 4px 20px rgba(74, 144, 226, 0.1);
+    text-align: center;
+}
+
+.pie-popup-card.active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+}
+
+/* 弹出卡片的小三角 */
+.popup-card-arrow {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid rgba(255, 255, 255, 0.98);
+    filter: drop-shadow(0 -2px 4px rgba(0, 0, 0, 0.05));
+}
+
+/* 药物图片 */
+.popup-card-img {
+    width: 100%;
+    height: 120px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 12px;
+    background: linear-gradient(135deg, #f0f4f8 0%, #e4edf5 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(74, 144, 226, 0.1);
+}
+
+.popup-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.pie-popup-card.active .popup-card-img img {
+    transform: scale(1.05);
+}
+
+/* 药物信息 */
+.popup-card-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.popup-drug-name {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1a1a2e;
+    letter-spacing: 1px;
+}
+
+.popup-drug-count {
+    font-family: 'DM Serif Display', 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #4a90e2;
+    line-height: 1;
+}
+
+.popup-drug-desc {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 11px;
+    color: rgba(0, 0, 0, 0.4);
+    letter-spacing: 1px;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .pie-popup-card {
+        width: 180px;
+        padding: 12px;
+    }
+    
+    .popup-card-img {
+        height: 90px;
+    }
+    
+    .popup-drug-count {
+        font-size: 22px;
+    }
+}
+
+/* ========== 双轴混合图表板块样式 ========== */
+.line-bar-chart-section {
+    background: #f8fafc;
+    padding: 60px 20px;
+}
+.line-bar-chart-section h2 {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #0F3460;
+    margin-bottom: 40px;
+}
+.chart-container {
+    width: 100%;
+    margin: 0 auto;
+}
+.chart-container.big-chart {
+    max-width: 800px;
+}
+
+/* ========== 地图板块 + 点位 + 弹窗 ========== */
+.map-section {
+    background: #f8fafc;
+}
+.map-section h2 {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #0F3460;
+    margin-bottom: 40px;
+}
+.map-container {
+    position: relative;
+    width: 90%;
+    max-width: 700px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.map-bg-img {
+    background: url("map.png") center / contain no-repeat;
+    min-height: 550px;
+    border-radius: 12px;
+}
+.map-point {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    background: #0F3460;
+    border-radius: 50%;
+    cursor: pointer;
+    animation: pulse 2s infinite;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.map-point:hover {
+    transform: scale(1.5);
+    box-shadow: 0 0 15px rgba(15, 52, 96, 0.6);
+}
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(15, 52, 96, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(15, 52, 96, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(15, 52, 96, 0); }
+}
+
+/* 弹窗样式 */
+.map-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+}
+.popup-content {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    max-width: 500px;
+    width: 80%;
+    position: relative;
+    transform: scale(0.8);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+.close-btn:hover {
+    color: #333;
+}
+.popup-content h3 {
+    color: #0F3460;
+    margin-bottom: 15px;
+}
+.popup-content p {
+    color: #333;
+    margin: 8px 0;
+}
+
+/* ========== 故事板块 ========== */
+.stories h2 {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 400;
+    letter-spacing: 1px;
+    color: #0F3460;
+    margin-bottom: 60px;
+}
+.story-list {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 600px;
+    width: 100%;
+}
+/*.story-card {
+    background: #f5f7fa;
+    border-left: 4px solid #0F3460;
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    color: #333;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}*/
+.story-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-left: 4px solid #0F3460;
+    padding: 25px 30px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    color: #333;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.story-card:hover {
+    transform: translateX(10px);
+    box-shadow: 0 5px 20px rgba(15, 52, 96, 0.15);
+}
+
+/* ========== 结语板块 ========== */
+.conclusion {
+    background: linear-gradient(135deg, #0F3460 0%, #1A5F7A 100%);
+    color: #fff;
+    text-align: center;
+}
+.conclusion h2 {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    margin-bottom: 30px;
+}
+.conclusion .summary {
+    font-size: 1.3rem;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+}
+.conclusion .ending {
+    font-size: 1.5rem;
+}
+
+/* 手机端自适应 */
+@media (max-width: 768px) {
+    .data-grid { grid-template-columns: 1fr; }
+    .chart-container.big-chart,
+    .chart-container.large-chart {
+        max-width: 100%;
+    }
+    .side-nav {
+        right: 10px;
+    }
+    .nav-dot {
+        width: 10px;
+        height: 10px;
+    }
+    .main-title {
+        letter-spacing: 2px;
+    }
+}
+/* ========== 标题颜色适应背景 ========== */
+.data-overview h2,
+.line-bar-chart-section h2,
+.map-section h2,
+.stories h2 {
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* 图表文本容器 */
+.chart-text {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 25px 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
