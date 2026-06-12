@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>医保目录的人群地图</title>
+    <!-- 引入艺术字体 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 引入Chart.js 图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 引入样式表 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+     <!-- 固定背景层 -->
+    <div class="fixed-background"></div>
+    <!-- 顶部滚动进度条 -->
+    <div class="progress-bar"></div>
+
+    <!-- 右侧悬浮导航 -->
+    <div class="side-nav">
+        <div class="nav-dot active" data-target="cover"></div>
+        <div class="nav-dot" data-target="data-overview"></div>
+        <div class="nav-dot" data-target="line-bar-chart-section"></div>
+        <div class="nav-dot" data-target="transition-page"></div>
+        <div class="nav-dot" data-target="chart-section"></div>
+        <div class="nav-dot" data-target="map-section"></div>
+        <div class="nav-dot" data-target="stories"></div>
+        <div class="nav-dot" data-target="conclusion"></div>
+    </div>
+
+  <!-- 1. 封面页 -->
+<section class="cover fade-in">
+    <div class="cover-bg"></div>
+    <!-- 粒子背景 -->
+    <canvas id="particleCanvas"></canvas>
+    <!-- 光晕效果 -->
+    <div class="cover-glow cover-glow-1"></div>
+    <div class="cover-glow cover-glow-2"></div>
+    <!-- 网格线装饰 -->
+    <div class="cover-grid"></div>
+    
+    <div class="cover-content">
+        <!-- 顶部标签 -->
+        <div class="cover-badge">
+            <span class="badge-dot"></span>
+            国家医保局 · 权威数据
+        </div>
+        
+        <!-- 主标题 - 可拆分滑出 -->
+        <h1 class="main-title">
+            <span class="title-line title-left">医保目录的</span>
+            <span class="title-line title-right">人群地图</span>
+        </h1>
+        
+        <!-- 副标题 -->
+        <p class="cover-subtitle">8年医保，有多少人站在了聚光灯之下</p>
+        
+        <!-- 分割线 -->
+        <div class="cover-divider">
+            <span class="divider-line"></span>
+            <span class="divider-icon">◆</span>
+            <span class="divider-line"></span>
+        </div>
+        
+        <!-- 数据亮点 -->
+        <div class="cover-stats">
+            <div class="cover-stat-item">
+                <span class="stat-number counter" data-target="8">0</span>
+                <span class="stat-label">年连续调整</span>
+            </div>
+            <div class="cover-stat-item">
+                <span class="stat-number counter" data-target="949">0</span>
+                <span class="stat-label">种新药纳入</span>
+            </div>
+            <div class="cover-stat-item">
+                <span class="stat-number counter" data-target="9300">0</span>
+                <span class="stat-label">亿累计减负</span>
+            </div>
+        </div>
+        
+        <!-- 底部信息 -->
+        <div class="cover-footer">
+            <p class="source">2018–2025 · 数据来源：国家医保局</p>
+            <!-- 滚动提示 -->
+            <div class="scroll-indicator">
+                <span>向下滚动探索</span>
+                <div class="scroll-arrow">
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+   <!-- 2. 数据总览页 -->
+<section class="data-overview fade-in">
+    <h2>8年织密一张网，惠及亿万国人</h2>
+    <div class="overview-wrapper">
+        <div class="data-grid">
+            <div class="data-card fade-in">
+                <div class="num">8年</div>
+                <div class="desc">连续调整</div>
+            </div>
+            <div class="data-card fade-in">
+                <div class="num">949种</div>
+                <div class="desc">新药纳入</div>
+            </div>
+            <div class="data-card fade-in">
+                <div class="num">4600亿</div>
+                <div class="desc">医保支出</div>
+            </div>
+            <div class="data-card fade-in">
+                <div class="num">9300亿</div>
+                <div class="desc">累计减负</div>
+            </div>
+        </div>
+        <div class="overview-text">
+            <p>2018—2026年，国家医保目录历经8轮调整，药品总数从2018年的2500余种增至2025年的3253种。其中，肿瘤、罕见病、慢性病三类药品，从"边缘补充"成长为目录核心，占比逐年攀升，清晰勾勒出医保"保救命、补短板、惠民生"的八年轨迹。</p>
+        </div>
+    </div>
+</section>
+
+
+    <!-- 3. 2018-2025医保目录数量与调入量 双轴混合图表 -->
+    <section class="line-bar-chart-section fade-in">
+        <h2>2018-2025年医保目录数量与调入量</h2>
+        <div class="chart-container big-chart">
+            <canvas id="yearChart"></canvas>
+        </div>
+    </section>
+
+   <!-- 4. 过渡页：肿瘤——最先被看见 -->
+<section class="transition-page fade-in">
+    <div class="transition-bg"></div>
+    <div class="transition-content">
+        <h1 class="transition-title">肿瘤——最先被看见</h1>
+        <p class="transition-subtitle">在医保的聚光灯下，肿瘤是最早被照亮的那一群人</p>
+        
+        <!-- 肿瘤增长图表（小号版） -->
+        <div class="transition-chart-container" id="transitionChart">
+            <h3 class="mini-chart-title">2018——2025肿瘤专项药增长数量</h3>
+            <div class="mini-chart-wrapper" id="miniChart">
+                <div class="peak-group" data-value="36" data-label="36">
+                    <div class="peak-label">36</div>
+                    <div class="peak"></div>
+                    <div class="year-label">2025</div>
+                </div>
+                <div class="peak-group" data-value="26" data-label="26">
+                    <div class="peak-label">26</div>
+                    <div class="peak"></div>
+                    <div class="year-label">2024</div>
+                </div>
+                <div class="peak-group" data-value="21" data-label="21">
+                    <div class="peak-label">21</div>
+                    <div class="peak"></div>
+                    <div class="year-label">2023</div>
+                </div>
+                <div class="peak-group" data-value="23" data-label="23">
+                    <div class="peak-label">23</div>
+                    <div class="peak"></div>
+                    <div class="year-label">2022</div>
+                </div>
+                <div class="peak-group" data-value="17" data-label="17">
+                    <div class="peak-label">17</div>
+                    <div class="peak"></div>
+                    <div class="year-label">2021</div>
+                </div>
+                <div class="peak-group" data-value="17" data-label="17">
+                    <div class="peak-label">17</div>
+                    <div class="peak"></div>
+                    <div class="year-label">2020</div>
+                </div>
+                <div class="peak-group" data-value="5" data-label="5">
+                    <div class="peak-label">5</div>
+                    <div class="peak"></div>
+                    <div class="year-label">2019</div>
+                </div>
+                <div class="peak-group" data-value="17" data-label="17">
+                    <div class="peak-label">17</div>
+                    <div class="peak"></div>
+                    <div class="year-label">2018</div>
+                </div>
+            </div>
+            <div class="mini-source">数据来源：国家医保局</div>
+        </div>
+    </div>
+</section>
+
+  <!-- 5. 环形递进图表：肿瘤药物 -->
+<section class="chart-section fade-in">
+    <div class="chart-top-text fade-in"></div>
+    <h2>肿瘤类标志性药品（免疫 + 靶向，覆盖主流癌种）</h2>
+    <p class="chart-unit">单位：种</p>
+    
+    <!-- 饼状图容器 -->
+    <div class="chart-container large-chart pie-chart-advanced">
+        <div class="pie-wrapper">
+            <canvas id="tumorChart"></canvas>
+            <!-- 悬停弹出卡片 -->
+            <div class="pie-popup-card" id="piePopupCard">
+                <div class="popup-card-arrow"></div>
+                <div class="popup-card-img">
+                    <img src="" alt="" id="popupDrugImg">
+                </div>
+                <div class="popup-card-info">
+                    <span class="popup-drug-name" id="popupDrugName"></span>
+                    <span class="popup-drug-count" id="popupDrugCount"></span>
+                    <span class="popup-drug-desc" id="popupDrugDesc"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="chart-text fade-in">
+        <p>图片中记录2018——2024年肿瘤药物进医保的标志性药品，其中除了大幅降价之外，药品背后带来的治疗方案也是患者的希望。</p>
+        <p>曾几何时，"天价抗癌药"是压垮肿瘤患者家庭的最后一根稻草——一针CAR-T疗法120万元，一年靶向药费用超50万元，无数人被迫在"保命"和"保家"之间做残酷选择。但随着国家医保谈判的持续推进，这场"价格革命"正在改写中国癌症患者的生存图景：2026年新版医保目录新增36种肿瘤用药，平均降幅45%，部分药品最高降幅达97%；从肺癌、乳腺癌到胰腺癌，从靶向药到免疫治疗药物，曾经高不可攀的"救命药"正逐步走进普通家庭的药箱。</p>
+        <p>8岁的旭旭本该在阳光下奔跑，却被高危神经母细胞瘤困在病房。特效药那西妥单抗75万的天价，曾让他的童年蒙上阴影——父母愁白了头，治疗计划一拖再拖。2026年医保新政落地，药品纳入双重报销后，自付费用骤降至几万元。如今，旭旭顺利完成了全部治疗，病情稳定，又能像其他孩子一样背着书包上学、和小伙伴玩耍。医保的"托底"，不仅救了他的命，还给他一个本该无忧无虑的童年。</p>
+        <p>每一类标志性药物进医保都是一次对患者窘困状况的解决，如果说肿瘤药物的进保是解决了"大病"的燃眉之急，那么对罕见病的覆盖，则是医保走向"一个都不落下"的更深一步。</p>
+    </div>
+</section>
+
+    <!-- 6. 人群地图页 -->
+    <section class="map-section fade-in">
+        <h2>点击省份，查看双通道药品管理数量</h2>
+        <div class="map-container map-bg-img">
+            <div class="map-point" data-province="hebei" style="top: 44%; left: 61%;"></div>
+            <div class="map-point" data-province="fujian" style="top: 69%; left: 66%;"></div>
+            <div class="map-point" data-province="jiangxi" style="top: 67%; left: 62%;"></div>
+        </div>
+    </section>
+
+    <!-- 地图弹窗 -->
+    <div class="map-popup" id="popup">
+        <div class="popup-content">
+            <span class="close-btn">&times;</span>
+            <h3 id="popup-title"></h3>
+            <p id="popup-data"></p>
+            <p id="popup-people"></p>
+        </div>
+    </div>
+
+    <!-- 7. 受益故事页 -->
+    <section class="stories fade-in">
+        <h2>每一个数字背后，都是一个被照亮的人生</h2>
+        <div class="story-list">
+            <div class="story-card fade-in">
+                「救命药从30万→3万，医保让我活下来」——肿瘤患者
+            </div>
+            <div class="story-card fade-in">
+                「天价药纳入，孩子终于有药可治」——罕见病家庭
+            </div>
+            <div class="story-card fade-in">
+                「慢病用药全覆盖，每月少花500+」——老年患者
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. 结语页 -->
+    <section class="conclusion fade-in">
+        <h2>8年医保，聚光灯下，是亿万普通人的健康与尊严</h2>
+        <p class="summary">835种药 · 8.85亿人次 · 9300亿元减负</p>
+        <p class="ending">医保，让每一份期待都不被辜负</p>
+    </section>
+
+    <!-- 引入脚本 -->
+    <script src="script.js"></script>
+</body>
+</html>
