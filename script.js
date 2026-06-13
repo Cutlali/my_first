@@ -1,11 +1,12 @@
 // ===================== 1. 全局渐入元素：移出视口重置，进入重新播放动画 =====================
+
 const fadeElements = document.querySelectorAll('.fade-in');
 const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('active');
-        } else {
-            entry.target.classList.remove('active');
+            // 进入后取消观察，保持显示状态
+            fadeObserver.unobserve(entry.target);
         }
     });
 }, { threshold: 0.15 });
@@ -452,11 +453,24 @@ if (typeof Chart !== 'undefined' && Chart.registry && Chart.registry.plugins) {
 const tumorObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
+            // 先让左边的框显示出来
+            const leftContainer = document.querySelector('.chart-cell-topleft .chart-container.large-chart');
+            if (leftContainer) {
+                leftContainer.classList.add('visible');
+            }
+            
+            // 再初始化图表
             if (tumorChart) tumorChart.destroy();
             setTimeout(() => initTumorChart(), 200);
+        } else {
+            // 移出视口时移除类，下次进入重新播放
+            const leftContainer = document.querySelector('.chart-cell-topleft .chart-container.large-chart');
+            if (leftContainer) {
+                leftContainer.classList.remove('visible');
+            }
         }
     });
-}, { threshold: 0.2 });
+}, { threshold: 0.15 });
 
 if (tumorSection) {
     tumorObserver.observe(tumorSection);
@@ -568,8 +582,8 @@ function initTumorChart() {
             const relX = arcX + (canvasRect.left - wrapperRect.left);
             const relY = arcY + (canvasRect.top - wrapperRect.top);
             
-            popupCard.style.left = (relX - 110) + 'px';
-            popupCard.style.top = (relY - 210) + 'px';
+            popupCard.style.left = (relX - 90) + 'px';
+            popupCard.style.top = (relY - 180) + 'px';
             
             popupCard.classList.add('active');
             tumorCanvas.style.cursor = 'pointer';
@@ -809,64 +823,82 @@ window.addEventListener('scroll', () => {
     }
 });
 
-// ===================== 10. 过渡页动画：文字渐入 + 图表生长 =====================
-const transitionPage = document.querySelector('.transition-page');
-const transitionTitle = document.querySelector('.transition-title');
-const transitionSubtitle = document.querySelector('.transition-subtitle');
+// ===================== 10. 过渡页动画 + 迷你图表动画 =====================
+const chartSection = document.querySelector('.chart-section');
 const transitionChartContainer = document.querySelector('.transition-chart-container');
 const miniChartWrapper = document.getElementById('miniChart');
-let transitionAnimated = false;
 
-function handleTransitionAnimation() {
-    if (!transitionPage) return;
+let miniChartAnimated = false;
+
+
+// ========== 过渡页动画：标题渐入（支持多个过渡页） ==========
+function handleAllTransitionAnimations() {
+    const allTransitionPages = document.querySelectorAll('.disease-transition');
+    
+    allTransitionPages.forEach(page => {
+        const title = page.querySelector('.transition-title');
+        const subtitle = page.querySelector('.transition-subtitle');
+        
+        if (!title && !subtitle) return;
+        
+        const scrollY = window.scrollY || window.pageYOffset;
+        const pageTop = page.offsetTop;
+        const pageHeight = page.offsetHeight;
+        const viewportHeight = window.innerHeight;
+        
+        const pageCenter = pageTop + pageHeight / 2;
+        const viewportCenter = scrollY + viewportHeight / 2;
+        const distanceFromCenter = Math.abs(viewportCenter - pageCenter);
+        const triggerDistance = viewportHeight * 0.4;
+        
+        if (distanceFromCenter < triggerDistance) {
+            if (title) title.classList.add('visible');
+            if (subtitle) subtitle.classList.add('visible');
+        } else if (distanceFromCenter > viewportHeight * 0.8) {
+            if (title) title.classList.remove('visible');
+            if (subtitle) subtitle.classList.remove('visible');
+        }
+    });
+}
+
+
+// ========== 迷你图表动画（在 chart-section 内） ==========
+let miniChartVisible = false;
+
+function handleMiniChartAnimation() {
+    if (!chartSection || !transitionChartContainer) return;
     
     const scrollY = window.scrollY || window.pageYOffset;
-    const pageTop = transitionPage.offsetTop;
-    const pageHeight = transitionPage.offsetHeight;
+    const sectionTop = chartSection.offsetTop;
+    const sectionHeight = chartSection.offsetHeight;
     const viewportHeight = window.innerHeight;
     
-    const pageCenter = pageTop + pageHeight / 2;
-    const viewportCenter = scrollY + viewportHeight / 2;
-    
-    const distanceFromCenter = Math.abs(viewportCenter - pageCenter);
-    const triggerDistance = viewportHeight * 0.4;
-    
-    if (distanceFromCenter < triggerDistance) {
-        if (transitionTitle) {
-            transitionTitle.classList.add('visible');
+    // 判断 chart-section 是否在视口内
+    const sectionInView = (sectionTop < scrollY + viewportHeight) && 
+                          (sectionTop + sectionHeight > scrollY);
+
+    // 进入视口时触发动画
+    if (sectionInView && !miniChartVisible) {
+        miniChartVisible = true;
+        if (transitionChartContainer) {
+            transitionChartContainer.classList.add('visible');
         }
-        if (transitionSubtitle) {
-            transitionSubtitle.classList.add('visible');
-        }
-        
-        if (!transitionAnimated && transitionChartContainer) {
-            transitionAnimated = true;
-            
-            setTimeout(() => {
-                transitionChartContainer.classList.add('visible');
-                
-                setTimeout(() => {
-                    animateMiniChart();
-                }, 600);
-            }, 800);
-        }
-    } else if (distanceFromCenter > viewportHeight * 0.8) {
-        if (transitionTitle) {
-            transitionTitle.classList.remove('visible');
-        }
-        if (transitionSubtitle) {
-            transitionSubtitle.classList.remove('visible');
-        }
+        setTimeout(() => {
+            animateMiniChart();
+        }, 100);
+    }
+
+    // 离开视口时重置动画
+    if (!sectionInView && miniChartVisible) {
+        miniChartVisible = false;
         if (transitionChartContainer) {
             transitionChartContainer.classList.remove('visible');
         }
-        
-        if (transitionAnimated) {
-            transitionAnimated = false;
-            resetMiniChart();
-        }
+        resetMiniChart();
     }
 }
+
+
 
 function animateMiniChart() {
     if (!miniChartWrapper) return;
@@ -875,21 +907,92 @@ function animateMiniChart() {
     const maxValue = 36;
     const maxPeakHeight = 180;
     
-    groups.forEach((group, index) => {
-        const value = parseInt(group.dataset.value);
+    // 先重置所有三角形
+    groups.forEach(group => {
         const peak = group.querySelector('.peak');
         const label = group.querySelector('.peak-label');
-        const height = (value / maxValue) * maxPeakHeight;
-        
-        setTimeout(() => {
-            peak.style.borderBottomWidth = `${height}px`;
-            peak.style.borderBottomColor = '#4a90e2';
-            peak.classList.add('animated');
+        if (peak) {
+            peak.style.borderBottomWidth = '0';
+            peak.classList.remove('animated');
+        }
+        if (label) {
+            label.classList.remove('show');
+        }
+    });
+    
+    // 延迟一下再播放动画，确保重置生效
+    setTimeout(() => {
+        groups.forEach((group, index) => {
+            const value = parseInt(group.dataset.value);
+            const peak = group.querySelector('.peak');
+            const label = group.querySelector('.peak-label');
+            const height = (value / maxValue) * maxPeakHeight;
             
             setTimeout(() => {
-                label.classList.add('show');
-            }, 600);
-        }, index * 150);
+                if (peak) {
+                    peak.style.borderBottomWidth = `${height}px`;
+                    peak.style.borderBottomColor = '#4a90e2';
+                    peak.classList.add('animated');
+                    
+                    // 👇 新增：给每个柱形添加悬停交互
+                    addPeakHoverEffect(peak, group, value);
+                }
+                
+                setTimeout(() => {
+                    if (label) {
+                        label.classList.add('show');
+                    }
+                }, 60);
+            }, index * 150);
+        });
+    }, 500);
+}
+
+// 👇 新增函数：柱形悬停交互
+function addPeakHoverEffect(peak, group, value) {
+    const label = group.querySelector('.peak-label');
+    const yearLabel = group.querySelector('.year-label');
+    
+    // 鼠标进入
+    group.addEventListener('mouseenter', () => {
+        // 柱形变色 + 发光
+        peak.style.borderBottomColor = '#1a5f7a';
+        peak.style.filter = 'drop-shadow(0 6px 16px rgba(26, 95, 122, 0.5))';
+        peak.style.transform = 'translateY(-4px)';
+        
+        // 数字标签放大变色
+        if (label) {
+            label.style.transform = 'scale(1.4)';
+            label.style.color = '#1a5f7a';
+            label.style.fontWeight = '700';
+        }
+        
+        // 年份标签变色
+        if (yearLabel) {
+            yearLabel.style.color = '#1a5f7a';
+            yearLabel.style.fontWeight = '600';
+        }
+    });
+    
+    // 鼠标离开
+    group.addEventListener('mouseleave', () => {
+        // 恢复柱形
+        peak.style.borderBottomColor = '#4a90e2';
+        peak.style.filter = 'none';
+        peak.style.transform = 'translateY(0)';
+        
+        // 恢复数字标签
+        if (label) {
+            label.style.transform = 'scale(1)';
+            label.style.color = '#1a1a2e';
+            label.style.fontWeight = '600';
+        }
+        
+        // 恢复年份标签
+        if (yearLabel) {
+            yearLabel.style.color = '#555';
+            yearLabel.style.fontWeight = 'normal';
+        }
     });
 }
 
@@ -909,18 +1012,22 @@ function resetMiniChart() {
     });
 }
 
-let transitionTicking = false;
+let globalTicking = false;
 window.addEventListener('scroll', () => {
-    if (!transitionTicking) {
+    if (!globalTicking) {
         window.requestAnimationFrame(() => {
-            handleTransitionAnimation();
-            transitionTicking = false;
+            handleAllTransitionAnimations();
+            handleMiniChartAnimation();
+            globalTicking = false;
         });
-        transitionTicking = true;
+        globalTicking = true;
     }
 });
 
-handleTransitionAnimation();
+// 初始检查
+handleAllTransitionAnimations();
+handleMiniChartAnimation();
+
 
 // ===================== 11. 移动端触摸优化 =====================
 let touchStartY = 0;
@@ -934,8 +1041,63 @@ document.body.addEventListener('touchmove', function(e) {
     }
 }, { passive: false });
 
-// ===================== 12. 初始化完成日志 =====================
+
+
+// ===================== 12. 罕见病图表动画 =====================
+function initRareDiseaseChart() {
+    const bottleSvg = `<svg viewBox="0 0 24 24" class="rare-icon-item">
+        <path d="M10 2h4v2h-4V2zm1 4h2v2h-2V6zm-3 4h8v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V10h4zm0 2v6h6v-6H8z"/>
+    </svg>`;
+
+    const rows = document.querySelectorAll('.rare-chart-row');
+    
+    rows.forEach(row => {
+        const year = row.dataset.year;
+        const count = parseInt(row.dataset.count);
+        const iconGroup = row.querySelector('.rare-icon-group');
+        const countLabel = row.querySelector('.rare-count-label');
+        
+        // 清空旧图标
+        iconGroup.innerHTML = '';
+        
+        // 生成对应数量的图标
+        for (let i = 0; i < count; i++) {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = bottleSvg;
+            const icon = wrapper.firstElementChild;
+            icon.classList.add(`rare-icon-${year}`);
+            // 设置动画延迟，实现从左到右依次出现
+            icon.style.animationDelay = `${i * 0.08}s`;
+            iconGroup.appendChild(icon);
+        }
+        
+        // 数字标签延迟显示
+        countLabel.style.animationDelay = `${count * 0.08 + 0.2}s`;
+    });
+}
+
+// 罕见病页面进入视口时触发动画
+const rareSection = document.querySelector('.rare-disease-section');
+let rareChartAnimated = false;
+
+if (rareSection) {
+    const rareObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !rareChartAnimated) {
+                rareChartAnimated = true;
+                setTimeout(() => initRareDiseaseChart(), 200);
+            }
+            // 离开视口时重置，下次进入重新播放
+            if (!entry.isIntersecting) {
+                rareChartAnimated = false;
+            }
+        });
+    }, { threshold: 0.3 });
+    
+    rareObserver.observe(rareSection);
+}
+
+// ===================== 13. 初始化完成日志 =====================
 console.log('✅ 医保目录人群地图 - 已就绪');
 console.log('📊 图表将在滚动到对应区域时自动加载');
 console.log('🗺️ 点击地图上的蓝色圆点查看省份数据');
-这是js
