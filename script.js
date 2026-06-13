@@ -244,6 +244,23 @@ function initCounterAnimation() {
 
 // ===================== 页面加载初始化 =====================
 document.addEventListener('DOMContentLoaded', () => {
+    // ========== 预设容器高度，防止滚动时遮罩跳动 ==========
+    const containers = [
+        { selector: '.chart-container.large-chart', minHeight: '500px' },
+        { selector: '.chart-container.big-chart', minHeight: '450px' },
+        { selector: '.transition-chart-container', minHeight: '350px' },
+        { selector: '.rare-disease-container', minHeight: '600px' },
+        { selector: '.mini-chart-wrapper', minHeight: '250px' },
+        { selector: '.map-container', minHeight: '550px' }
+    ];
+    
+    containers.forEach(({ selector, minHeight }) => {
+        const el = document.querySelector(selector);
+        if (el) el.style.minHeight = minHeight;
+    });
+    // ========== 预设结束 ==========
+    
+    // 原有代码
     initParticles();
     initCoverScrollAnimation();
     initCounterAnimation();
@@ -475,9 +492,11 @@ const tumorObserver = new IntersectionObserver((entries) => {
 if (tumorSection) {
     tumorObserver.observe(tumorSection);
 }
-
+let tumorChartInitializing = false;
 function initTumorChart() {
     if (!tumorCanvas) return;
+        if (tumorChartInitializing) return;  // 👈 加这行
+    tumorChartInitializing = true; 
     const ctx = tumorCanvas.getContext('2d');
     
     const popupCard = document.getElementById('piePopupCard');
@@ -599,6 +618,7 @@ function initTumorChart() {
         }
         tumorCanvas.style.cursor = 'default';
     });
+     tumorChartInitializing = false; 
 }
 
 // ===================== 7. 柱线组合图：年度数据 =====================
@@ -898,7 +918,7 @@ function handleMiniChartAnimation() {
     }
 }
 
-
+let miniChartTimer = null;
 
 function animateMiniChart() {
     if (!miniChartWrapper) return;
@@ -921,8 +941,8 @@ function animateMiniChart() {
     });
     
     // 延迟一下再播放动画，确保重置生效
-    setTimeout(() => {
-        groups.forEach((group, index) => {
+miniChartTimer = setTimeout(() => {  // 👈 改成 miniChartTimer =
+    groups.forEach((group, index) => {
             const value = parseInt(group.dataset.value);
             const peak = group.querySelector('.peak');
             const label = group.querySelector('.peak-label');
@@ -1029,17 +1049,6 @@ handleAllTransitionAnimations();
 handleMiniChartAnimation();
 
 
-// ===================== 11. 移动端触摸优化 =====================
-let touchStartY = 0;
-document.addEventListener('touchstart', (e) => {
-    touchStartY = e.touches[0].clientY;
-}, { passive: true });
-
-document.body.addEventListener('touchmove', function(e) {
-    if (e.target === document.body) {
-        e.preventDefault();
-    }
-}, { passive: false });
 
 
 
@@ -1096,6 +1105,63 @@ if (rareSection) {
     
     rareObserver.observe(rareSection);
 }
+// ===================== 14. 全局遮罩：过渡页位置镂空 =====================
+function updateGlobalOverlay() {
+    const overlay = document.querySelector('.global-overlay');
+    if (!overlay) return;
+
+    const viewportHeight = window.innerHeight;
+
+    // 找到所有过渡页
+    const transitions = document.querySelectorAll('.disease-transition');
+
+    if (transitions.length === 0) {
+        overlay.style.webkitMaskImage = 'none';
+        overlay.style.maskImage = 'none';
+        return;
+    }
+
+    // 构建渐变：默认不透明，在过渡页位置透明
+    let gradientParts = [];
+
+    transitions.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const top = (rect.top / viewportHeight) * 100;
+        const height = (rect.height / viewportHeight) * 100;
+        const bottom = top + height;
+
+       // 镂空区域：过渡页中间 50% 透明，边缘羽化更柔和
+const holeTop = top + height * 0.25;      // 👈 往上扩（原来是 0.35）
+const holeBottom = top + height * 0.75;   // 👈 往下扩（原来是 0.65）
+
+gradientParts.push(
+    `black ${holeTop}%`,
+    `transparent ${holeTop + 5}%`,        // 👈 羽化更柔和（原来是 2%）
+    `transparent ${holeBottom - 5}%`,     // 👈 羽化更柔和（原来是 2%）
+    `black ${holeBottom}%`
+);
+
+    });
+
+    const maskValue = `linear-gradient(to bottom, ${gradientParts.join(', ')})`;
+    overlay.style.webkitMaskImage = maskValue;
+    overlay.style.maskImage = maskValue;
+}
+
+// 滚动时更新遮罩
+let overlayTicking = false;
+window.addEventListener('scroll', () => {
+    if (!overlayTicking) {
+        requestAnimationFrame(() => {
+            updateGlobalOverlay();
+            overlayTicking = false;
+        });
+        overlayTicking = true;
+    }
+});
+
+// 初始调用
+updateGlobalOverlay();
 
 // ===================== 13. 初始化完成日志 =====================
 console.log('✅ 医保目录人群地图 - 已就绪');
