@@ -34,12 +34,46 @@ body {
 .chart-section,
 .line-bar-chart-section,
 .map-section,
-.stories {
+.stories,
+.rare-transition,
+.rare-disease-section {
     background: transparent !important;
     background-image: none !important;
     position: relative;
     z-index: 1;
 }
+
+/* ========== 统一淡绿色遮罩层 ========== */
+.data-overview::before,
+.line-bar-chart-section::before,
+.chart-section::before,
+.transition-page::before,
+.map-section::before,
+.stories::before,
+.rare-disease-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgb(168, 204, 178);
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* 确保内容在遮罩之上 */
+.data-overview > *,
+.line-bar-chart-section > *,
+.chart-section > *,
+.transition-page > *,
+.map-section > *,
+.stories > *,
+.rare-disease-section > * {
+    position: relative;
+    z-index: 1;
+}
+
 
 /* 移除过渡页的渐变背景 */
 .transition-bg {
@@ -86,16 +120,16 @@ body::-webkit-scrollbar {
     transform: scale(1.3);
 }
 
-/* 全局渐入动画：移出视口自动重置 */
 .fade-in {
     opacity: 0;
-    transform: translateY(40px);
-    transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transform: translateY(0);
+    transition: all 0s;
 }
 .fade-in.active {
     opacity: 1;
     transform: translateY(0);
 }
+
 
 /* 通用板块样式 */
 section {
@@ -429,90 +463,54 @@ section {
     }
 }
 
-/* ========== 过渡页：肿瘤——最先被看见 ========== */
-.transition-page {
+
+/* ========== 通用过渡页 - 镂空横栏效果 ========== */
+.disease-transition {
     position: relative;
     overflow: hidden;
     text-align: center;
-    background: transparent !important;
+    background: transparent;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.transition-bg {
-    display: none;
-}
-.transition-content {
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 20px;
-    padding: 50px 40px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    max-width: 900px;
-    width: 100%;
-    position: relative;
-    z-index: 1;
-}
 
-/* 过渡页标题：初始隐藏，中间渐入 */
-.transition-title {
-    font-family: "Noto Serif SC", serif;
-    font-weight: 700;
-    font-size: clamp(2.5rem, 6vw, 4.5rem);
-    color: #0F3460;
-    letter-spacing: 8px;
-    text-shadow: 2px 2px 4px rgba(15, 52, 96, 0.25);
-    margin-bottom: 20px;
-    line-height: 1.2;
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.transition-title.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.transition-subtitle {
-    font-size: clamp(1rem, 2.5vw, 1.3rem);
-    color: #555;
-    margin-bottom: 50px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s;
-}
-
-.transition-subtitle.visible {
-    opacity: 0.8;
-    transform: translateY(0);
-}
-
-/* ========== 过渡页：肿瘤——最先被看见 ========== */
-.transition-page {
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.transition-bg {
+/* 镂空遮罩：中间横向通栏镂空，边缘柔和羽化 */
+.disease-transition::before {
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
-    opacity: 0.3;
+    background: rgb(168, 204, 178);
+    z-index: 2;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        black 0%,
+        black 25%,
+        transparent 40%,
+        transparent 60%,
+        black 75%,
+        black 100%
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        black 0%,
+        black 25%,
+        transparent 40%,
+        transparent 60%,
+        black 75%,
+        black 100%
+    );
 }
+
+
 .transition-content {
     position: relative;
-    z-index: 1;
+    z-index: 3;
     width: 100%;
     max-width: 900px;
     padding: 40px 20px;
@@ -552,18 +550,20 @@ section {
     transform: translateY(0);
 }
 
-/* ========== 过渡页内嵌小图表 ========== */
+
+/* ========== 肿瘤表页内嵌小图表（统一样式） ========== */
 .transition-chart-container {
     opacity: 0;
     transform: translateY(40px);
     transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
-    background: rgba(255, 255, 255, 0.6);
-    border-radius: 16px;
-    padding: 30px 20px 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-    backdrop-filter: blur(10px);
-    max-width: 650px;
-    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .transition-chart-container.visible {
@@ -573,10 +573,11 @@ section {
 
 .mini-chart-title {
     font-size: 16px;
-    font-weight: bold;
-    color: #111;
+    font-weight: 600;
+    color: #222;
     margin-bottom: 20px;
-    font-family: "Noto Serif SC", serif;
+    font-family: "Noto Serif SC", "PingFang SC", serif;
+    letter-spacing: 1px;
 }
 
 .mini-chart-wrapper {
@@ -617,10 +618,12 @@ section {
     position: absolute;
     top: -25px;
     font-size: 12px;
-    color: #111;
+    color: #1a1a2e;
     white-space: nowrap;
     opacity: 0;
     transition: opacity 0.6s ease;
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-weight: 600;
 }
 
 .mini-chart-wrapper .peak-label.show {
@@ -631,12 +634,51 @@ section {
     margin-top: 8px;
     font-size: 11px;
     color: #555;
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+}
+/* ========== 迷你柱状图悬停交互 ========== */
+
+/* 柱形悬停效果 */
+.mini-chart-wrapper .peak {
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+}
+
+.mini-chart-wrapper .peak-group:hover .peak {
+    border-bottom-color: #1a5f7a !important;
+    filter: drop-shadow(0 4px 12px rgba(26, 95, 122, 0.4));
+    transform: translateY(-3px);
+}
+
+/* 数字标签悬停放大 */
+.mini-chart-wrapper .peak-group:hover .peak-label {
+    transform: scale(1.3);
+    color: #1a5f7a;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* 年份标签悬停 */
+.mini-chart-wrapper .peak-group:hover .year-label {
+    color: #1a5f7a;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+/* 整个柱形组悬停时微微上浮 */
+.mini-chart-wrapper .peak-group {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.mini-chart-wrapper .peak-group:hover {
+    transform: translateY(-5px);
 }
 
 .mini-source {
     font-size: 11px;
     color: #999;
     margin-top: 10px;
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
 }
 
 /* ========== 数据总览左右布局 ========== */
@@ -739,13 +781,171 @@ section {
         font-size: 1rem;
     }
 }
+/* ========== 田字格 + 底部通栏布局 ========== */
+.chart-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 30px;
+    max-width: 1100px;
+    width: 100%;
+    margin: 0 auto 30px;
+    padding: 0 20px;
+}
 
+.chart-cell {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+}
+
+/* 左上：环形图 */
+.chart-cell-topleft {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+/* 右上：迷你图表 */
+.chart-cell-topright {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+/* 左下：环形图讲解 */
+.chart-cell-bottomleft {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+/* 右下：小图表讲解 */
+.chart-cell-bottomright {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+/* 讲解文字通用样式 - 统一字体 */
+.chart-text-box {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 25px 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: #444;
+    font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    width: 100%;
+}
+
+.chart-text-box p {
+    margin-bottom: 12px;
+}
+
+/* 预留区域 - 统一毛玻璃样式 */
+.chart-text-placeholder,
+.chart-summary-placeholder {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 25px 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.chart-text-placeholder p,
+.chart-summary-placeholder p {
+    color: #444;
+    font-size: 0.95rem;
+    font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+    line-height: 1.7;
+    margin: 0 0 12px 0;
+    text-align: justify;
+}
+
+.chart-text-placeholder p:last-child,
+.chart-summary-placeholder p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* 底部通栏 - 独立占满整行 */
+.chart-summary {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.chart-summary .chart-text-box {
+    max-width: 100%;
+    width: 100%;
+}
+
+/* 👈 新加的放这里 */
+.chart-summary-placeholder p {
+    margin-bottom: 20px;
+    text-align: justify;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.chart-summary-placeholder p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* 手机端堆叠 */
+@media (max-width: 768px) {
+    .chart-grid-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto auto;
+        gap: 20px;
+    }
+    
+    .chart-cell-topleft {
+        grid-column: 1;
+        grid-row: 1;
+    }
+    
+    .chart-cell-topright {
+        grid-column: 1;
+        grid-row: 2;
+    }
+    
+    .chart-cell-bottomleft {
+        grid-column: 1;
+        grid-row: 3;
+    }
+    
+    .chart-cell-bottomright {
+        grid-column: 1;
+        grid-row: 4;
+    }
+}
 
 /* ========== 环形递进图表板块 ========== */
 .chart-section {
     background: #ffffff;
     padding: 60px 20px;
 }
+/* 左上环形图容器 - 添加渐入动画 */
+.chart-cell-topleft .chart-container.large-chart {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
+}
+
+.chart-cell-topleft .chart-container.large-chart.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .chart-top-text {
     max-width: 800px;
     text-align: left;
@@ -846,8 +1046,8 @@ section {
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(20px);
     border-radius: 16px;
-    padding: 16px;
-    width: 220px;
+    padding: 10px;
+    width: 160px;
     z-index: 100;
     box-shadow: 
         0 20px 60px rgba(0, 0, 0, 0.15),
@@ -878,7 +1078,7 @@ section {
 /* 药物图片 */
 .popup-card-img {
     width: 100%;
-    height: 120px;
+    height: 80px;
     border-radius: 12px;
     overflow: hidden;
     margin-bottom: 12px;
@@ -909,7 +1109,7 @@ section {
 
 .popup-drug-name {
     font-family: 'Noto Sans SC', sans-serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     color: #1a1a2e;
     letter-spacing: 1px;
@@ -917,7 +1117,7 @@ section {
 
 .popup-drug-count {
     font-family: 'DM Serif Display', 'Cormorant Garamond', serif;
-    font-size: 28px;
+    font-size: 25px;
     font-weight: 700;
     color: #4a90e2;
     line-height: 1;
@@ -925,7 +1125,7 @@ section {
 
 .popup-drug-desc {
     font-family: 'Noto Sans SC', sans-serif;
-    font-size: 11px;
+    font-size: 10px;
     color: rgba(0, 0, 0, 0.4);
     letter-spacing: 1px;
 }
@@ -965,6 +1165,168 @@ section {
 .chart-container.big-chart {
     max-width: 800px;
 }
+
+
+/* ========== 罕见病页面样式 ========== */
+.rare-disease-section {
+    background: transparent;
+    padding: 60px 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 毛玻璃容器 */
+.rare-disease-container {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 24px;
+    padding: 50px 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    max-width: 750px;
+    width: 100%;
+}
+
+.rare-chart-title {
+    font-size: clamp(1.2rem, 3vw, 1.6rem);
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #222;
+    text-align: center;
+    font-family: "Noto Sans SC", sans-serif;
+}
+
+.rare-chart-unit {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 35px;
+    text-align: center;
+    font-family: "Noto Sans SC", sans-serif;
+}
+
+/* 图表主体 */
+.rare-chart {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* 每一行 */
+.rare-chart-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* 年份标签 */
+.rare-year-label {
+    width: 70px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+    flex-shrink: 0;
+    font-family: "Noto Sans SC", sans-serif;
+}
+
+/* 图标组 */
+.rare-icon-group {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+/* 药瓶图标 */
+.rare-icon-item {
+    width: 24px;
+    height: 24px;
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: rareGrowFromLeft 0.4s ease forwards;
+}
+
+/* 年份对应颜色 */
+.rare-icon-2019 { fill: #348ede; }
+.rare-icon-2021 { fill: #222; }
+.rare-icon-2022 { fill: #a5d6ea; }
+.rare-icon-2023 { fill: #f9d749; }
+.rare-icon-2024 { fill: #f0884b; }
+.rare-icon-2025 { fill: #d94852; }
+
+/* 数字标签 */
+.rare-count-label {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #222;
+    margin-left: 10px;
+    flex-shrink: 0;
+    opacity: 0;
+    animation: rareFadeIn 0.5s ease forwards;
+    font-family: 'DM Serif Display', serif;
+}
+
+/* 数据来源 */
+.rare-data-source {
+    margin-top: 40px;
+    font-size: 0.8rem;
+    color: #888;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    padding-top: 15px;
+    text-align: center;
+    font-family: "Noto Sans SC", sans-serif;
+}
+
+.rare-note {
+    margin-top: 8px;
+    font-size: 0.75rem;
+    color: #999;
+    text-align: center;
+    font-family: "Noto Sans SC", sans-serif;
+}
+
+/* 动画定义 */
+@keyframes rareGrowFromLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes rareFadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .rare-disease-container {
+        padding: 30px 20px;
+    }
+    
+    .rare-chart-row {
+        gap: 10px;
+    }
+    
+    .rare-year-label {
+        width: 55px;
+        font-size: 0.95rem;
+    }
+    
+    .rare-icon-item {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .rare-count-label {
+        font-size: 1.1rem;
+    }
+}
+
 
 /* ========== 地图板块 + 点位 + 弹窗 ========== */
 .map-section {
