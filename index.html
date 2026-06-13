@@ -26,6 +26,7 @@
         <div class="nav-dot" data-target="line-bar-chart-section"></div>
         <div class="nav-dot" data-target="transition-page"></div>
         <div class="nav-dot" data-target="chart-section"></div>
+         <div class="nav-dot" data-target="rare-disease-section"></div>
         <div class="nav-dot" data-target="map-section"></div>
         <div class="nav-dot" data-target="stories"></div>
         <div class="nav-dot" data-target="conclusion"></div>
@@ -135,94 +136,181 @@
     </section>
 
    <!-- 4. 过渡页：肿瘤——最先被看见 -->
-<section class="transition-page fade-in">
+<section class="disease-transition fade-in">
     <div class="transition-bg"></div>
     <div class="transition-content">
         <h1 class="transition-title">肿瘤——最先被看见</h1>
         <p class="transition-subtitle">在医保的聚光灯下，肿瘤是最早被照亮的那一群人</p>
-        
-        <!-- 肿瘤增长图表（小号版） -->
-        <div class="transition-chart-container" id="transitionChart">
-            <h3 class="mini-chart-title">2018——2025肿瘤专项药增长数量</h3>
-            <div class="mini-chart-wrapper" id="miniChart">
-                <div class="peak-group" data-value="36" data-label="36">
-                    <div class="peak-label">36</div>
-                    <div class="peak"></div>
-                    <div class="year-label">2025</div>
-                </div>
-                <div class="peak-group" data-value="26" data-label="26">
-                    <div class="peak-label">26</div>
-                    <div class="peak"></div>
-                    <div class="year-label">2024</div>
-                </div>
-                <div class="peak-group" data-value="21" data-label="21">
-                    <div class="peak-label">21</div>
-                    <div class="peak"></div>
-                    <div class="year-label">2023</div>
-                </div>
-                <div class="peak-group" data-value="23" data-label="23">
-                    <div class="peak-label">23</div>
-                    <div class="peak"></div>
-                    <div class="year-label">2022</div>
-                </div>
-                <div class="peak-group" data-value="17" data-label="17">
-                    <div class="peak-label">17</div>
-                    <div class="peak"></div>
-                    <div class="year-label">2021</div>
-                </div>
-                <div class="peak-group" data-value="17" data-label="17">
-                    <div class="peak-label">17</div>
-                    <div class="peak"></div>
-                    <div class="year-label">2020</div>
-                </div>
-                <div class="peak-group" data-value="5" data-label="5">
-                    <div class="peak-label">5</div>
-                    <div class="peak"></div>
-                    <div class="year-label">2019</div>
-                </div>
-                <div class="peak-group" data-value="17" data-label="17">
-                    <div class="peak-label">17</div>
-                    <div class="peak"></div>
-                    <div class="year-label">2018</div>
-                </div>
-            </div>
-            <div class="mini-source">数据来源：国家医保局</div>
-        </div>
     </div>
 </section>
 
-  <!-- 5. 环形递进图表：肿瘤药物 -->
+
+ <!-- 5. 环形递进图表：肿瘤药物 -->
 <section class="chart-section fade-in">
-    <div class="chart-top-text fade-in"></div>
     <h2>肿瘤类标志性药品（免疫 + 靶向，覆盖主流癌种）</h2>
     <p class="chart-unit">单位：种</p>
     
-    <!-- 饼状图容器 -->
-    <div class="chart-container large-chart pie-chart-advanced">
-        <div class="pie-wrapper">
-            <canvas id="tumorChart"></canvas>
-            <!-- 悬停弹出卡片 -->
-            <div class="pie-popup-card" id="piePopupCard">
-                <div class="popup-card-arrow"></div>
-                <div class="popup-card-img">
-                    <img src="" alt="" id="popupDrugImg">
-                </div>
-                <div class="popup-card-info">
-                    <span class="popup-drug-name" id="popupDrugName"></span>
-                    <span class="popup-drug-count" id="popupDrugCount"></span>
-                    <span class="popup-drug-desc" id="popupDrugDesc"></span>
+    <!-- 👇 田字格 + 底部通栏布局 -->
+    <div class="chart-grid-layout">
+        <!-- 左上：环形图 -->
+        <div class="chart-cell chart-cell-topleft">
+            <div class="chart-container large-chart pie-chart-advanced">
+                <div class="pie-wrapper">
+                    <canvas id="tumorChart"></canvas>
+                    <!-- 悬停弹出卡片 -->
+                    <div class="pie-popup-card" id="piePopupCard">
+                        <div class="popup-card-arrow"></div>
+                        <div class="popup-card-img">
+                            <img src="" alt="" id="popupDrugImg">
+                        </div>
+                        <div class="popup-card-info">
+                            <span class="popup-drug-name" id="popupDrugName"></span>
+                            <span class="popup-drug-count" id="popupDrugCount"></span>
+                            <span class="popup-drug-desc" id="popupDrugDesc"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        <!-- 右上：迷你图表 -->
+        <div class="chart-cell chart-cell-topright">
+            <div class="transition-chart-container" id="transitionChart">
+                <h3 class="mini-chart-title">2018——2025肿瘤专项药增长数量</h3>
+                <div class="mini-chart-wrapper" id="miniChart">
+                    <div class="peak-group" data-value="36" data-label="36">
+                        <div class="peak-label">36</div>
+                        <div class="peak"></div>
+                        <div class="year-label">2025</div>
+                    </div>
+                    <div class="peak-group" data-value="26" data-label="26">
+                        <div class="peak-label">26</div>
+                        <div class="peak"></div>
+                        <div class="year-label">2024</div>
+                    </div>
+                    <div class="peak-group" data-value="21" data-label="21">
+                        <div class="peak-label">21</div>
+                        <div class="peak"></div>
+                        <div class="year-label">2023</div>
+                    </div>
+                    <div class="peak-group" data-value="23" data-label="23">
+                        <div class="peak-label">23</div>
+                        <div class="peak"></div>
+                        <div class="year-label">2022</div>
+                    </div>
+                    <div class="peak-group" data-value="17" data-label="17">
+                        <div class="peak-label">17</div>
+                        <div class="peak"></div>
+                        <div class="year-label">2021</div>
+                    </div>
+                    <div class="peak-group" data-value="17" data-label="17">
+                        <div class="peak-label">17</div>
+                        <div class="peak"></div>
+                        <div class="year-label">2020</div>
+                    </div>
+                    <div class="peak-group" data-value="5" data-label="5">
+                        <div class="peak-label">5</div>
+                        <div class="peak"></div>
+                        <div class="year-label">2019</div>
+                    </div>
+                    <div class="peak-group" data-value="17" data-label="17">
+                        <div class="peak-label">17</div>
+                        <div class="peak"></div>
+                        <div class="year-label">2018</div>
+                    </div>
+                </div>
+                <div class="mini-source">数据来源：国家医保局</div>
+            </div>
+        </div>
+      <!-- 左下：环形图讲解 -->
+<div class="chart-cell chart-cell-bottomleft">
+    <div class="chart-text-box chart-text-placeholder">
+        <p>左图中记录的是2018——2024年肿瘤药物进医保的药品</p>
     </div>
-    
-    <div class="chart-text fade-in">
-        <p>图片中记录2018——2024年肿瘤药物进医保的标志性药品，其中除了大幅降价之外，药品背后带来的治疗方案也是患者的希望。</p>
-        <p>曾几何时，"天价抗癌药"是压垮肿瘤患者家庭的最后一根稻草——一针CAR-T疗法120万元，一年靶向药费用超50万元，无数人被迫在"保命"和"保家"之间做残酷选择。但随着国家医保谈判的持续推进，这场"价格革命"正在改写中国癌症患者的生存图景：2026年新版医保目录新增36种肿瘤用药，平均降幅45%，部分药品最高降幅达97%；从肺癌、乳腺癌到胰腺癌，从靶向药到免疫治疗药物，曾经高不可攀的"救命药"正逐步走进普通家庭的药箱。</p>
-        <p>8岁的旭旭本该在阳光下奔跑，却被高危神经母细胞瘤困在病房。特效药那西妥单抗75万的天价，曾让他的童年蒙上阴影——父母愁白了头，治疗计划一拖再拖。2026年医保新政落地，药品纳入双重报销后，自付费用骤降至几万元。如今，旭旭顺利完成了全部治疗，病情稳定，又能像其他孩子一样背着书包上学、和小伙伴玩耍。医保的"托底"，不仅救了他的命，还给他一个本该无忧无虑的童年。</p>
-        <p>每一类标志性药物进医保都是一次对患者窘困状况的解决，如果说肿瘤药物的进保是解决了"大病"的燃眉之急，那么对罕见病的覆盖，则是医保走向"一个都不落下"的更深一步。</p>
+</div>
+
+        
+       <div class="chart-cell chart-cell-bottomright">
+    <div class="chart-text-box chart-text-placeholder">
+        <p>右图中记录的是2018——2025年肿瘤专项药增长的数量。</p>
+    </div>
+</div>
+
+<!-- 👇 底部通栏：总的讲解（预留） -->
+<div class="chart-summary">
+    <div class="chart-text-box chart-summary-placeholder">
+        <p>曾几何时，“天价抗癌药”是压垮肿瘤患者家庭的最后一根稻草——一针CAR-T疗法120万元，一年靶向药费用超50万元，无数人被迫在“保命”和“保家”之间做残酷选择。但随着国家医保谈判的持续推进，这场“价格革命”正在改写中国癌症患者的生存图景：2026年新版医保目录新增36种肿瘤用药，平均降幅45%，部分药品最高降幅达97%；从肺癌、乳腺癌到胰腺癌，从靶向药到免疫治疗药物，曾经高不可攀的“救命药”正逐步走进普通家庭的药箱。8岁的旭旭本该在阳光下奔跑，却被高危神经母细胞瘤困在病房。特效药那西妥单抗75万的天价，曾让他的童年蒙上阴影——父母愁白了头，治疗计划一拖再拖。2026年医保新政落地，药品纳入双重报销后，自付费用骤降至几万元。如今，旭旭顺利完成了全部治疗，病情稳定，又能像其他孩子一样背着书包上学、和小伙伴玩耍。医保的“托底”，不仅救了他的命，更还给他一个本该无忧无虑的童年。</p>
+    </div>
+</div>
+
+</section>
+
+<!-- 罕见病过渡页 - 镂空横栏效果 -->
+<section class="disease-transition fade-in">
+    <div class="transition-content">
+        <h1 class="transition-title">罕见病——少数人的生命之光</h1>
+        <p class="transition-subtitle">每一个小群体，都不该被放弃</p>
     </div>
 </section>
+
+
+
+
+<!-- 罕见病页面 -->
+<section class="rare-disease-section fade-in">
+    <div class="rare-disease-container">
+        <h2 class="rare-chart-title">2019——2025年罕见病药品进医保的数量</h2>
+        <p class="rare-chart-unit">单位：种</p>
+
+        <div class="rare-chart" id="rareChart">
+            <!-- 2019 -->
+            <div class="rare-chart-row" data-year="2019" data-count="7">
+                <div class="rare-year-label">2019</div>
+                <div class="rare-icon-group"></div>
+                <div class="rare-count-label">7</div>
+            </div>
+
+            <!-- 2021 -->
+            <div class="rare-chart-row" data-year="2021" data-count="7">
+                <div class="rare-year-label">2021</div>
+                <div class="rare-icon-group"></div>
+                <div class="rare-count-label">7</div>
+            </div>
+
+            <!-- 2022 -->
+            <div class="rare-chart-row" data-year="2022" data-count="7">
+                <div class="rare-year-label">2022</div>
+                <div class="rare-icon-group"></div>
+                <div class="rare-count-label">7</div>
+            </div>
+
+            <!-- 2023 -->
+            <div class="rare-chart-row" data-year="2023" data-count="15">
+                <div class="rare-year-label">2023</div>
+                <div class="rare-icon-group"></div>
+                <div class="rare-count-label">15</div>
+            </div>
+
+            <!-- 2024 -->
+            <div class="rare-chart-row" data-year="2024" data-count="13">
+                <div class="rare-year-label">2024</div>
+                <div class="rare-icon-group"></div>
+                <div class="rare-count-label">13</div>
+            </div>
+
+            <!-- 2025 -->
+            <div class="rare-chart-row" data-year="2025" data-count="10">
+                <div class="rare-year-label">2025</div>
+                <div class="rare-icon-group"></div>
+                <div class="rare-count-label">10</div>
+            </div>
+        </div>
+
+        <div class="rare-data-source">数据来源：国家医保局</div>
+        <div class="rare-note">注：2018、2020年官方无详细数据</div>
+    </div>
+</section>
+
 
     <!-- 6. 人群地图页 -->
     <section class="map-section fade-in">
