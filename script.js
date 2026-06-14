@@ -1105,6 +1105,57 @@ if (rareSection) {
     
     rareObserver.observe(rareSection);
 }
+
+// ===================== 13. 慢性病图表动画 =====================
+const chronicChartSection = document.querySelector('.chronic-chart-section');
+let chronicChartAnimated = false;
+
+function initChronicChart() {
+    const chronicColumns = document.querySelectorAll('.chronic-chart-section .bar-column');
+    const chronicMaxScale = 70;
+
+    chronicColumns.forEach(col => {
+        const value = parseInt(col.getAttribute('data-value'));
+        const stem = col.querySelector('.stem');
+        const head = col.querySelector('.head');
+
+        const percentage = (value / chronicMaxScale) * 100;
+
+        setTimeout(() => {
+            stem.style.height = `${percentage}%`;
+        }, 100);
+
+        if (window.getComputedStyle) {
+            const headColor = window.getComputedStyle(head).backgroundColor;
+            stem.style.backgroundColor = headColor;
+        }
+    });
+}
+
+if (chronicChartSection) {
+    const chronicObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !chronicChartAnimated) {
+                chronicChartAnimated = true;
+                setTimeout(() => initChronicChart(), 200);
+            }
+            // 离开视口时重置，下次进入重新播放
+            if (!entry.isIntersecting) {
+                chronicChartAnimated = false;
+                // 重置杆子高度
+                const stems = document.querySelectorAll('.chronic-chart-section .stem');
+                stems.forEach(stem => {
+                    stem.style.height = '0';
+                });
+            }
+        });
+    }, { threshold: 0.3 });
+
+    chronicObserver.observe(chronicChartSection);
+}
+
+
+
 // ===================== 14. 全局遮罩：过渡页位置镂空 =====================
 function updateGlobalOverlay() {
     const overlay = document.querySelector('.global-overlay');
