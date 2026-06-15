@@ -19,26 +19,28 @@
     <div class="global-overlay"></div>
     <!-- 其余内容不变 -->
 </body>
-<body>
      <!-- 固定背景层 -->
     <div class="fixed-background"></div>
     <!-- 顶部滚动进度条 -->
     <div class="progress-bar"></div>
 
     <!-- 右侧悬浮导航 -->
-    <div class="side-nav">
-        <div class="nav-dot active" data-target="cover"></div>
-        <div class="nav-dot" data-target="data-overview"></div>
-        <div class="nav-dot" data-target="line-bar-chart-section"></div>
-        <div class="nav-dot" data-target="transition-page"></div>
-        <div class="nav-dot" data-target="chart-section"></div>
-         <div class="nav-dot" data-target="rare-disease-section"></div>
-         <div class="nav-dot" data-target="chronic-transition"></div>
-         <div class="nav-dot" data-target="chronic-chart-section"></div>
-        <div class="nav-dot" data-target="map-section"></div>
-        <div class="nav-dot" data-target="stories"></div>
-        <div class="nav-dot" data-target="conclusion"></div>
-    </div>
+   <div class="side-nav">
+    <div class="nav-dot active" data-target="cover"></div>
+    <div class="nav-dot" data-target="data-overview"></div>
+    <div class="nav-dot" data-target="line-bar-chart-section"></div>
+    <div class="nav-dot" data-target="tumor-transition"></div>
+    <div class="nav-dot" data-target="chart-section"></div>
+    <div class="nav-dot" data-target="tumor-deep-dive"></div>
+    <div class="nav-dot" data-target="rare-transition"></div>
+    <div class="nav-dot" data-target="rare-disease-section"></div>
+    <div class="nav-dot" data-target="chronic-transition"></div>
+    <div class="nav-dot" data-target="chronic-chart-section"></div>
+    <div class="nav-dot" data-target="map-section"></div>
+    <div class="nav-dot" data-target="stories"></div>
+    <div class="nav-dot" data-target="conclusion"></div>
+</div>
+
 
   <!-- 1. 封面页 -->
 <section class="cover fade-in">
@@ -144,7 +146,7 @@
     </section>
 
    <!-- 4. 过渡页：肿瘤——最先被看见 -->
-<section class="disease-transition fade-in">
+<section class="disease-transition fade-in" id="tumor-transition">
     <div class="transition-bg"></div>
     <div class="transition-content">
         <h1 class="transition-title">肿瘤——最先被看见</h1>
@@ -248,14 +250,64 @@
 <!-- 👇 底部通栏：总的讲解（预留） -->
 <div class="chart-summary">
     <div class="chart-text-box chart-summary-placeholder">
-        <p>曾几何时，“天价抗癌药”是压垮肿瘤患者家庭的最后一根稻草——一针CAR-T疗法120万元，一年靶向药费用超50万元，无数人被迫在“保命”和“保家”之间做残酷选择。但随着国家医保谈判的持续推进，这场“价格革命”正在改写中国癌症患者的生存图景：2026年新版医保目录新增36种肿瘤用药，平均降幅45%，部分药品最高降幅达97%；从肺癌、乳腺癌到胰腺癌，从靶向药到免疫治疗药物，曾经高不可攀的“救命药”正逐步走进普通家庭的药箱。8岁的旭旭本该在阳光下奔跑，却被高危神经母细胞瘤困在病房。特效药那西妥单抗75万的天价，曾让他的童年蒙上阴影——父母愁白了头，治疗计划一拖再拖。2026年医保新政落地，药品纳入双重报销后，自付费用骤降至几万元。如今，旭旭顺利完成了全部治疗，病情稳定，又能像其他孩子一样背着书包上学、和小伙伴玩耍。医保的“托底”，不仅救了他的命，更还给他一个本该无忧无虑的童年。</p>
+        <p>曾几何时，“天价抗癌药”是压垮肿瘤患者家庭的最后一根稻草——一针CAR-T疗法120万元，一年靶向药费用超50万元，无数人被迫在“保命”和“保家”之间做残酷选择。但随着国家医保谈判的持续推进，这场“价格革命”正在改写中国癌症患者的生存图景：2026年新版医保目录新增36种肿瘤用药，平均降幅45%，部分药品最高降幅达97%；从肺癌、乳腺癌到胰腺癌，从靶向药到免疫治疗药物，曾经高不可攀的“救命药”正逐步走进普通家庭的药箱。</p>
     </div>
 </div>
 
 </section>
 
+
+<!-- 肿瘤深度解读 - 滚动动画页 -->
+<section class="tumor-deep-dive fade-in" id="tumor-deep-dive">
+    <div class="deep-dive-container">
+        
+        <!-- 左侧文本区域 -->
+        <div class="deep-dive-text deep-dive-text-left" id="deepDiveTextLeft">
+            <div class="deep-dive-text-inner">
+                <h3 class="deep-dive-label">RUNNING TOWARD HOPE</h3>
+                <p class="deep-dive-quote">"病房里的阴霾"</p>
+                <p class="deep-dive-desc">可高危神经母细胞瘤无情地困住了他，小小的身躯被困在冰冷的病房之中。特效药那西妥单抗75万的天价药费，瞬间为他的童年蒙上一层厚重阴影，父母日夜焦灼愁白了头发，原本定下的治疗方案只能一再搁置。</p>
+            </div>
+        </div>
+
+        <!-- 中间人物动画区域 -->
+        <div class="deep-dive-characters" id="deepDiveCharacters">
+            <!-- runboy - 跑步的男孩 -->
+            <div class="character-wrapper character-runboy" id="characterRunboy">
+                <img src="images/runboy.png" alt="奔跑的男孩" class="character-img">
+            </div>
+            <!-- boyill - 生病的男孩 -->
+            <div class="character-wrapper character-boyill" id="characterBoyill">
+                <img src="images/boyill.png" alt="生病的男孩" class="character-img">
+            </div>
+             <!-- 👇 新增：playboy - 玩耍的男孩 -->
+            <div class="character-wrapper character-playboy" id="characterPlayboy">
+                <img src="images/playboy.png" alt="玩耍的男孩" class="character-img">
+            </div>
+        </div>
+
+        <!-- 右侧文本区域 -->
+        <div class="deep-dive-text deep-dive-text-right" id="deepDiveTextRight">
+            <div class="deep-dive-text-inner">
+                <h3 class="deep-dive-label">FROM ILLNESS TO RECOVERY</h3>
+                <p class="deep-dive-quote">"向阳的童年"</p>
+                <p class="deep-dive-desc">8岁的旭旭有着鲜活烂漫的年纪，眉眼灵动，怀揣着孩童最普通的期许，本该在阳光下肆意奔跑，拥有无拘无束的日常，和同龄人一同嬉闹成长。</p>
+            </div>
+        </div>
+  <!-- 👇 新增：playboy 的右侧文本 -->
+        <div class="deep-dive-text deep-dive-text-right-bottom" id="deepDiveTextRightBottom">
+            <div class="deep-dive-text-inner">
+                <h3 class="deep-dive-label">PLAYING TOWARD FUTURE</h3>
+                <p class="deep-dive-quote">"重拾欢声笑语"</p>
+                <p class="deep-dive-desc">2026年医保新政正式落地，这款救命药被纳入双重报销范围，高额的医药费大幅缩减，个人自付仅仅只剩几万元。旭旭顺利完成全程治疗，身体日渐稳定康复，再次背上书包走进校园，自在地和小伙伴结伴玩耍，医保政策牢牢托举起他的人生，归还了他本该无忧无虑的童年。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 <!-- 罕见病过渡页 - 镂空横栏效果 -->
-<section class="disease-transition fade-in">
+<section class="disease-transition fade-in" id="rare-transition">
     <div class="transition-content">
         <h1 class="transition-title">罕见病——从小众到熟知</h1>
         <p class="transition-subtitle">每一个小群体，都不该被放弃</p>
@@ -323,7 +375,7 @@
 
 
 <!-- 慢性病过渡页 -->
-<section class="disease-transition fade-in">
+<section class="disease-transition fade-in" id="chronic-transition">
     <div class="transition-content">
         <h1 class="transition-title">慢性病——隐形民生减负</h1>
         <p class="transition-subtitle">他们是医保目录的基石，也是受益最广的人群</p>
