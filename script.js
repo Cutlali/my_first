@@ -781,45 +781,58 @@ function initBarLineChart() {
 
 // ===================== 8. 右侧悬浮导航：点击跳转 + 滚动高亮 =====================
 const navDots = document.querySelectorAll('.nav-dot');
-const sections = document.querySelectorAll('section');
 
+// 通用查找：先按 id，再按 class
+function getTargetElement(targetId) {
+    return document.getElementById(targetId) || document.querySelector(`.${targetId}`);
+}
+
+// 点击跳转
 navDots.forEach(dot => {
     dot.addEventListener('click', () => {
-        const targetId = dot.dataset.target;
-        const targetSection = document.querySelector(`.${targetId}`);
-        if (targetSection) {
-            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const targetElement = getTargetElement(dot.dataset.target);
+        if (targetElement) {
+            targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
     });
 });
 
+// 滚动高亮
 let navTicking = false;
 window.addEventListener('scroll', () => {
     if (!navTicking) {
         requestAnimationFrame(() => {
             const scrollY = window.scrollY || window.pageYOffset;
+            const viewportHeight = window.innerHeight;
             let current = '';
-            
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                const sectionHeight = section.clientHeight;
-                if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-                    current = section.className.split(' ')[0];
+
+            // 从所有导航点反向查找对应元素
+            const targets = Array.from(navDots)
+                .map(dot => ({
+                    id: dot.dataset.target,
+                    el: getTargetElement(dot.dataset.target)
+                }))
+                .filter(item => item.el);
+
+            // 从下往上找第一个进入视口的
+            for (let i = targets.length - 1; i >= 0; i--) {
+                if (scrollY + viewportHeight * 0.4 >= targets[i].el.offsetTop) {
+                    current = targets[i].id;
+                    break;
                 }
-            });
-            
+            }
+
             navDots.forEach(dot => {
-                dot.classList.remove('active');
-                if (dot.dataset.target === current) {
-                    dot.classList.add('active');
-                }
+                dot.classList.toggle('active', dot.dataset.target === current);
             });
-            
+
             navTicking = false;
         });
         navTicking = true;
     }
 });
+
+
 
 // ===================== 9. 主标题滚动缩放动画 =====================
 const mainTitle = document.querySelector('.main-title');
@@ -1154,9 +1167,237 @@ if (chronicChartSection) {
     chronicObserver.observe(chronicChartSection);
 }
 
+// ===================== 15. 肿瘤深度解读 - 滚动驱动动画（三人从容版 + 150vh + 提前展示） =====================
+function initTumorDeepDive() {
+    const section = document.getElementById('tumor-deep-dive');
+    if (!section) return;
+    
+    const runboy = document.getElementById('characterRunboy');
+    const boyill = document.getElementById('characterBoyill');
+    const playboy = document.getElementById('characterPlayboy');
+    const textLeft = document.getElementById('deepDiveTextLeft');
+    const textRight = document.getElementById('deepDiveTextRight');
+    const textRightBottom = document.getElementById('deepDiveTextRightBottom');
+    
+    if (!runboy || !boyill || !playboy || !textLeft || !textRight || !textRightBottom) return;
+    
+    function getSectionBounds() {
+        const rect = section.getBoundingClientRect();
+        const scrollY = window.scrollY || window.pageYOffset;
+        const viewportHeight = window.innerHeight;
+        
+        return {
+            top: rect.top + scrollY,
+            bottom: rect.bottom + scrollY,
+            height: rect.height,
+            viewportHeight: viewportHeight
+        };
+    }
+    
+    function getProgress() {
+        const bounds = getSectionBounds();
+        const scrollY = window.scrollY || window.pageYOffset;
+        
+        // 150vh 页面：section 顶部进入视野就开始，底部快离开才结束
+        const start = bounds.top - bounds.viewportHeight * 0.8;
+        const end = bounds.bottom - bounds.viewportHeight * 0.2;
+        const range = end - start;
+        
+        if (range <= 0) return 0;
+        
+        let progress = (scrollY - start) / range;
+        progress = Math.max(0, Math.min(1, progress));
+        
+        return progress;
+    }
+    
+    function mapRange(value, inMin, inMax, outMin, outMax, clamped = true) {
+        let result = outMin + ((value - inMin) / (inMax - inMin)) * (outMax - outMin);
+        if (clamped) {
+            result = Math.max(outMin, Math.min(outMax, result));
+        }
+        return result;
+    }
+    
+    function easeInOutCubic(t) {
+        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+    
+    function update() {
+        const progress = getProgress();
+        
+        // ========== 三人从容时间线（150vh 优化版 + 提前展示）==========
+        //
+        // 【runboy - 第1个，上方，左→右】
+        // 0.00-0.04  淡入
+        // 0.04-0.22  停顿（从容等待）
+        // 0.22-0.30  奔跑前半段：左边(-350) → 中间(0)
+        // 0.30-0.36  奔跑后半段：中间(0) → 右边(500)，最后淡出
+        //
+        // 【boyill - 第2个，中间，右→左】
+        // 0.30-0.34  淡入
+        // 0.34-0.52  停顿（从容等待）
+        // 0.52-0.60  奔跑前半段：右边(350) → 中间(0)
+        // 0.60-0.66  奔跑后半段：中间(0) → 左边(-500)，最后淡出
+        //
+        // 【playboy - 第3个，下方，左→右】
+        // 0.58-0.62  淡入
+        // 0.62-0.82  停顿（从容等待，有充足时间看）
+        // 0.82-0.88  奔跑前半段：左边(-350) → 中间(0)
+        // 0.88-0.94  奔跑后半段：中间(0) → 右边(500)，最后淡出
+        
+        // ========== runboy 动画（上方，左→右）==========
+        let runboyX, runboyOpacity;
+        
+        if (progress <= 0.04) {
+            runboyX = -350;
+            runboyOpacity = mapRange(progress, 0.00, 0.04, 0, 1);
+        } else if (progress <= 0.22) {
+            runboyX = -350;
+            runboyOpacity = 1;
+        } else if (progress <= 0.30) {
+            const t = mapRange(progress, 0.22, 0.30, 0, 1);
+            runboyX = -350 + (350 * easeInOutCubic(t));
+            runboyOpacity = 1;
+        } else if (progress <= 0.36) {
+            const t = mapRange(progress, 0.30, 0.36, 0, 1);
+            runboyX = 0 + (500 * easeInOutCubic(t));
+            runboyOpacity = mapRange(t, 0.0, 1.0, 1, 0);
+        } else {
+            runboyX = 500;
+            runboyOpacity = 0;
+        }
+        
+        // 右侧文本（runboy 的）
+        let rightTextOpacity;
+        if (progress <= 0.04) {
+            rightTextOpacity = mapRange(progress, 0.00, 0.04, 0, 1);
+        } else if (progress <= 0.26) {
+            rightTextOpacity = 1;
+        } else if (progress <= 0.30) {
+            rightTextOpacity = mapRange(progress, 0.26, 0.30, 1, 0);
+        } else {
+            rightTextOpacity = 0;
+        }
+        
+        // ========== boyill 动画（中间，右→左）==========
+        let boyillX, boyillOpacity;
+        
+        if (progress <= 0.30) {
+            boyillX = 350;
+            boyillOpacity = 0;
+        } else if (progress <= 0.34) {
+            boyillX = 350;
+            boyillOpacity = mapRange(progress, 0.30, 0.34, 0, 1);
+        } else if (progress <= 0.52) {
+            boyillX = 350;
+            boyillOpacity = 1;
+        } else if (progress <= 0.60) {
+            const t = mapRange(progress, 0.52, 0.60, 0, 1);
+            boyillX = 350 - (350 * easeInOutCubic(t));
+            boyillOpacity = 1;
+        } else if (progress <= 0.66) {
+            const t = mapRange(progress, 0.60, 0.66, 0, 1);
+            boyillX = 0 - (500 * easeInOutCubic(t));
+            boyillOpacity = mapRange(t, 0.0, 1.0, 1, 0);
+        } else {
+            boyillX = -500;
+            boyillOpacity = 0;
+        }
+        
+        // 左侧文本（boyill 的）
+        let leftTextOpacity;
+        if (progress <= 0.30) {
+            leftTextOpacity = 0;
+        } else if (progress <= 0.34) {
+            leftTextOpacity = mapRange(progress, 0.30, 0.34, 0, 1);
+        } else if (progress <= 0.56) {
+            leftTextOpacity = 1;
+        } else if (progress <= 0.60) {
+            leftTextOpacity = mapRange(progress, 0.56, 0.60, 1, 0);
+        } else {
+            leftTextOpacity = 0;
+        }
+        
+        // ========== playboy 动画（下方，左→右）==========
+        let playboyX, playboyOpacity;
+        
+        if (progress <= 0.58) {
+            playboyX = -350;
+            playboyOpacity = 0;
+        } else if (progress <= 0.62) {
+            playboyX = -350;
+            playboyOpacity = mapRange(progress, 0.58, 0.62, 0, 1);
+        } else if (progress <= 0.82) {
+            playboyX = -350;
+            playboyOpacity = 1;
+        } else if (progress <= 0.88) {
+            const t = mapRange(progress, 0.82, 0.88, 0, 1);
+            playboyX = -350 + (350 * easeInOutCubic(t));
+            playboyOpacity = 1;
+        } else if (progress <= 0.94) {
+            const t = mapRange(progress, 0.88, 0.94, 0, 1);
+            playboyX = 0 + (500 * easeInOutCubic(t));
+            playboyOpacity = mapRange(t, 0.0, 1.0, 1, 0);
+        } else {
+            playboyX = 500;
+            playboyOpacity = 0;
+        }
+        
+        // playboy 的右侧文本
+        let rightBottomTextOpacity;
+        if (progress <= 0.58) {
+            rightBottomTextOpacity = 0;
+        } else if (progress <= 0.62) {
+            rightBottomTextOpacity = mapRange(progress, 0.58, 0.62, 0, 1);
+        } else if (progress <= 0.86) {
+            rightBottomTextOpacity = 1;
+        } else if (progress <= 0.88) {
+            rightBottomTextOpacity = mapRange(progress, 0.86, 0.88, 1, 0);
+        } else {
+            rightBottomTextOpacity = 0;
+        }
+        
+        // ========== 应用样式 ==========
+        runboy.style.transform = `translate(calc(-50% + ${runboyX}px), -50%)`;
+        runboy.style.opacity = runboyOpacity;
+        
+        boyill.style.transform = `translate(calc(-50% + ${boyillX}px), -50%)`;
+        boyill.style.opacity = boyillOpacity;
+        
+        playboy.style.transform = `translate(calc(-50% + ${playboyX}px), -50%)`;
+        playboy.style.opacity = playboyOpacity;
+        
+        textRight.style.opacity = rightTextOpacity;
+        textLeft.style.opacity = leftTextOpacity;
+        textRightBottom.style.opacity = rightBottomTextOpacity;
+    }
+    
+    let ticking = false;
+    
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                update();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+    
+    window.addEventListener('scroll', onScroll, { passive: true });
+    
+    update();
+    
+    console.log('✅ 肿瘤深度解读动画已就绪（三人从容版 + 150vh + 提前展示）');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initTumorDeepDive();
+});
 
 
-// ===================== 14. 全局遮罩：过渡页位置镂空 =====================
+// ===================== 15. 全局遮罩：过渡页位置镂空 =====================
 function updateGlobalOverlay() {
     const overlay = document.querySelector('.global-overlay');
     if (!overlay) return;
@@ -1214,7 +1455,7 @@ window.addEventListener('scroll', () => {
 // 初始调用
 updateGlobalOverlay();
 
-// ===================== 13. 初始化完成日志 =====================
+// ===================== 16. 初始化完成日志 =====================
 console.log('✅ 医保目录人群地图 - 已就绪');
 console.log('📊 图表将在滚动到对应区域时自动加载');
 console.log('🗺️ 点击地图上的蓝色圆点查看省份数据');
