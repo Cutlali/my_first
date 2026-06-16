@@ -1101,7 +1101,7 @@ section {
 /* ========== 肿瘤深度解读 - 滚动动画页 ========== */
 .tumor-deep-dive {
     position: relative;
-    min-height: 150vh;                    /* 👈 150vh，从容不冗长 */
+    min-height: 180vh;                    /* 👈 150vh，从容不冗长 */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1114,7 +1114,7 @@ section {
     position: relative;
     width: 100%;
     max-width: 1200px;
-    height: 150vh;                        /* 👈 150vh */
+    height: 180vh;                        /* 👈 150vh */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1131,7 +1131,7 @@ section {
 
 /* 右侧文本 - 跟着 runboy，在上方 */
 .deep-dive-text-right {
-    top: 12%;                             /* 👈 重新对齐 */
+    top: 20%;                             /* 👈 重新对齐 */
     right: 5%;
     left: auto;
     text-align: right;
@@ -1140,7 +1140,7 @@ section {
 
 /* 左侧文本 - 跟着 boyill，在中间 */
 .deep-dive-text-left {
-    top: 45%;                             /* 👈 重新对齐 */
+    top: 51%;                             /* 👈 重新对齐 */
     left: 5%;
     text-align: left;
     transform: translateY(-50%);
@@ -1148,7 +1148,7 @@ section {
 
 /* playboy 的右侧文本 */
 .deep-dive-text-right-bottom {
-    top: 78%;                             /* 👈 重新对齐 */
+    top: 85%;                             /* 👈 重新对齐 */
     right: 5%;
     left: auto;
     text-align: right;
@@ -1216,21 +1216,21 @@ section {
 
 /* runboy 在上面，初始在左侧 */
 .character-runboy {
-    top: 1%;                             /* 👈 和文本对齐 */
+    top: -10%;                             /* 👈 和文本对齐 */
     transform: translate(calc(-50% - 350px), -50%);
     opacity: 0;
 }
 
 /* boyill 在中间，初始在右侧 */
 .character-boyill {
-    top: 35%;                             /* 👈 和文本对齐 */
+    top: 55%;                             /* 👈 和文本对齐 */
     transform: translate(calc(-50% + 350px), -50%);
     opacity: 0;
 }
 
 /* playboy 在下方，初始在左侧 */
 .character-playboy {
-    top: 95%;                             /* 👈 和文本对齐 */
+    top: 120%;                             /* 👈 和文本对齐 */
     transform: translate(calc(-50% - 350px), -50%);
     opacity: 0;
 }
@@ -1241,6 +1241,21 @@ section {
     object-fit: contain;
     filter: drop-shadow(0 15px 40px rgba(0, 0, 0, 0.18));
 }
+/* 肿瘤深度故事 - 关键词高亮 */
+.tumor-deep-dive .highlight-text {
+    color: #c69834;
+    font-weight: 700;
+    background: linear-gradient(180deg, transparent 60%, rgba(136, 128, 71, 0.15) 60%);
+    padding: 0 4px;
+    white-space: nowrap;
+    transition: background 0.3s ease;
+}
+
+/* 可选：hover 效果增强 */
+.tumor-deep-dive .highlight-text:hover {
+    background: linear-gradient(180deg, transparent 60%, rgba(26, 95, 122, 0.25) 60%);
+}
+
 
 /* ========== 响应式 ========== */
 @media (max-width: 768px) {
@@ -1485,6 +1500,297 @@ section {
         font-size: 1.1rem;
     }
 }
+
+/* ==================== 罕见病深度故事页 ==================== */
+.rare-story-section {
+    position: relative;
+    width: 100%;
+    min-height: auto;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    padding: 0 5%;
+}
+
+/* 关键词金色高亮 */
+.highlight-gold {
+    color: #7a5a10;
+    font-weight: 700;
+    background: linear-gradient(180deg, transparent 58%, rgba(200, 150, 62, 0.3) 58%);
+    padding: 0 6px;
+    white-space: nowrap;
+    border-radius: 2px;
+}
+
+/* ========== 阶段1：引导文字 ========== */
+.story-intro-text {
+    max-width: 750px;
+    text-align: center;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+    margin-top: 30vh;
+    margin-bottom: 40vh;
+    padding: 20px;
+}
+
+.story-intro-text.visible {
+    opacity: 1;
+}
+
+.story-intro-text p {
+    font-family: "Noto Serif SC", "PingFang SC", "STSong", serif;  /* 👈 改用衬线体 */
+    font-size: 1.4rem;
+    line-height: 2.3;
+    color: #2c2c3a;
+    margin-bottom: 1rem;
+    letter-spacing: 0.8px;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* 首行缩进，更有阅读感 */
+.story-intro-text p:first-child {
+    text-indent: 0;
+}
+
+/* ========== 阶段2-3：图片 + 配图解说 ========== */
+.story-case-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    max-width: 1100px;
+    width: 100%;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    pointer-events: none;
+    margin-bottom: 40vh;
+}
+
+.story-case-wrapper.visible {
+    opacity: 1;
+}
+
+/* 左侧图片 */
+.story-image-container {
+    flex: 0 0 400px;
+    transform: translateX(-120px);
+    opacity: 0;
+    transition: transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                opacity 0.8s ease;
+}
+
+.story-image-container.slide-in {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.story-image {
+    width: 100%;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+    display: block;
+}
+
+.story-image-caption {
+    text-align: center;
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 0.85rem;
+    color: #0c0b0b;
+    margin-top: 12px;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+
+/* 右侧文字 */
+.story-text-container {
+    flex: 1;
+    max-width: 500px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease 0.3s,
+                transform 0.8s ease 0.3s;
+}
+
+.story-text-container.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.story-text-container p {
+    font-family: "Noto Serif SC", "PingFang SC", "STSong", serif;  /* 👈 衬线体 */
+    font-size: 1.05rem;
+    line-height: 2;
+    color: #3a3a4a;
+    margin-bottom: 1rem;
+    letter-spacing: 0.5px;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+}
+
+/* 价格对比卡片 */
+.price-compare {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin: 18px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(200, 150, 62, 0.2);
+}
+
+.price-before,
+.price-after {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.price-label {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 0.8rem;
+    color: #999;
+    letter-spacing: 1px;
+}
+
+.price-value {
+    font-family: "DM Serif Display", "Noto Serif SC", serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.old-price {
+    color: #c0392b;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: rgba(192, 57, 43, 0.5);
+}
+
+.new-price {
+    color: #27ae60;
+    font-size: 1.8rem;
+}
+
+.price-arrow {
+    color: #c8963e;
+    flex-shrink: 0;
+}
+
+.arrow-svg {
+    width: 40px;
+    height: 24px;
+    animation: arrowPulse 2s ease-in-out infinite;
+}
+
+@keyframes arrowPulse {
+    0%, 100% { transform: translateX(0); opacity: 0.7; }
+    50% { transform: translateX(6px); opacity: 1; }
+}
+
+/* ========== 阶段4：总结文字 ========== */
+.story-conclusion {
+    max-width: 700px;
+    text-align: center;
+    z-index: 4;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    pointer-events: none;
+    margin-bottom: 30vh;
+}
+
+.story-conclusion.visible {
+    opacity: 1;
+}
+
+.story-conclusion p {
+    font-family: "Noto Serif SC", "PingFang SC", "STSong", serif;  /* 👈 衬线体 */
+    font-size: 1.45rem;
+    line-height: 2.4;
+    color: #1e2a36;
+    margin-bottom: 0.8rem;
+    letter-spacing: 0.8px;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ========== 手机端适配 ========== */
+@media (max-width: 768px) {
+    .rare-story-section {
+        padding: 0 4%;
+    }
+
+    .story-intro-text {
+        margin-top: 20vh;
+        margin-bottom: 30vh;
+    }
+
+    .story-case-wrapper {
+        flex-direction: column;
+        gap: 30px;
+        margin-bottom: 30vh;
+    }
+
+    .story-image-container {
+        flex: 0 0 auto;
+        width: 85%;
+        max-width: 350px;
+        transform: translateX(-60px);
+    }
+
+    .story-text-container {
+        max-width: 100%;
+    }
+
+    .story-text-container p {
+        font-size: 0.95rem;
+        line-height: 1.8;
+    }
+
+    .story-intro-text p {
+        font-size: 1.15rem;
+        line-height: 2;
+    }
+
+    .story-conclusion {
+        margin-bottom: 20vh;
+    }
+
+    .story-conclusion p {
+        font-size: 1.2rem;
+        line-height: 2.1;
+    }
+
+    .price-compare {
+        padding: 14px 16px;
+        gap: 10px;
+    }
+
+    .price-value {
+        font-size: 1.2rem;
+    }
+
+    .new-price {
+        font-size: 1.4rem;
+    }
+
+    .arrow-svg {
+        width: 28px;
+        height: 18px;
+    }
+}
+
+
 
 /* ========== 慢性病图表页 ========== */
 .chronic-chart-section {
@@ -1851,6 +2157,93 @@ section {
         letter-spacing: 2px;
     }
 }
+/* ==================== 交互提示条 ==================== */
+.interact-hint-bar {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-120px);
+    z-index: 9998;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 50px;
+    padding: 12px 28px;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        0 0 0 1px rgba(74, 144, 226, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+.interact-hint-bar.show {
+    transform: translateX(-50%) translateY(0);
+}
+
+/* 提示图标 */
+.interact-hint-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4a90e2, #64b5f6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.interact-hint-icon svg {
+    width: 14px;
+    height: 14px;
+    color: #fff;
+}
+
+/* 提示文字 */
+.interact-hint-text {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 14px;
+    color: #333;
+    letter-spacing: 0.5px;
+}
+
+/* 高亮动作词 */
+.interact-hint-action {
+    color: #4a90e2;
+    font-weight: 700;
+    padding: 2px 6px;
+    background: rgba(74, 144, 226, 0.08);
+    border-radius: 4px;
+}
+
+/* 手机端适配 */
+@media (max-width: 768px) {
+    .interact-hint-bar {
+        top: 12px;
+        padding: 10px 20px;
+        border-radius: 40px;
+        gap: 8px;
+    }
+    
+    .interact-hint-icon {
+        width: 24px;
+        height: 24px;
+    }
+    
+    .interact-hint-icon svg {
+        width: 12px;
+        height: 12px;
+    }
+    
+    .interact-hint-text {
+        font-size: 12px;
+    }
+}
+
 /* ========== 标题颜色适应背景 ========== */
 .data-overview h2,
 .line-bar-chart-section h2,
