@@ -13,6 +13,18 @@
     <!-- 引入样式表 -->
     <link rel="stylesheet" href="style.css">
 </head>
+<!-- ==================== 交互提示条 ==================== -->
+<div class="interact-hint-bar" id="interactHintBar">
+    <div class="interact-hint-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+        </svg>
+    </div>
+    <span class="interact-hint-text"></span>
+</div>
+
 <body>
     <div class="fixed-background"></div>
     <!-- 👇 新增：全局遮罩层 -->
@@ -158,8 +170,8 @@
  <!-- 5. 环形递进图表：肿瘤药物 -->
 <section class="chart-section fade-in">
     <h2>肿瘤类标志性药品（免疫 + 靶向，覆盖主流癌种）</h2>
-    <p class="chart-unit">单位：种</p>
-    
+    <p class="chart-unit">单位：种   </p>
+
     <!-- 👇 田字格 + 底部通栏布局 -->
     <div class="chart-grid-layout">
         <!-- 左上：环形图 -->
@@ -266,7 +278,7 @@
             <div class="deep-dive-text-inner">
                 <h3 class="deep-dive-label">RUNNING TOWARD HOPE</h3>
                 <p class="deep-dive-quote">"病房里的阴霾"</p>
-                <p class="deep-dive-desc">可高危神经母细胞瘤无情地困住了他，小小的身躯被困在冰冷的病房之中。特效药那西妥单抗75万的天价药费，瞬间为他的童年蒙上一层厚重阴影，父母日夜焦灼愁白了头发，原本定下的治疗方案只能一再搁置。</p>
+                <p class="deep-dive-desc">可<span class="highlight-text">高危神经母细胞瘤</span>无情地困住了他，小小的身躯被困在冰冷的病房之中。特效药那西妥单抗<span class="highlight-text">75万的天价药费</span>，瞬间为他的童年蒙上一层厚重阴影，父母日夜焦灼愁白了头发，原本定下的治疗方案只能<span class="highlight-text">一再搁置</span>。</p>
             </div>
         </div>
 
@@ -291,7 +303,7 @@
             <div class="deep-dive-text-inner">
                 <h3 class="deep-dive-label">FROM ILLNESS TO RECOVERY</h3>
                 <p class="deep-dive-quote">"向阳的童年"</p>
-                <p class="deep-dive-desc">8岁的旭旭有着鲜活烂漫的年纪，眉眼灵动，怀揣着孩童最普通的期许，本该在阳光下肆意奔跑，拥有无拘无束的日常，和同龄人一同嬉闹成长。</p>
+                <p class="deep-dive-desc">8岁的旭旭有着<span class="highlight-text">鲜活烂漫</span>的年纪，眉眼灵动，怀揣着孩童最普通的期许，本该在阳光下<span class="highlight-text">肆意奔跑</span>，拥有<span class="highlight-text">无拘无束</span>的日常，和同龄人一同嬉闹成长。</p>
             </div>
         </div>
   <!-- 👇 新增：playboy 的右侧文本 -->
@@ -299,11 +311,12 @@
             <div class="deep-dive-text-inner">
                 <h3 class="deep-dive-label">PLAYING TOWARD FUTURE</h3>
                 <p class="deep-dive-quote">"重拾欢声笑语"</p>
-                <p class="deep-dive-desc">2026年医保新政正式落地，这款救命药被纳入双重报销范围，高额的医药费大幅缩减，个人自付仅仅只剩几万元。旭旭顺利完成全程治疗，身体日渐稳定康复，再次背上书包走进校园，自在地和小伙伴结伴玩耍，医保政策牢牢托举起他的人生，归还了他本该无忧无虑的童年。</p>
+                <p class="deep-dive-desc">2026年<span class="highlight-text">医保新政</span>正式落地，这款救命药被纳入<span class="highlight-text">双重报销</span>范围，高额的医药费大幅缩减，个人自付仅仅只剩<span class="highlight-text">几万元</span>。旭旭顺利完成全程治疗，身体日渐稳定康复，再次背上书包走进校园，自在地和小伙伴结伴玩耍，医保政策牢牢<span class="highlight-text">托举</span>起他的人生，归还了他本该无忧无虑的童年。</p>
             </div>
         </div>
     </div>
 </section>
+
 
 
 <!-- 罕见病过渡页 - 镂空横栏效果 -->
@@ -372,6 +385,71 @@
     </div>
 </section>
 
+<!-- ==================== 罕见病深度故事页 ==================== -->
+<section class="rare-story-section" id="rare-story">
+ <!-- 阶段1：引导文字 -->
+<div class="story-intro-text" id="storyIntroText">
+    <p>
+        与患者基数庞大的肿瘤不同，罕见病面临<span class="highlight-gold">"药少、价高、知晓度低"</span>的困境。
+    </p>
+    <p>
+        而近八年<span class="highlight-gold">医保目录的调整</span>，开始向这片<span class="highlight-gold">「被遗忘的角落」</span>倾斜。
+    </p>
+    <p>
+        通过对罕见病群体所需药物的覆盖，减轻了许多<span class="highlight-gold">罕见家庭</span>的负担。
+    </p>
+</div>
+
+
+    <!-- 阶段2-3：图片 + 配图解说 -->
+    <div class="story-case-wrapper" id="storyCaseWrapper">
+        <div class="story-image-container" id="storyImageContainer">
+            <img src="images/xst.jpg" alt="小石头" class="story-image">
+            <div class="story-image-caption">央视《新闻调查》· 罕见病患儿小石头</div>
+        </div>
+        <div class="story-text-container" id="storyTextContainer">
+            <p>
+                央视新闻的专题栏目《新闻调查》曾以罕见病患儿<span class="highlight-gold">"小石头"</span>的寻医之路与日常生活为主题策划一期节目，让我们更加清晰地看到医保究竟是如何落实在每一个人身上。
+            </p>
+            <p>
+                小石头在不满一岁时被确诊为<span class="highlight-gold">脊髓性肌萎缩症（SMA）</span>，这是一种会导致肌肉无力、萎缩甚至危及生命的罕见病。医生曾预言他可能活不到2岁。
+            </p>
+            <!-- 价格对比视觉强化 -->
+            <div class="price-compare" id="priceCompare">
+                <div class="price-before">
+                    <span class="price-label">最初定价</span>
+                    <span class="price-value old-price">70万元/针</span>
+                </div>
+                <div class="price-arrow">
+                    <svg viewBox="0 0 40 24" class="arrow-svg">
+                        <path d="M0 12h34M26 4l10 8-10 8" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="price-after">
+                    <span class="price-label">医保后价格</span>
+                    <span class="price-value new-price">3.3万元/针</span>
+                </div>
+            </div>
+            <p>
+                小石头从无法抬头、翻身，到后来能靠着东西坐稳。
+            </p>
+            <p>
+                2025年9月，7岁的小石头终于圆梦，进入了<span class="highlight-gold">梦寐以求的校园</span>。
+            </p>
+        </div>
+    </div>
+
+  <!-- 阶段4：总结文字 -->
+<div class="story-conclusion" id="storyConclusion">
+    <p>
+        小石头的故事，是无数<span class="highlight-gold">罕见病患儿家庭</span>的缩影。
+    </p>
+    <p>
+        展现了医保政策如何为生命<span class="highlight-gold">"托底"</span>，让<span class="highlight-gold">"天价药"</span>变成<span class="highlight-gold">"平民药"</span>，让<span class="highlight-gold">绝望的家庭重燃希望</span>。
+    </p>
+</div>
+
+</section>
 
 
 <!-- 慢性病过渡页 -->
@@ -527,5 +605,17 @@
 
     <!-- 引入脚本 -->
     <script src="script.js"></script>
+    <!-- 交互提示条 -->
+<div class="interact-hint-bar" id="interactHintBar">
+    <span class="interact-hint-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/>
+        </svg>
+    </span>
+    <span class="interact-hint-text">
+        试试<span class="interact-hint-action">悬停</span>或<span class="interact-hint-action">点击</span>图表查看详情
+    </span>
+</div>
+
 </body>
 </html>
