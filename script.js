@@ -1167,7 +1167,7 @@ if (chronicChartSection) {
     chronicObserver.observe(chronicChartSection);
 }
 
-// ===================== 15. 肿瘤深度解读 - 滚动驱动动画（三人从容版 + 150vh + 提前展示） =====================
+// ===================== 15. 肿瘤深度解读 - 滚动驱动动画（优化平滑版） =====================
 function initTumorDeepDive() {
     const section = document.getElementById('tumor-deep-dive');
     if (!section) return;
@@ -1198,7 +1198,6 @@ function initTumorDeepDive() {
         const bounds = getSectionBounds();
         const scrollY = window.scrollY || window.pageYOffset;
         
-        // 150vh 页面：section 顶部进入视野就开始，底部快离开才结束
         const start = bounds.top - bounds.viewportHeight * 0.8;
         const end = bounds.bottom - bounds.viewportHeight * 0.2;
         const range = end - start;
@@ -1219,63 +1218,72 @@ function initTumorDeepDive() {
         return result;
     }
     
-    function easeInOutCubic(t) {
-        return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    // 改用更平滑的缓动函数：easeInOutSine（比 cubic 更柔和）
+    function easeInOutSine(t) {
+        return -(Math.cos(Math.PI * t) - 1) / 2;
     }
     
     function update() {
         const progress = getProgress();
         
-        // ========== 三人从容时间线（150vh 优化版 + 提前展示）==========
+        // ========== 优化后的三人时间线 ==========
         //
         // 【runboy - 第1个，上方，左→右】
-        // 0.00-0.04  淡入
-        // 0.04-0.22  停顿（从容等待）
-        // 0.22-0.30  奔跑前半段：左边(-350) → 中间(0)
-        // 0.30-0.36  奔跑后半段：中间(0) → 右边(500)，最后淡出
+        // 0.00-0.08  淡入（延长到 8%）
+        // 0.08-0.24  停顿（从容等待）
+        // 0.24-0.32  奔跑前半段：左边(-350) → 中间(0)
+        // 0.32-0.40  奔跑后半段：中间(0) → 右边(500)，最后淡出
         //
         // 【boyill - 第2个，中间，右→左】
-        // 0.30-0.34  淡入
-        // 0.34-0.52  停顿（从容等待）
+        // 0.28-0.36  淡入（提前出现，与 runboy 有重叠）
+        // 0.36-0.52  停顿（从容等待）
         // 0.52-0.60  奔跑前半段：右边(350) → 中间(0)
-        // 0.60-0.66  奔跑后半段：中间(0) → 左边(-500)，最后淡出
+        // 0.60-0.68  奔跑后半段：中间(0) → 左边(-500)，最后淡出
         //
         // 【playboy - 第3个，下方，左→右】
-        // 0.58-0.62  淡入
-        // 0.62-0.82  停顿（从容等待，有充足时间看）
-        // 0.82-0.88  奔跑前半段：左边(-350) → 中间(0)
-        // 0.88-0.94  奔跑后半段：中间(0) → 右边(500)，最后淡出
+        // 0.56-0.64  淡入（提前出现，与 boyill 有重叠）
+        // 0.64-0.80  停顿（从容等待）
+        // 0.80-0.88  奔跑前半段：左边(-350) → 中间(0)
+        // 0.88-0.96  奔跑后半段：中间(0) → 右边(500)，最后淡出
         
         // ========== runboy 动画（上方，左→右）==========
         let runboyX, runboyOpacity;
         
-        if (progress <= 0.04) {
+        if (progress <= 0.12) {
+            // 淡入阶段：0.00-0.08
             runboyX = -350;
-            runboyOpacity = mapRange(progress, 0.00, 0.04, 0, 1);
-        } else if (progress <= 0.22) {
+            runboyOpacity = mapRange(progress, 0.00, 0.12, 0, 1.5);
+        } else if (progress <= 0.35) {
+            // 停顿阶段：0.08-0.24
             runboyX = -350;
             runboyOpacity = 1;
-        } else if (progress <= 0.30) {
-            const t = mapRange(progress, 0.22, 0.30, 0, 1);
-            runboyX = -350 + (350 * easeInOutCubic(t));
+        } else if (progress <= 0.40) {
+            // 奔跑前半段：0.24-0.32（8% 进度跑 350px）
+            const t = mapRange(progress, 0.35, 0.40, 0, 1);
+            runboyX = -350 + (350 * easeInOutSine(t));
             runboyOpacity = 1;
-        } else if (progress <= 0.36) {
-            const t = mapRange(progress, 0.30, 0.36, 0, 1);
-            runboyX = 0 + (500 * easeInOutCubic(t));
-            runboyOpacity = mapRange(t, 0.0, 1.0, 1, 0);
+        } else if (progress <= 0.44) {
+            // 奔跑后半段 + 淡出：0.32-0.40（8% 进度跑 500px + 淡出）
+            const t = mapRange(progress, 0.40, 0.45, 0, 1);
+            runboyX = 0 + (500 * easeInOutSine(t));
+            // 后半段的前 30% 保持不透明，后 70% 淡出
+            runboyOpacity = t < 0.3 ? 1 : mapRange(t, 0.3, 1.0, 1, 0);
         } else {
             runboyX = 500;
             runboyOpacity = 0;
         }
         
-        // 右侧文本（runboy 的）
+        // 右侧文本（runboy 的）- 跟随角色，跑到中间后才开始淡出
         let rightTextOpacity;
-        if (progress <= 0.04) {
-            rightTextOpacity = mapRange(progress, 0.00, 0.04, 0, 1);
-        } else if (progress <= 0.26) {
-            rightTextOpacity = 1;
+        if (progress <= 0.08) {
+            // 跟随角色淡入
+            rightTextOpacity = mapRange(progress, 0.00, 0.08, 0, 1);
         } else if (progress <= 0.30) {
-            rightTextOpacity = mapRange(progress, 0.26, 0.30, 1, 0);
+            // 角色跑到中间前保持显示
+            rightTextOpacity = 1;
+        } else if (progress <= 0.42) {
+            // 角色跑出时文本淡出（在角色完全消失前）
+            rightTextOpacity = mapRange(progress, 0.40, 0.42, 1, 0);
         } else {
             rightTextOpacity = 0;
         }
@@ -1283,38 +1291,46 @@ function initTumorDeepDive() {
         // ========== boyill 动画（中间，右→左）==========
         let boyillX, boyillOpacity;
         
-        if (progress <= 0.30) {
+        if (progress <= 0.28) {
+            // 完全不可见
             boyillX = 350;
             boyillOpacity = 0;
-        } else if (progress <= 0.34) {
+        } else if (progress <= 0.36) {
+            // 淡入阶段：0.28-0.36（与 runboy 后半段重叠）
             boyillX = 350;
-            boyillOpacity = mapRange(progress, 0.30, 0.34, 0, 1);
+            boyillOpacity = mapRange(progress, 0.28, 0.36, 0, 1);
         } else if (progress <= 0.52) {
+            // 停顿阶段：0.36-0.52
             boyillX = 350;
             boyillOpacity = 1;
         } else if (progress <= 0.60) {
+            // 奔跑前半段：0.52-0.60（8% 进度跑 350px）
             const t = mapRange(progress, 0.52, 0.60, 0, 1);
-            boyillX = 350 - (350 * easeInOutCubic(t));
+            boyillX = 350 - (350 * easeInOutSine(t));
             boyillOpacity = 1;
-        } else if (progress <= 0.66) {
-            const t = mapRange(progress, 0.60, 0.66, 0, 1);
-            boyillX = 0 - (500 * easeInOutCubic(t));
-            boyillOpacity = mapRange(t, 0.0, 1.0, 1, 0);
+        } else if (progress <= 0.68) {
+            // 奔跑后半段 + 淡出：0.60-0.68（8% 进度跑 500px + 淡出）
+            const t = mapRange(progress, 0.60, 0.68, 0, 1);
+            boyillX = 0 - (500 * easeInOutSine(t));
+            boyillOpacity = t < 0.3 ? 1 : mapRange(t, 0.3, 1.0, 1, 0);
         } else {
             boyillX = -500;
             boyillOpacity = 0;
         }
         
-        // 左侧文本（boyill 的）
+        // 左侧文本（boyill 的）- 跟随角色
         let leftTextOpacity;
-        if (progress <= 0.30) {
+        if (progress <= 0.28) {
             leftTextOpacity = 0;
-        } else if (progress <= 0.34) {
-            leftTextOpacity = mapRange(progress, 0.30, 0.34, 0, 1);
-        } else if (progress <= 0.56) {
+        } else if (progress <= 0.36) {
+            // 跟随角色淡入
+            leftTextOpacity = mapRange(progress, 0.28, 0.36, 0, 1);
+        } else if (progress <= 0.58) {
+            // 角色跑到中间前保持显示
             leftTextOpacity = 1;
-        } else if (progress <= 0.60) {
-            leftTextOpacity = mapRange(progress, 0.56, 0.60, 1, 0);
+        } else if (progress <= 0.64) {
+            // 角色跑出时文本淡出
+            leftTextOpacity = mapRange(progress, 0.58, 0.64, 1, 0);
         } else {
             leftTextOpacity = 0;
         }
@@ -1322,23 +1338,28 @@ function initTumorDeepDive() {
         // ========== playboy 动画（下方，左→右）==========
         let playboyX, playboyOpacity;
         
-        if (progress <= 0.58) {
+        if (progress <= 0.56) {
+            // 完全不可见
             playboyX = -350;
             playboyOpacity = 0;
-        } else if (progress <= 0.62) {
+        } else if (progress <= 0.64) {
+            // 淡入阶段：0.56-0.64（与 boyill 后半段重叠）
             playboyX = -350;
-            playboyOpacity = mapRange(progress, 0.58, 0.62, 0, 1);
-        } else if (progress <= 0.82) {
+            playboyOpacity = mapRange(progress, 0.56, 0.64, 0, 1);
+        } else if (progress <= 0.80) {
+            // 停顿阶段：0.64-0.80
             playboyX = -350;
             playboyOpacity = 1;
         } else if (progress <= 0.88) {
-            const t = mapRange(progress, 0.82, 0.88, 0, 1);
-            playboyX = -350 + (350 * easeInOutCubic(t));
+            // 奔跑前半段：0.80-0.88（8% 进度跑 350px）
+            const t = mapRange(progress, 0.80, 0.88, 0, 1);
+            playboyX = -350 + (350 * easeInOutSine(t));
             playboyOpacity = 1;
-        } else if (progress <= 0.94) {
-            const t = mapRange(progress, 0.88, 0.94, 0, 1);
-            playboyX = 0 + (500 * easeInOutCubic(t));
-            playboyOpacity = mapRange(t, 0.0, 1.0, 1, 0);
+        } else if (progress <= 0.96) {
+            // 奔跑后半段 + 淡出：0.88-0.96（8% 进度跑 500px + 淡出）
+            const t = mapRange(progress, 0.88, 0.96, 0, 1);
+            playboyX = 0 + (500 * easeInOutSine(t));
+            playboyOpacity = t < 0.3 ? 1 : mapRange(t, 0.3, 1.0, 1, 0);
         } else {
             playboyX = 500;
             playboyOpacity = 0;
@@ -1346,14 +1367,17 @@ function initTumorDeepDive() {
         
         // playboy 的右侧文本
         let rightBottomTextOpacity;
-        if (progress <= 0.58) {
+        if (progress <= 0.56) {
             rightBottomTextOpacity = 0;
-        } else if (progress <= 0.62) {
-            rightBottomTextOpacity = mapRange(progress, 0.58, 0.62, 0, 1);
+        } else if (progress <= 0.64) {
+            // 跟随角色淡入
+            rightBottomTextOpacity = mapRange(progress, 0.56, 0.64, 0, 1);
         } else if (progress <= 0.86) {
+            // 角色跑到中间前保持显示
             rightBottomTextOpacity = 1;
-        } else if (progress <= 0.88) {
-            rightBottomTextOpacity = mapRange(progress, 0.86, 0.88, 1, 0);
+        } else if (progress <= 0.92) {
+            // 角色跑出时文本淡出
+            rightBottomTextOpacity = mapRange(progress, 0.86, 0.92, 1, 0);
         } else {
             rightBottomTextOpacity = 0;
         }
@@ -1389,7 +1413,7 @@ function initTumorDeepDive() {
     
     update();
     
-    console.log('✅ 肿瘤深度解读动画已就绪（三人从容版 + 150vh + 提前展示）');
+    console.log('✅ 肿瘤深度解读动画已就绪（优化平滑版）');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1397,7 +1421,108 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// ===================== 15. 全局遮罩：过渡页位置镂空 =====================
+// ==================== 15. 罕见病深度故事页 - 视口进入动画（可重复播放） ====================
+function initRareStory() {
+    const section = document.getElementById('rare-story');
+    if (!section) return;
+
+    const introText = document.getElementById('storyIntroText');
+    const caseWrapper = document.getElementById('storyCaseWrapper');
+    const imageContainer = document.getElementById('storyImageContainer');
+    const textContainer = document.getElementById('storyTextContainer');
+    const conclusion = document.getElementById('storyConclusion');
+
+    if (!introText || !caseWrapper || !imageContainer || !textContainer || !conclusion) return;
+
+    // 状态追踪 - 记录当前是否在视口内
+    let introInView = false;
+    let caseInView = false;
+    let conclusionInView = false;
+
+    /**
+     * 检查元素是否进入视口
+     */
+    function isInViewport(el, threshold = 0.3) {
+        const rect = el.getBoundingClientRect();
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        return rect.top < windowHeight * (1 - threshold) && rect.bottom > windowHeight * threshold;
+    }
+
+    function update() {
+        // ========== 阶段1：引导文字 ==========
+        const introNowInView = isInViewport(introText, 0.3);
+        if (introNowInView && !introInView) {
+            // 刚进入视口 → 播放动画
+            introText.classList.add('visible');
+        } else if (!introNowInView && introInView) {
+            // 刚离开视口 → 移除动画类，下次进入重新播放
+            introText.classList.remove('visible');
+        }
+        introInView = introNowInView;
+
+        // ========== 阶段2：图片+文字 ==========
+        const caseNowInView = isInViewport(caseWrapper, 0.25);
+        if (caseNowInView && !caseInView) {
+            // 刚进入视口 → 重置并播放动画
+            imageContainer.classList.remove('slide-in');
+            textContainer.classList.remove('fade-in');
+            caseWrapper.classList.add('visible');
+            
+            // 强制回流后播放动画
+            void imageContainer.offsetWidth;
+            
+            setTimeout(() => {
+                imageContainer.classList.add('slide-in');
+            }, 100);
+            setTimeout(() => {
+                textContainer.classList.add('fade-in');
+            }, 400);
+        } else if (!caseNowInView && caseInView) {
+            // 刚离开视口 → 隐藏
+            caseWrapper.classList.remove('visible');
+        }
+        caseInView = caseNowInView;
+
+        // ========== 阶段3：总结文字 ==========
+        const conclusionNowInView = isInViewport(conclusion, 0.3);
+        if (conclusionNowInView && !conclusionInView) {
+            // 刚进入视口 → 播放动画
+            conclusion.classList.add('visible');
+        } else if (!conclusionNowInView && conclusionInView) {
+            // 刚离开视口 → 移除动画类，下次进入重新播放
+            conclusion.classList.remove('visible');
+        }
+        conclusionInView = conclusionNowInView;
+    }
+
+    let ticking = false;
+
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                update();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // 初始检查
+    update();
+
+    console.log('✅ 罕见病深度故事页已就绪（视口触发模式，动画可重复播放）');
+}
+
+// 在 DOMContentLoaded 中初始化
+document.addEventListener('DOMContentLoaded', () => {
+    initRareStory();
+});
+
+
+
+// ===================== 16. 全局遮罩：过渡页位置镂空 =====================
 function updateGlobalOverlay() {
     const overlay = document.querySelector('.global-overlay');
     if (!overlay) return;
@@ -1455,7 +1580,128 @@ window.addEventListener('scroll', () => {
 // 初始调用
 updateGlobalOverlay();
 
-// ===================== 16. 初始化完成日志 =====================
+// ===================== 17. 交互提示条逻辑 =====================
+function initInteractHintBar() {
+    const hintBar = document.getElementById('interactHintBar');
+    if (!hintBar) return;
+
+    // 需要显示提示的交互式板块
+    const interactiveSections = [
+        {
+            selector: '.line-bar-chart-section',  // 折线柱状双轴图表
+            hintText: '试试<span class="interact-hint-action">悬停</span>查看年度数据详情'
+        },
+        {
+            selector: '.chart-section',          // 肿瘤环形图 + 迷你柱状图
+            hintText: '试试<span class="interact-hint-action">悬停</span>图表查看详情'
+        },
+        {
+            selector: '.chronic-chart-section',  // 慢性病柱状图
+            hintText: '试试<span class="interact-hint-action">悬停</span>圆球查看详情'
+        },
+       // {
+           // selector: '.map-section',            // 地图点位
+           // hintText: '试试<span class="interact-hint-action">点击</span>蓝色圆点查看省份数据'
+       // }
+    ];
+
+    let currentHintText = '';
+    let hintVisible = false;
+    let hideTimer = null;
+
+    function showHint(text) {
+        if (hintVisible && currentHintText === text) return;
+        
+        currentHintText = text;
+        hintVisible = true;
+        
+        // 更新提示文字
+        const textSpan = hintBar.querySelector('.interact-hint-text');
+        if (textSpan) {
+            textSpan.innerHTML = text;
+        }
+        
+        hintBar.classList.add('show');
+        
+        // 5秒后自动隐藏
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(() => {
+            hideHint();
+        }, 2000);
+    }
+
+    function hideHint() {
+        hintBar.classList.remove('show');
+        hintVisible = false;
+        currentHintText = '';
+        clearTimeout(hideTimer);
+    }
+
+    // 使用 IntersectionObserver 检测交互式板块
+    const observerOptions = {
+        threshold: 0.3,
+        rootMargin: '-80px 0px 0px 0px'  // 顶部留出提示条的空间
+    };
+
+    interactiveSections.forEach(({ selector, hintText }) => {
+        const section = document.querySelector(selector);
+        if (!section) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    showHint(hintText);
+                }
+            });
+        }, observerOptions);
+
+        observer.observe(section);
+    });
+
+    // 当所有交互式板块都离开视口时隐藏提示
+    const allSections = interactiveSections
+        .map(s => document.querySelector(s.selector))
+        .filter(Boolean);
+
+    if (allSections.length > 0) {
+        const hideObserver = new IntersectionObserver((entries) => {
+            const anyVisible = entries.some(e => e.isIntersecting);
+            if (!anyVisible && hintVisible) {
+                hideHint();
+            }
+        }, { threshold: 0.1 });
+
+        allSections.forEach(section => {
+            hideObserver.observe(section);
+        });
+    }
+
+    // 用户主动滚动时也隐藏
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        if (hintVisible) {
+            scrollTimeout = setTimeout(() => {
+                hideHint();
+            }, 2000);
+        }
+    }, { passive: true });
+
+    console.log('✅ 交互提示条已就绪');
+}
+
+// 在 DOMContentLoaded 中初始化
+document.addEventListener('DOMContentLoaded', () => {
+    initInteractHintBar();
+});
+
+
+// 在 DOMContentLoaded 中初始化
+document.addEventListener('DOMContentLoaded', () => {
+    initInteractHintBar();
+});
+
+// ===================== 18. 初始化完成日志 =====================
 console.log('✅ 医保目录人群地图 - 已就绪');
 console.log('📊 图表将在滚动到对应区域时自动加载');
 console.log('🗺️ 点击地图上的蓝色圆点查看省份数据');
