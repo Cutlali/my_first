@@ -1981,6 +1981,492 @@ section {
     padding-top: 10px;
 }
 
+/* ==================== 慢性病故事页 ==================== */
+.chronic-story-section {
+    position: relative;
+    width: 100%;
+    min-height: auto;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    padding: 0 5%;
+}
+
+.chronic-story-container {
+    max-width: 900px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 40vh;
+    padding: 20vh 0;
+}
+
+/* 每个阶段 */
+.chronic-story-phase {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    
+    /* ========== 新增：橙黄色毛玻璃底板 ========== */
+    background: rgba(255, 243, 224, 0.65);  /* 暖橙色半透明底 */
+    backdrop-filter: blur(20px);             /* 毛玻璃模糊 */
+    -webkit-backdrop-filter: blur(20px);     /* Safari 兼容 */
+    border-radius: 24px;                     /* 圆角 */
+    padding: 40px 36px;                      /* 内边距 */
+    border: 1px solid rgba(230, 126, 34, 0.25);  /* 橙色描边 */
+    box-shadow: 0 8px 32px rgba(230, 126, 34, 0.1); /* 柔和阴影 */
+}
+
+.chronic-story-phase.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 文本样式 */
+.chronic-story-text {
+    max-width: 650px;
+    text-align: center;
+}
+
+.chronic-story-label {
+    font-family: "Inter", "Noto Sans SC", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #e67e22;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+.chronic-story-quote {
+    font-family: "Noto Serif SC", "PingFang SC", serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.chronic-story-quote-inline {
+    font-family: "Noto Serif SC", "PingFang SC", serif;
+    font-style: italic;
+    color: #c0392b;
+}
+
+.chronic-story-desc {
+    font-family: "Noto Serif SC", "PingFang SC", sans-serif;
+    font-size: 1.05rem;
+    color: #444;
+    line-height: 2;
+    margin-bottom: 12px;
+}
+
+/* 温暖高亮 */
+.highlight-warm {
+    color: #c0392b;
+    font-weight: 700;
+    background: linear-gradient(180deg, transparent 58%, rgba(230, 126, 34, 0.2) 58%);
+    padding: 0 4px;
+    white-space: nowrap;
+}
+
+/* 图片 */
+.chronic-story-visual {
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 16 / 9;  /* 添加宽高比，防止塌陷 */
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    background: #f0f0f0;  /* 添加背景色，方便看到容器 */
+}
+
+
+.chronic-story-img {
+    width: 100%;
+    display: block;
+}
+
+/* 药费卡片 */
+.chronic-price-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 24px 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(231, 76, 60, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.chronic-price-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+}
+
+.chronic-price-label {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.chronic-price-value {
+    font-family: "DM Serif Display", serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #c0392b;
+}
+
+.chronic-price-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 8px;
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 1rem;
+    color: #333;
+}
+
+.chronic-total-value {
+    font-family: "DM Serif Display", serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #c0392b;
+}
+/* ==================== 药品展示卡片 ==================== */
+.chronic-medicine-showcase {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 500px;
+    width: 100%;
+}
+
+.medicine-card {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 160px;
+    max-width: 200px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.medicine-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.medicine-img-wrapper {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.medicine-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.medicine-card:hover .medicine-img {
+    transform: scale(1.05);
+}
+
+.medicine-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.medicine-name {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a2e;
+    letter-spacing: 1px;
+}
+
+.medicine-type {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 0.8rem;
+    color: #999;
+    letter-spacing: 2px;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .chronic-medicine-showcase {
+        gap: 16px;
+    }
+    
+    .medicine-card {
+        min-width: 130px;
+        max-width: 160px;
+        padding: 12px;
+    }
+    
+    .medicine-name {
+        font-size: 0.9rem;
+    }
+    
+    .medicine-type {
+        font-size: 0.7rem;
+    }
+}
+/* ==================== 阶段4：老人肖像 + 引用气泡 ==================== */
+.chronic-elderly-portrait {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    max-width: 600px;
+    width: 100%;
+    justify-content: center;
+}
+
+.elderly-img-wrapper {
+    flex-shrink: 0;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    border: 4px solid #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.elderly-img-wrapper:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18);
+}
+
+.elderly-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 引用气泡 */
+.elderly-quote-bubble {
+    position: relative;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(230, 126, 34, 0.3);
+    max-width: 340px;
+}
+
+/* 气泡小三角 */
+.elderly-quote-bubble::before {
+    content: '';
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 12px solid rgba(255, 255, 255, 0.9);
+}
+
+.elderly-quote-bubble p {
+    font-family: "Noto Serif SC", "PingFang SC", serif;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c2c3a;
+    line-height: 1.8;
+    margin: 0;
+    font-style: italic;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .chronic-elderly-portrait {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .elderly-img-wrapper {
+        width: 120px;
+        height: 120px;
+    }
+    
+    /* 小三角改为朝上 */
+    .elderly-quote-bubble::before {
+        left: 50%;
+        top: -12px;
+        transform: translateX(-50%);
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 12px solid rgba(255, 255, 255, 0.9);
+        border-top: none;
+    }
+    
+    .elderly-quote-bubble p {
+        font-size: 1rem;
+        text-align: center;
+    }
+}
+
+/* 价格对比 */
+.chronic-price-compare {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(15px);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(39, 174, 96, 0.3);
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.compare-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.compare-before,
+.compare-after {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    flex: 1;
+}
+
+.compare-drug {
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.compare-price {
+    font-family: "DM Serif Display", serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.compare-price.old {
+    color: #c0392b;
+    text-decoration: line-through;
+    text-decoration-thickness: 2px;
+}
+
+.compare-price.new {
+    color: #27ae60;
+    font-size: 2rem;
+}
+
+.compare-arrow {
+    color: #27ae60;
+    flex-shrink: 0;
+}
+
+.compare-arrow svg {
+    width: 36px;
+    height: 20px;
+}
+
+.compare-result {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 2px solid rgba(39, 174, 96, 0.3);
+    font-family: "Noto Sans SC", sans-serif;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.result-value {
+    font-family: "DM Serif Display", serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #27ae60;
+}
+
+/* 结论文字 */
+.chronic-story-conclusion {
+    text-align: center;
+}
+
+.chronic-story-conclusion p {
+    font-family: "Noto Serif SC", "PingFang SC", serif;
+    font-size: 1.2rem;
+    line-height: 2.2;
+    color: #2c2c3a;
+    margin-bottom: 1rem;
+}
+
+.chronic-story-ending {
+    font-size: 1.4rem !important;
+    font-weight: 700;
+    color: #1a1a2e !important;
+    margin-top: 30px;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .chronic-story-container {
+        gap: 30vh;
+        padding: 15vh 0;
+    }
+    
+    .chronic-story-quote {
+        font-size: 1.2rem;
+    }
+    
+    .chronic-story-desc {
+        font-size: 0.95rem;
+    }
+    
+    .compare-price {
+        font-size: 1.3rem;
+    }
+    
+    .compare-price.new {
+        font-size: 1.6rem;
+    }
+    
+    .result-value {
+        font-size: 1.6rem;
+    }
+}
 
 
 /* ========== 地图板块 + 点位 + 弹窗 ========== */
