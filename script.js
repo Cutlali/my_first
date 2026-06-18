@@ -1520,6 +1520,42 @@ document.addEventListener('DOMContentLoaded', () => {
     initRareStory();
 });
 
+// ===================== 19. 慢性病故事页 - 视口触发动画 =====================
+function initChronicStory() {
+    const section = document.getElementById('chronic-story');
+    if (!section) return;
+
+    const phases = section.querySelectorAll('.chronic-story-phase');
+    if (!phases.length) return;
+
+    // 为每个阶段创建观察器
+    phases.forEach((phase, index) => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // 进入视口 → 播放动画
+                    phase.classList.add('visible');
+                } else {
+                    // 离开视口 → 移除类，下次进入重新播放
+                    phase.classList.remove('visible');
+                }
+            });
+        }, { 
+            threshold: 0.25,
+            rootMargin: '-50px 0px'
+        });
+
+        observer.observe(phase);
+    });
+
+   console.log('✅ 慢性病故事页已就绪（4阶段视口触发动画）');
+
+}
+
+// 在 DOMContentLoaded 中初始化
+document.addEventListener('DOMContentLoaded', () => {
+    initChronicStory();
+});
 
 
 // ===================== 16. 全局遮罩：过渡页位置镂空 =====================
@@ -1695,11 +1731,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initInteractHintBar();
 });
 
-
-// 在 DOMContentLoaded 中初始化
-document.addEventListener('DOMContentLoaded', () => {
-    initInteractHintBar();
-});
 
 // ===================== 18. 初始化完成日志 =====================
 console.log('✅ 医保目录人群地图 - 已就绪');
