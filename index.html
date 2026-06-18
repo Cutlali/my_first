@@ -46,8 +46,11 @@
     <div class="nav-dot" data-target="tumor-deep-dive"></div>
     <div class="nav-dot" data-target="rare-transition"></div>
     <div class="nav-dot" data-target="rare-disease-section"></div>
+    <div class="nav-dot" data-target="rare-story"></div> 
     <div class="nav-dot" data-target="chronic-transition"></div>
     <div class="nav-dot" data-target="chronic-chart-section"></div>
+    <div class="nav-dot" data-target="chronic-story"></div>
+    <div class="nav-dot" data-target="map-transition"></div>
     <div class="nav-dot" data-target="map-section"></div>
     <div class="nav-dot" data-target="stories"></div>
     <div class="nav-dot" data-target="conclusion"></div>
@@ -559,6 +562,160 @@
     </div>
 </section>
 
+<!-- ==================== 慢性病故事页 - 王大爷的故事 ==================== -->
+<section class="chronic-story-section fade-in" id="chronic-story">
+    <div class="chronic-story-container">
+
+        <!-- 阶段1：引入 - 日常生活 -->
+        <div class="chronic-story-phase" id="chronicPhase1">
+            <div class="chronic-story-text">
+                <h3 class="chronic-story-label">天津 · 北辰区</h3>
+                <p class="chronic-story-quote">"以前是'吃药怕花钱'，现在是'花钱买安心'"</p>
+                <p class="chronic-story-desc">
+                    在天津北辰区的一个老小区里，<span class="highlight-warm">72岁的王大爷</span>每天清晨都会去菜市场买菜，和邻居们聊家常。谁能想到，五年前他因为<span class="highlight-warm">高血压并发症</span>，差点失去自理能力。
+                </p>
+            </div>
+            <div class="chronic-story-visual">
+                <img src="images/old-community.jpg" alt="老小区" class="chronic-story-img">
+            </div>
+        </div>
+
+        <!-- 阶段2：困境 - 药费负担 -->
+        <div class="chronic-story-phase" id="chronicPhase2">
+            <div class="chronic-story-text">
+                <h3 class="chronic-story-label">药费之困</h3>
+                <p class="chronic-story-desc">
+                    那时，他每月要吃<span class="highlight-warm">三种降压药</span>，加上降脂药，<span class="highlight-warm">自费部分就要800多元</span>。作为退休工人，每月退休金4000元，药费占了近<span class="highlight-warm">五分之一</span>。
+                </p>
+                <p class="chronic-story-desc">
+                    为了省钱，他常常<span class="highlight-warm">隔天吃药</span>，血压控制得时好时坏。去年冬天还因为头晕摔了一跤，住了半个月医院。
+                </p>
+            </div>
+
+            <div class="chronic-medicine-showcase">
+                <div class="medicine-card">
+                    <div class="medicine-img-wrapper">
+                        <img src="images/amlodipine.jpg" alt="氨氯地平" class="medicine-img">
+                    </div>
+                    <div class="medicine-info">
+                        <span class="medicine-name">氨氯地平</span>
+                        <span class="medicine-type">降压药</span>
+                    </div>
+                </div>
+                <div class="medicine-card">
+                    <div class="medicine-img-wrapper">
+                        <img src="images/atorvastatin.jpg" alt="阿托伐他汀" class="medicine-img">
+                    </div>
+                    <div class="medicine-info">
+                        <span class="medicine-name">阿托伐他汀</span>
+                        <span class="medicine-type">降脂药</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chronic-price-card" id="chronicPriceCard">
+                <div class="chronic-price-item old-price-item">
+                    <span class="chronic-price-label">氨氯地平（旧）</span>
+                    <span class="chronic-price-value">28元/盒</span>
+                </div>
+                <div class="chronic-price-item old-price-item">
+                    <span class="chronic-price-label">阿托伐他汀（旧）</span>
+                    <span class="chronic-price-value">45元/盒</span>
+                </div>
+                <div class="chronic-price-total">
+                    <span>每月自付</span>
+                    <span class="chronic-total-value">800+ 元</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 阶段3：转机 - 集采降价 -->
+        <div class="chronic-story-phase" id="chronicPhase3">
+            <div class="chronic-story-text">
+                <h3 class="chronic-story-label">转机 · 2025年底</h3>
+                <p class="chronic-story-desc">
+                    国家<span class="highlight-warm">第十一批药品集采</span>落地，加上天津职工医保在社区医院<span class="highlight-warm">90%的报销比例</span>，一切都变了。
+                </p>
+            </div>
+            <div class="chronic-price-compare" id="chronicPriceCompare">
+                <div class="compare-row">
+                    <div class="compare-before">
+                        <span class="compare-drug">氨氯地平</span>
+                        <span class="compare-price old">28元</span>
+                    </div>
+                    <div class="compare-arrow">
+                        <svg viewBox="0 0 40 24"><path d="M0 12h34M26 4l10 8-10 8" stroke="currentColor" stroke-width="2.5" fill="none"/></svg>
+                    </div>
+                    <div class="compare-after">
+                        <span class="compare-drug">氨氯地平</span>
+                        <span class="compare-price new">3元</span>
+                    </div>
+                </div>
+                <div class="compare-row">
+                    <div class="compare-before">
+                        <span class="compare-drug">阿托伐他汀</span>
+                        <span class="compare-price old">45元</span>
+                    </div>
+                    <div class="compare-arrow">
+                        <svg viewBox="0 0 40 24"><path d="M0 12h34M26 4l10 8-10 8" stroke="currentColor" stroke-width="2.5" fill="none"/></svg>
+                    </div>
+                    <div class="compare-after">
+                        <span class="compare-drug">阿托伐他汀</span>
+                        <span class="compare-price new">8元</span>
+                    </div>
+                </div>
+                <div class="compare-result">
+                    <span>现在每月自付</span>
+                    <span class="result-value">不到 50元</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 阶段4：新生 + 升华 -->
+        <div class="chronic-story-phase" id="chronicPhase4">
+            <div class="chronic-story-text">
+                <h3 class="chronic-story-label">日子越过越有奔头</h3>
+                <p class="chronic-story-desc">
+                    今年春天，他不仅停了第三种降压药，还能每天去<span class="highlight-warm">海河教育园散步</span>。
+                </p>
+            </div>
+
+            <div class="chronic-elderly-portrait">
+                <div class="elderly-img-wrapper">
+                    <img src="images/elderly-smile.jpg" alt="王大爷笑着说" class="elderly-img">
+                </div>
+                <div class="elderly-quote-bubble">
+                    <p>"以前是'吃药怕花钱'，<br>现在是'花钱买安心'，<br>日子越过越有奔头。"</p>
+                </div>
+            </div>
+
+            <div class="chronic-story-text chronic-story-conclusion">
+                <p>
+                    王大爷的故事，是<span class="highlight-warm">3亿中国慢性病患者</span>的共同经历。
+                </p>
+                <p>
+                    高血压、糖尿病、冠心病……这些需要长期服药的疾病，曾让无数家庭陷入<span class="highlight-warm">"药费焦虑"</span>。
+                </p>
+                <p>
+                    但随着<span class="highlight-warm">2026年医保新政</span>的落地——门诊慢特病全国统一认定、长处方一次开3个月、集采药价格降幅超50%，慢性病用药正在从<span class="highlight-warm">"负担"变成"保障"</span>。
+                </p>
+                <p class="chronic-story-ending">
+                    医保传递的不只是价格，更是<span class="highlight-warm">温度</span>——让"病有所医"从口号变成触手可及的现实。
+                </p>
+            </div>
+        </div>
+
+    </div>  <!-- ← 补上这个！chronic-story-container 闭合 -->
+</section>
+
+<!-- 地图过渡页 -->
+<section class="disease-transition fade-in" id="map-transition">
+    <div class="transition-content">
+        <h1 class="transition-title">落地有声——医保在全国</h1>
+        <p class="transition-subtitle">从国家目录到地方执行，每一省都在行动</p>
+    </div>
+</section>
+
 
     <!-- 6. 人群地图页 -->
     <section class="map-section fade-in">
@@ -599,7 +756,7 @@
     <!-- 8. 结语页 -->
     <section class="conclusion fade-in">
         <h2>8年医保，聚光灯下，是亿万普通人的健康与尊严</h2>
-        <p class="summary">835种药 · 8.85亿人次 · 9300亿元减负</p>
+        <p class="summary">949种药 · 4600亿医保支出 · 9300亿元减负</p>
         <p class="ending">医保，让每一份期待都不被辜负</p>
     </section>
 
