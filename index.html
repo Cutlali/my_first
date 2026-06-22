@@ -53,6 +53,8 @@
     <div class="nav-dot" data-target="map-transition"></div>
     <div class="nav-dot" data-target="map-section"></div>
     <div class="nav-dot" data-target="stories"></div>
+    <div class="nav-dot" data-target="unseen-transition"></div>
+    <div class="nav-dot" data-target="policy-timeline"></div>
     <div class="nav-dot" data-target="conclusion"></div>
 </div>
 
@@ -752,6 +754,303 @@
             </div>
         </div>
     </section>
+
+
+<!-- 未被看见过渡页 -->
+<section class="disease-transition fade-in" id="unseen-transition">
+    <div class="transition-content">
+        <h1 class="transition-title">未被看见——聚光灯之外</h1>
+        <p class="transition-subtitle">医保的边界仍在扩展，还有人在等待那一束光</p>
+    </div>
+</section>
+
+<!-- ==================== 未被看见详情页 ==================== -->
+<section id="section6" class="section section-6">
+    <div class="section6-container">
+        
+        <!-- 标题 -->
+        <div class="section6-header">
+            <h2 class="section6-title">谁还没被看见</h2>
+            <p class="section6-subtitle">商保目录与CAR-T</p>
+        </div>
+
+       <!-- ========== 层次1：双目录关系图（大圆球） ========== -->
+<div class="dual-catalog">
+    <div class="catalog-circle catalog-basic">
+        <div class="catalog-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="24" r="22" stroke="#4a90e2" stroke-width="2.5" fill="none"/>
+                <path d="M24 12v24M12 24h24" stroke="#4a90e2" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <div class="catalog-label">国家医保目录</div>
+        <div class="catalog-desc">基础保障 · 广覆盖</div>
+        <div class="catalog-items">
+            <span>PD-1抑制剂</span>
+            <span>化疗药物</span>
+            <span>靶向药</span>
+        </div>
+    </div>
+    
+    <div class="catalog-connector">
+        <svg viewBox="0 0 140 60">
+            <path d="M10,30 Q70,10 130,30" stroke="#e8553d" stroke-width="2" fill="none" stroke-dasharray="6,3"/>
+            <circle cx="70" cy="20" r="4" fill="#e8553d"/>
+        </svg>
+        <span class="connector-text">尚未覆盖</span>
+    </div>
+    
+    <div class="catalog-circle catalog-commercial">
+        <div class="catalog-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                <circle cx="24" cy="24" r="22" stroke="#e8553d" stroke-width="2.5" fill="none"/>
+                <circle cx="24" cy="24" r="8" fill="#e8553d" opacity="0.3"/>
+                <circle cx="24" cy="24" r="4" fill="#e8553d"/>
+            </svg>
+        </div>
+        <div class="catalog-label">商业保险目录</div>
+        <div class="catalog-desc">补充保障 · 高价值</div>
+        <div class="catalog-items">
+            <span class="highlight">CAR-T疗法</span>
+            <span>质子重离子</span>
+            <span>罕见病用药</span>
+        </div>
+    </div>
+</div>
+
+<!-- ✅ 新增：说明文本 -->
+<div class="catalog-insight">
+    <div class="insight-line"></div>
+    <p class="insight-text">
+        <span class="insight-keyword">谁还没被看见？</span>
+        当<span class="insight-em">120万元一针的CAR-T</span>被挡在医保目录之外，
+        当<span class="insight-em">"三除外"政策</span>让高价创新药成为保障盲区——
+        <strong>商保目录与CAR-T中心</strong>，正在为这些"看不见"的患者，
+        搭建一座从绝望到希望的桥梁。
+    </p>
+    <div class="insight-line"></div>
+</div>
+
+
+       <!-- ========== 层次2：价格对比 ========== -->
+<div class="price-compare">
+    <h3 class="layer-title">价格对比</h3>
+    <div class="compare-chart-wrapper">
+        <div class="compare-chart">
+            <!-- PD-1 柱 -->
+            <div class="bar-group">
+                <div class="bar-label">PD-1抑制剂</div>
+                <div class="bar-container">
+                    <div class="bar bar-pd1" data-target-height="80">
+                        <span class="bar-value">≈6.8万/年</span>
+                    </div>
+                </div>
+                <div class="bar-tag">医保报销后</div>
+            </div>
+
+            <!-- 中间倍数区 -->
+            <div class="compare-middle">
+                <div class="multiplier-line"></div>
+                <div class="multiplier-badge">15-19倍</div>
+                <div class="multiplier-line"></div>
+            </div>
+
+            <!-- CAR-T 柱 -->
+            <div class="bar-group">
+                <div class="bar-label">CAR-T疗法</div>
+                <div class="bar-container">
+                    <div class="bar bar-cart" data-target-height="260">
+                        <span class="bar-value">99.9-129万/针</span>
+                    </div>
+                </div>
+                <div class="bar-tag highlight">需自费/商保</div>
+            </div>
+        </div>
+    </div>
+    <!-- 底部解说 -->
+    <p class="compare-note">PD-1抑制剂经医保报销后年自付约<strong>6.8万元</strong>，而CAR-T单针费用高达<strong>99.9万-129万元</strong>，且需完全自费，费用相差悬殊。</p>
+</div>
+
+        <!-- ========== 层次3：5款CAR-T气泡图（点击弹图片+简介） ========== -->
+        <div class="cart-bubbles">
+            <h3 class="layer-title">5款CAR-T产品</h3>
+            <p class="layer-subtitle">点击气泡查看详情</p>
+            <div class="bubble-chart" id="bubbleChart">
+                <!-- 气泡由JS动态生成 -->
+            </div>
+        </div>
+
+        <!-- ========== 层次4：三除外政策 ========== -->
+        <div class="policy-three-except">
+            <h3 class="layer-title">商保目录意义</h3>
+            <p class="layer-subtitle">"三除外"政策支持</p>
+            <div class="except-cards">
+                <div class="except-card">
+                    <div class="except-icon">①</div>
+                    <div class="except-title">除外药品</div>
+                    <div class="except-desc">医保目录外的高值创新药，可通过商保目录纳入保障范围</div>
+                </div>
+                <div class="except-card">
+                    <div class="except-icon">②</div>
+                    <div class="except-title">除外诊疗</div>
+                    <div class="except-desc">前沿诊疗技术（如CAR-T、基因治疗）不受医保限制</div>
+                </div>
+                <div class="except-card">
+                    <div class="except-icon">③</div>
+                    <div class="except-title">除外服务</div>
+                    <div class="except-desc">特需医疗、国际部等高端服务由商保覆盖</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== 层次5：患者故事卡片 ========== -->
+        <div class="patient-stories">
+            <h3 class="layer-title">他们被看见了</h3>
+            <div class="story-cards">
+                <div class="story-card">
+                    <div class="story-quote">"</div>
+                    <div class="story-content">
+                        <p>确诊弥漫大B细胞淋巴瘤后，医生建议使用CAR-T治疗。120万一针的费用让我绝望，但幸好我参加了<strong>西湖益联保</strong>，年缴仅<strong>150元</strong>，最终赔付了<strong>50万元</strong>。</p>
+                    </div>
+                    <div class="story-author">
+                        <span class="author-name">张先生</span>
+                        <span class="author-location">杭州</span>
+                    </div>
+                    <div class="story-tag">年缴150元 → 赔付50万</div>
+                </div>
+                <div class="story-card">
+                    <div class="story-quote">"</div>
+                    <div class="story-content">
+                        <p>CAR-T治疗让我重获新生。<strong>沪惠保</strong>年缴<strong>129元</strong>，为我报销了<strong>50万元</strong>的CAR-T费用。没有商保，我根本用不起这个药。</p>
+                    </div>
+                    <div class="story-author">
+                        <span class="author-name">上海某患者</span>
+                        <span class="author-location">上海</span>
+                    </div>
+                    <div class="story-tag">年缴129元 → 赔付50万</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- 气泡点击弹窗 -->
+<div class="bubble-modal" id="bubbleModal">
+    <div class="bubble-modal-overlay"></div>
+    <div class="bubble-modal-content">
+        <button class="bubble-modal-close">×</button>
+        <div class="bubble-modal-image">
+            <img id="modalImage" src="" alt="CAR-T产品">
+        </div>
+        <div class="bubble-modal-info">
+            <h3 id="modalName"></h3>
+            <p id="modalCompany"></p>
+            <div class="bubble-modal-price" id="modalPrice"></div>
+            <div class="bubble-modal-detail">
+                <p><strong>适应症：</strong><span id="modalIndication"></span></p>
+                <p><strong>简介：</strong><span id="modalDesc"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 政策关键词演变时间轴 -->
+<section class="timeline-section fade-in" id="policy-timeline">
+    <div class="timeline-header">
+        <h1 class="timeline-title">政策关键词演变——五年，五个字</h1>
+        <p class="timeline-subtitle">从"急"到"双目录"，医保目录改革的逻辑在变，但方向始终如一</p>
+    </div>
+    
+    <div class="timeline-track">
+        <!-- 2020 - 右侧 -->
+        <div class="timeline-node right" data-year="2020">
+            <div class="timeline-dot">
+                <span class="keyword-badge">急</span>
+            </div>
+            <div class="timeline-card-wrapper">
+                <div class="timeline-card">
+                    <div class="card-arrow"></div>
+                    <div class="card-year">2020</div>
+                    <div class="card-keyword">急</div>
+                    <div class="card-divider"></div>
+                    <p class="card-text">疫情之下，目录调整"急事急办"</p>
+                    <p class="card-detail">新冠用药第一时间纳入医保，开创应急调整机制先例。当年调入药品中，抗疫相关药物占比显著提升。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 2021 - 左侧 -->
+        <div class="timeline-node left" data-year="2021">
+            <div class="timeline-dot">
+                <span class="keyword-badge">新</span>
+            </div>
+            <div class="timeline-card-wrapper">
+                <div class="timeline-card">
+                    <div class="card-arrow"></div>
+                    <div class="card-year">2021</div>
+                    <div class="card-keyword">新</div>
+                    <div class="card-divider"></div>
+                    <p class="card-text">新药审批加速，创新药跑步进医保</p>
+                    <p class="card-detail">218个药品调入目录，创新药从上市到进医保最快仅需数月。国产PD-1抑制剂等重磅新药集中纳入。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 2022 - 右侧 -->
+        <div class="timeline-node right" data-year="2022">
+            <div class="timeline-dot">
+                <span class="keyword-badge">倾</span>
+            </div>
+            <div class="timeline-card-wrapper">
+                <div class="timeline-card">
+                    <div class="card-arrow"></div>
+                    <div class="card-year">2022</div>
+                    <div class="card-keyword">倾</div>
+                    <div class="card-divider"></div>
+                    <p class="card-text">罕见病用药"倾斜"力度加大</p>
+                    <p class="card-detail">7种罕见病药当年纳入，覆盖法布雷病、SMA、地中海贫血等重大疾病。罕见病药物准入通道进一步拓宽。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 2023 - 左侧 -->
+        <div class="timeline-node left" data-year="2023">
+            <div class="timeline-dot">
+                <span class="keyword-badge">创新</span>
+            </div>
+            <div class="timeline-card-wrapper">
+                <div class="timeline-card">
+                    <div class="card-arrow"></div>
+                    <div class="card-year">2023</div>
+                    <div class="card-keyword">创新</div>
+                    <div class="card-divider"></div>
+                    <p class="card-text">23个创新药成功谈判，续约规则优化</p>
+                    <p class="card-detail">谈判成功率84.6%，续约规则从"一刀切"转向分类管理，鼓励药企持续创新投入。</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 2025 - 右侧 -->
+        <div class="timeline-node right" data-year="2025">
+            <div class="timeline-dot">
+                <span class="keyword-badge">双目录</span>
+            </div>
+            <div class="timeline-card-wrapper">
+                <div class="timeline-card">
+                    <div class="card-arrow"></div>
+                    <div class="card-year">2025</div>
+                    <div class="card-keyword">双目录</div>
+                    <div class="card-divider"></div>
+                    <p class="card-text">药品目录+诊疗项目目录并行</p>
+                    <p class="card-detail">保障从"药"延伸到"治"，构建更完整的医疗保障体系。诊疗项目目录首次与药品目录同步调整。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 
     <!-- 8. 结语页 -->
     <section class="conclusion fade-in">
