@@ -1557,8 +1557,391 @@ document.addEventListener('DOMContentLoaded', () => {
     initChronicStory();
 });
 
+// ==================== 板块6：气泡图 + 柱状图动画 + 弹窗 ====================
+(function() {
+    const bubbleChart = document.getElementById('bubbleChart');
+    const bubbleModal = document.getElementById('bubbleModal');
+    const modalImage = document.getElementById('modalImage');
+    const modalName = document.getElementById('modalName');
+    const modalCompany = document.getElementById('modalCompany');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalIndication = document.getElementById('modalIndication');
+    const modalDesc = document.getElementById('modalDesc');
 
-// ===================== 16. 全局遮罩：过渡页位置镂空 =====================
+    // ========== 5款CAR-T产品数据 ==========
+    const cartProducts = [
+        {
+            name: '奕凯达',
+            company: '复星凯特',
+            price: 120,
+            indication: '大B细胞淋巴瘤',
+            desc: '中国首款获批上市的CAR-T细胞治疗产品，用于治疗既往接受二线或以上系统性治疗后复发或难治性大B细胞淋巴瘤成人患者。',
+            color: '#e74c3c',
+            image: 'images/yikaida.jpg'
+        },
+        {
+            name: '倍诺达',
+            company: '药明巨诺',
+            price: 129,
+            indication: '大B细胞淋巴瘤',
+            desc: '靶向CD19的自体CAR-T细胞免疫治疗产品，用于治疗经过二线或以上系统性治疗后复发或难治性大B细胞淋巴瘤。',
+            color: '#e8553d',
+            image: 'images/beinuoda.jpg'
+        },
+        {
+            name: '福可苏',
+            company: '驯鹿生物',
+            price: 99.9,
+            indication: '多发性骨髓瘤',
+            desc: '全人源BCMA靶向CAR-T细胞治疗产品，用于治疗复发或难治性多发性骨髓瘤，是首款国产BCMA CAR-T产品。',
+            color: '#f39c12',
+            image: 'images/fukesu.jpg'
+        },
+        {
+            name: '源瑞达',
+            company: '合源生物',
+            price: 99.9,
+            indication: '急性淋巴细胞白血病',
+            desc: '靶向CD19的CAR-T产品，用于治疗成人复发或难治性B细胞急性淋巴细胞白血病，填补了该领域国产空白。',
+            color: '#3498db',
+            image: 'images/yuanruida.jpg'
+        },
+        {
+            name: '赛恺泽',
+            company: '科济药业',
+            price: 115,
+            indication: '多发性骨髓瘤',
+            desc: '全人源BCMA靶向CAR-T细胞治疗产品，用于治疗复发或难治性多发性骨髓瘤，具有独特的安全性优势。',
+            color: '#9b59b6',
+            image: 'images/saikaize.jpg'
+        }
+    ];
+
+    // ========== 生成气泡 ==========
+    if (bubbleChart) {
+        const minPrice = 99.9;
+        const maxPrice = 129;
+        const minSize = 110;
+        const maxSize = 155;
+
+        cartProducts.forEach((product, index) => {
+            const size = minSize + ((product.price - minPrice) / (maxPrice - minPrice)) * (maxSize - minSize);
+            
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            bubble.style.width = size + 'px';
+            bubble.style.height = size + 'px';
+            bubble.style.background = `radial-gradient(circle at 35% 35%, ${lightenColor(product.color, 35)}, ${product.color})`;
+            bubble.style.boxShadow = `0 8px 30px ${product.color}45`;
+            
+            bubble.innerHTML = `
+                <div class="bubble-name">${product.name}</div>
+                <div class="bubble-company">${product.company}</div>
+                <div class="bubble-price">${product.price}万</div>
+                <div class="bubble-indication">${product.indication}</div>
+            `;
+            
+            // 点击事件
+            bubble.addEventListener('click', () => {
+                openModal(product);
+            });
+            
+            bubbleChart.appendChild(bubble);
+        });
+    }
+
+    // ========== 弹窗逻辑 ==========
+    function openModal(product) {
+        if (!bubbleModal) return;
+        
+        // 填充数据
+        modalName.textContent = product.name;
+        modalCompany.textContent = product.company;
+        modalPrice.textContent = product.price + '万元/针';
+        modalIndication.textContent = product.indication;
+        modalDesc.textContent = product.desc;
+        
+        // 尝试加载图片，失败则显示占位
+        modalImage.src = product.image;
+        modalImage.onerror = function() {
+            modalImage.style.display = 'none';
+            // 显示占位文字
+            const parent = modalImage.parentElement;
+            if (!parent.querySelector('.no-image')) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'no-image';
+                placeholder.textContent = '📷 图片待添加：' + product.image;
+                placeholder.style.cssText = 'display:flex;align-items:center;justify-content:center;height:100%;color:#bbb;font-size:0.9rem;';
+                parent.appendChild(placeholder);
+            }
+        };
+        modalImage.onload = function() {
+            modalImage.style.display = 'block';
+            const placeholder = modalImage.parentElement.querySelector('.no-image');
+            if (placeholder) placeholder.remove();
+        };
+        
+        // 显示弹窗
+        bubbleModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        if (!bubbleModal) return;
+        bubbleModal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // 关闭按钮
+    const closeBtn = document.querySelector('.bubble-modal-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+    }
+
+    // 点击遮罩关闭
+    const overlay = document.querySelector('.bubble-modal-overlay');
+    if (overlay) {
+        overlay.addEventListener('click', closeModal);
+    }
+
+    // ESC关闭
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && bubbleModal && bubbleModal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    // ========== 颜色变亮辅助函数 ==========
+    function lightenColor(hex, percent) {
+        const num = parseInt(hex.replace('#', ''), 16);
+        const amt = Math.round(2.55 * percent);
+        const R = Math.min(255, (num >> 16) + amt);
+        const G = Math.min(255, ((num >> 8) & 0x00FF) + amt);
+        const B = Math.min(255, (num & 0x0000FF) + amt);
+        return `rgb(${R},${G},${B})`;
+    }
+
+    // ========== 柱状图从下往上生长动画 ==========
+    function animateBars() {
+        const bars = document.querySelectorAll('.bar[data-target-height]');
+        
+        console.log('找到柱状图数量:', bars.length);
+        
+        if (bars.length === 0) {
+            console.warn('未找到柱状图元素');
+            return;
+        }
+        
+        bars.forEach((bar, index) => {
+            const targetHeight = parseInt(bar.getAttribute('data-target-height'));
+            if (!targetHeight) return;
+            
+            setTimeout(() => {
+                bar.style.height = targetHeight + 'px';
+                bar.classList.add('animated');
+                console.log(`柱状图${index + 1}: 动画完成，高度=${targetHeight}px`);
+            }, index * 300);
+        });
+    }
+
+    // ========== 统一的动画触发逻辑 ==========
+    const section6 = document.getElementById('section6');
+    let animationsTriggered = false;
+
+    function triggerAllAnimations() {
+        if (animationsTriggered) return;
+        animationsTriggered = true;
+        
+        console.log('🎬 触发所有动画');
+        
+        // 1. 柱状图动画
+        animateBars();
+        
+        // 2. 卡片动画
+        const cards = section6.querySelectorAll('.except-card, .story-card');
+        console.log('找到卡片数量:', cards.length);
+        cards.forEach((card, i) => {
+            setTimeout(() => {
+                card.classList.add('revealed');
+                console.log(`卡片${i + 1}: revealed`);
+            }, i * 150 + 500);
+        });
+        
+        // 3. 气泡动画
+        const bubbles = section6.querySelectorAll('.bubble');
+        console.log('找到气泡数量:', bubbles.length);
+        bubbles.forEach((bubble, i) => {
+            setTimeout(() => {
+                bubble.classList.add('float-ready');
+                console.log(`气泡${i + 1}: float-ready`);
+            }, i * 120 + 600);
+        });
+    }
+
+    if (section6) {
+        // ===== 修复：使用更可靠的触发方式 =====
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animationsTriggered) {
+                    console.log('📌 IntersectionObserver 触发');
+                    triggerAllAnimations();
+                    // 触发后立即断开观察，避免重复触发
+                    observer.unobserve(section6);
+                }
+            });
+        }, {
+            threshold: 0.15,  // 降低阈值，更容易触发
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        observer.observe(section6);
+
+        // 页面加载后立即检查
+        function checkInitialVisibility() {
+            const rect = section6.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // 修复：更宽松的可见性判断
+            const isVisible = rect.top < windowHeight && rect.bottom > 0;
+            
+            console.log('初始检查:', {
+                top: rect.top,
+                bottom: rect.bottom,
+                windowHeight: windowHeight,
+                isVisible: isVisible,
+                triggered: animationsTriggered
+            });
+            
+            if (isVisible && !animationsTriggered) {
+                console.log('✅ 板块6初始可见，触发动画');
+                setTimeout(triggerAllAnimations, 300);
+            }
+        }
+
+        // 多种时机检查
+        if (document.readyState === 'complete') {
+            checkInitialVisibility();
+        } else {
+            window.addEventListener('load', checkInitialVisibility);
+        }
+        
+        // 额外保险：DOMContentLoaded 后也检查
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(checkInitialVisibility, 200);
+        });
+    }
+
+})();
+
+
+// ===================== 20. 政策关键词时间轴 - 滚动弹出徽章 + 点击弹出卡片 =====================
+function initPolicyTimeline() {
+    const section = document.getElementById('policy-timeline');
+    if (!section) return;
+
+    const nodes = section.querySelectorAll('.timeline-node');
+    if (!nodes.length) return;
+
+    // 当前打开的卡片
+    let activeCard = null;
+
+    // ========== 1. 滚动触发徽章弹出 ==========
+    nodes.forEach((node, index) => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // 进入视口 → 依次弹出徽章
+                    setTimeout(() => {
+                        node.classList.add('visible');
+                    }, index * 120);
+                } else {
+                    // 离开视口 → 隐藏徽章，关闭卡片
+                    node.classList.remove('visible');
+                    const cardWrapper = node.querySelector('.timeline-card-wrapper');
+                    if (cardWrapper) {
+                        cardWrapper.classList.remove('show');
+                    }
+                    const dot = node.querySelector('.timeline-dot');
+                    if (dot) {
+                        dot.classList.remove('active');
+                    }
+                }
+            });
+        }, { 
+            threshold: 0.25,
+            rootMargin: '-30px 0px'
+        });
+
+        observer.observe(node);
+    });
+
+    // ========== 2. 点击徽章弹出/关闭卡片 ==========
+    const allDots = section.querySelectorAll('.timeline-dot');
+
+    allDots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            e.stopPropagation();
+            
+            const node = dot.closest('.timeline-node');
+            const cardWrapper = node.querySelector('.timeline-card-wrapper');
+            
+            // 如果点击的是已经打开的卡片 → 关闭它
+            if (activeCard === cardWrapper && cardWrapper.classList.contains('show')) {
+                cardWrapper.classList.remove('show');
+                dot.classList.remove('active');
+                activeCard = null;
+                return;
+            }
+            
+            // 关闭之前打开的卡片
+            if (activeCard) {
+                activeCard.classList.remove('show');
+                const prevDot = activeCard.closest('.timeline-node').querySelector('.timeline-dot');
+                if (prevDot) prevDot.classList.remove('active');
+            }
+            
+            // 打开新卡片
+            cardWrapper.classList.add('show');
+            dot.classList.add('active');
+            activeCard = cardWrapper;
+        });
+    });
+
+    // ========== 3. 点击空白区域关闭卡片 ==========
+    document.addEventListener('click', (e) => {
+        if (activeCard && !e.target.closest('.timeline-dot') && !e.target.closest('.timeline-card-wrapper')) {
+            activeCard.classList.remove('show');
+            const prevDot = activeCard.closest('.timeline-node').querySelector('.timeline-dot');
+            if (prevDot) prevDot.classList.remove('active');
+            activeCard = null;
+        }
+    });
+
+    // ========== 4. 滚动时关闭卡片（用户体验优化） ==========
+    let scrollCloseTimer;
+    window.addEventListener('scroll', () => {
+        if (activeCard) {
+            clearTimeout(scrollCloseTimer);
+            scrollCloseTimer = setTimeout(() => {
+                activeCard.classList.remove('show');
+                const prevDot = activeCard.closest('.timeline-node').querySelector('.timeline-dot');
+                if (prevDot) prevDot.classList.remove('active');
+                activeCard = null;
+            }, 300);
+        }
+    }, { passive: true });
+
+    console.log('✅ 政策关键词时间轴已就绪（滚动弹出徽章 + 点击弹出卡片）');
+}
+
+// 在 DOMContentLoaded 中初始化
+document.addEventListener('DOMContentLoaded', () => {
+    initPolicyTimeline();
+});
+
+
+
+// ===================== 18. 全局遮罩：过渡页位置镂空 =====================
 function updateGlobalOverlay() {
     const overlay = document.querySelector('.global-overlay');
     if (!overlay) return;
@@ -1616,7 +1999,7 @@ window.addEventListener('scroll', () => {
 // 初始调用
 updateGlobalOverlay();
 
-// ===================== 17. 交互提示条逻辑 =====================
+// ===================== 19. 交互提示条逻辑 =====================
 function initInteractHintBar() {
     const hintBar = document.getElementById('interactHintBar');
     if (!hintBar) return;
@@ -1732,7 +2115,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// ===================== 18. 初始化完成日志 =====================
+// ===================== 20. 初始化完成日志 =====================
 console.log('✅ 医保目录人群地图 - 已就绪');
 console.log('📊 图表将在滚动到对应区域时自动加载');
 console.log('🗺️ 点击地图上的蓝色圆点查看省份数据');
