@@ -322,6 +322,39 @@
     </div>
 </section>
 
+<!-- 承上启下过渡板块 -->
+<section class="bridge-section fade-in" id="bridge-to-rare">
+    <div class="bridge-container">
+        <!-- 上方分隔线 - 先出现 -->
+        <div class="bridge-divider bridge-divider-top reveal-sequence" data-delay="0">
+            <span class="bridge-line bridge-line-left"></span>
+            <span class="bridge-dot"></span>
+            <span class="bridge-line bridge-line-right"></span>
+        </div>
+        
+        <!-- 卡片主体 - 随后出现 -->
+        <div class="bridge-content reveal-sequence" data-delay="200">
+            <p class="bridge-text reveal-line" data-delay="300">
+                像<span class="highlight-text">旭旭</span>这样的故事，并非孤例。从<span class="highlight-text">肿瘤</span>到<span class="highlight-text">罕见病</span>，从<span class="highlight-text">天价药</span>到<span class="highlight-text">百姓药</span>，医保谈判的每一次"灵魂砍价"，双通道政策的每一次落地突破，都在为千千万万个家庭<span class="highlight-text">撕开黑暗、透进光亮</span>。
+            </p>
+            <p class="bridge-text reveal-line" data-delay="500">
+                如果说肿瘤用药的保障突破，让<span class="highlight-text">常见重疾</span>患者看到了希望；那么对于<span class="highlight-text">罕见病</span>群体而言，这份希望来得更为珍贵——他们人数虽少，却从未被遗忘。从"无药可治"到"有药用不起"，再到"用得起、用得上"，罕见病用药保障正经历着一场<span class="highlight-text">从无到有、从有到优</span>的历史性跨越。
+            </p>
+            <p class="bridge-text reveal-line" data-delay="700">
+                每一个小群体，都不该被放弃。这不仅是国家医保局谈判代表那句<span class="highlight-text">掷地有声</span>的承诺，更是整个医保体系正在<span class="highlight-text">一步步兑现</span>的现实。
+            </p>
+        </div>
+
+        <!-- 下方分隔线 - 最后出现 -->
+        <div class="bridge-divider bridge-divider-bottom reveal-sequence" data-delay="400">
+            <span class="bridge-line bridge-line-left"></span>
+            <span class="bridge-dot"></span>
+            <span class="bridge-line bridge-line-right"></span>
+        </div>
+    </div>
+</section>
+
+
 
 
 <!-- 罕见病过渡页 - 镂空横栏效果 -->
@@ -455,6 +488,39 @@
 </div>
 
 </section>
+
+<!-- 罕见病→慢性病 承上启下过渡板块 -->
+<section class="bridge-section-rare-chronic fade-in" id="bridge-rare-to-chronic">
+    <div class="bridge-container">
+        <!-- 上方分隔线 - 先出现 -->
+        <div class="bridge-divider bridge-divider-top reveal-sequence" data-delay="0">
+            <span class="bridge-line bridge-line-left"></span>
+            <span class="bridge-dot"></span>
+            <span class="bridge-line bridge-line-right"></span>
+        </div>
+        
+        <!-- 卡片主体 - 随后出现 -->
+        <div class="bridge-content reveal-sequence" data-delay="200">
+            <p class="bridge-text reveal-line" data-delay="300">
+                从<span class="highlight-text">旭旭</span>的神经母细胞瘤，到<span class="highlight-text">小石头</span>的脊髓性肌萎缩症，医保谈判和双通道政策正在为<span class="highlight-text">"大病重病"</span>患者筑起一道坚实的生命防线。然而，医保目录的温暖远不止于此——它同样照耀着另一个更为庞大的群体：<span class="highlight-text">慢性病患者</span>。
+            </p>
+            <p class="bridge-text reveal-line" data-delay="500">
+                如果说罕见病用药保障体现的是医保体系的<span class="highlight-text">"温度"</span>——不放弃每一个小群体；那么慢性病用药保障体现的则是医保体系的<span class="highlight-text">"广度"</span>——守护着数亿人的日常健康。高血压、糖尿病、冠心病……这些耳熟能详的慢性病，患者人数以亿计，他们需要<span class="highlight-text">长期服药、终身管理</span>，药品可及性和费用负担直接影响着每一个家庭的<span class="highlight-text">生活质量和幸福指数</span>。
+            </p>
+            <p class="bridge-text reveal-line" data-delay="700">
+                从"大病兜底"到"慢病减负"，医保目录正在织就一张<span class="highlight-text">覆盖全民、贯穿全生命周期</span>的健康保障网。慢性病患者，是这张网中<span class="highlight-text">受益最广、感受最深</span>的人群。
+            </p>
+        </div>
+
+        <!-- 下方分隔线 - 最后出现 -->
+        <div class="bridge-divider bridge-divider-bottom reveal-sequence" data-delay="400">
+            <span class="bridge-line bridge-line-left"></span>
+            <span class="bridge-dot"></span>
+            <span class="bridge-line bridge-line-right"></span>
+        </div>
+    </div>
+</section>
+
 
 
 <!-- 慢性病过渡页 -->
@@ -719,41 +785,226 @@
 </section>
 
 
-    <!-- 6. 人群地图页 -->
-    <section class="map-section fade-in">
-        <h2>点击省份，查看双通道药品管理数量</h2>
-        <div class="map-container map-bg-img">
-            <div class="map-point" data-province="hebei" style="top: 44%; left: 61%;"></div>
-            <div class="map-point" data-province="fujian" style="top: 69%; left: 66%;"></div>
-            <div class="map-point" data-province="jiangxi" style="top: 67%; left: 62%;"></div>
-        </div>
-    </section>
-
-    <!-- 地图弹窗 -->
-    <div class="map-popup" id="popup">
-        <div class="popup-content">
-            <span class="close-btn">&times;</span>
-            <h3 id="popup-title"></h3>
-            <p id="popup-data"></p>
-            <p id="popup-people"></p>
-        </div>
+   <!-- 6. 人群地图页 -->
+<section class="map-section fade-in">
+    <h2>点击省份，查看双通道药品管理数量</h2>
+    <div class="map-container map-bg-img">
+        <!-- 华北 -->
+        <div class="map-point" data-province="beijing" style="top: 41%; left: 63%;"></div>
+        <div class="map-point" data-province="hebei" style="top: 44%; left: 61%;"></div>
+        
+        
+        <!-- 华东 -->
+        <div class="map-point" data-province="jiangsu" style="top: 53%; left: 68%;"></div>
+        <div class="map-point" data-province="zhejiang" style="top: 61%; left: 69%;"></div>
+        <div class="map-point" data-province="fujian" style="top: 69%; left: 66%;"></div>
+        
+        <!-- 华中 -->
+        <div class="map-point" data-province="henan" style="top: 53%; left: 59%;"></div>
+        <div class="map-point" data-province="jiangxi" style="top: 67%; left: 62%;"></div>
+        
     </div>
+</section>
+
+<!-- 地图弹窗 -->
+<div class="map-popup" id="popup">
+    <div class="popup-content">
+        <span class="close-btn">&times;</span>
+        <h3 id="popup-title"></h3>
+        <p id="popup-data"></p>
+        <p id="popup-people"></p>
+    </div>
+</div>
 
     <!-- 7. 受益故事页 -->
-    <section class="stories fade-in">
-        <h2>每一个数字背后，都是一个被照亮的人生</h2>
-        <div class="story-list">
-            <div class="story-card fade-in">
-                「救命药从30万→3万，医保让我活下来」——肿瘤患者
+<section class="stories fade-in">
+    <h2>每一个数字背后，都是一个被照亮的人生</h2>
+    <p class="stories-intro">从北到南，从东到西，医保双通道正在改变千万家庭</p>
+    
+    <div class="story-grid">
+        <!-- 故事卡片 1 -->
+        <div class="story-card-new fade-in">
+            <div class="story-province-tag">📍 河北</div>
+            <div class="story-avatar">
+                <img src="images/story-1.jpg" alt="肿瘤患者故事" onerror="this.style.display='none'">
+                <div class="avatar-placeholder"></div>
             </div>
-            <div class="story-card fade-in">
-                「天价药纳入，孩子终于有药可治」——罕见病家庭
-            </div>
-            <div class="story-card fade-in">
-                「慢病用药全覆盖，每月少花500+」——老年患者
+            <div class="story-body">
+                <h3>“救命药从30万→3万，医保让我活下来”</h3>
+               
+                <div class="story-data">
+                    <span class="data-highlight">💊 奥希替尼</span>
+                    <span class="data-highlight">💰 降价93%</span>
+                </div>
+                <p class="story-person">—— 张先生，58岁，肺癌患者</p>
             </div>
         </div>
-    </section>
+
+        <!-- 故事卡片 2 -->
+        <div class="story-card-new fade-in">
+            <div class="story-province-tag">📍 福建</div>
+            <div class="story-avatar">
+                <img src="images/story-2.jpg" alt="罕见病家庭故事" onerror="this.style.display='none'">
+                <div class="avatar-placeholder"></div>
+            </div>
+            <div class="story-body">
+                <h3>“天价药纳入医保，孩子终于有药可治”</h3>
+               
+                <div class="story-data">
+                    <span class="data-highlight">💊 诺西那生钠</span>
+                    <span class="data-highlight">💰 降价95%</span>
+                </div>
+                <p class="story-person">—— 林女士，SMA患儿母亲</p>
+            </div>
+        </div>
+
+        <!-- 故事卡片 3 -->
+        <div class="story-card-new fade-in">
+            <div class="story-province-tag">📍 江西</div>
+            <div class="story-avatar">
+                <img src="images/story-3.jpg" alt="慢性病患者故事" onerror="this.style.display='none'">
+                <div class="avatar-placeholder"></div>
+            </div>
+            <div class="story-body">
+                <h3>“慢病用药全覆盖，每月少花500+”</h3>
+               
+                <div class="story-data">
+                    <span class="data-highlight">💊 达格列净</span>
+                    <span class="data-highlight">💰 降价70%</span>
+                </div>
+                <p class="story-person">—— 陈大爷，67岁，糖尿病患者</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 破解困局板块 -->
+<section class="problem-section fade-in">
+    <h2>破解"最后一公里"困局背后的制度密码</h2>
+    
+    <div class="problem-content">
+        <p class="problem-intro">"双通道"政策的诞生，源于我国医疗体系长期存在的<strong class="highlight">结构性矛盾</strong>。自2018年国家医保药品目录谈判常态化以来，累计已有618种临床价值高的药品通过谈判纳入医保，平均降价幅度超过50%。但据此前调查，谈判药品在医疗机构的平均配备率仅为<strong class="highlight">29.8%</strong>，部分抗癌药配备率甚至<strong class="highlight">不足15%</strong>。这种"医保目录扩容"与"医院用药缩水"的悖论，折射出背后的梗阻因素：</p>
+        
+        <div class="problem-grid">
+            <div class="problem-card">
+                <div class="problem-icon"></div>
+                <h4>医院药事管理的"天花板"</h4>
+                <p>受制于公立医院<strong class="highlight">药占比考核</strong>（药品费用占总医疗费用比例）、<strong class="highlight">药品零加成政策</strong>、<strong class="highlight">药事会召开频次低</strong>等多重因素，一定程度上影响医院引进高价创新药动力。</p>
+            </div>
+            
+            <div class="problem-card">
+                <div class="problem-icon"></div>
+                <h4>药品供应链的"双轨制"时差</h4>
+                <p>医保谈判药品从谈判成功到实际入院，需要经历<strong class="highlight">药事委员会审议</strong>、<strong class="highlight">采购系统对接</strong>、<strong class="highlight">医生处方习惯培养</strong>等环节，耗时较长。而创新药企的市场布局往往优先布局DTP药房，容易形成<strong class="highlight">"药店有药医院无药"</strong>的供应错配。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 各地创新实践板块 -->
+<section class="practice-section fade-in">
+    <h2>全国多地推进双通道政策落地</h2>
+    
+    <div class="practice-intro">
+        <p>为确保目录真正落地见效，国家医保局明确要求：<strong class="highlight">不得以医保总额限制、医疗机构用药目录数量、药占比为由影响药品进院</strong>。在国家局相关政策的指导下，各地正通过"双通道"机制破解药品落地梗阻，因地制宜的改革实践正在全面铺展。</p>
+    </div>
+    
+    <div class="practice-grid">
+        <div class="practice-card">
+            <div class="practice-tag">广东深圳</div>
+            <h4>通用名流转升级</h4>
+            <p>在广东省率先将外配处方从<strong class="highlight">"商品名"流转升级为"通用名"流转</strong>，并上线社康外配处方流转服务。过去因药品商品名差异导致的购药难题，如今患者可<strong class="highlight">自由选择同成分、不同品牌的药品</strong>。</p>
+        </div>
+        
+        <div class="practice-card">
+            <div class="practice-tag">江西</div>
+            <h4>应采尽采、应配尽配</h4>
+            <p>要求各统筹区督促定点医疗机构落实配备首要责任，及时召开药事会，确保谈判药品<strong class="highlight">"应采尽采""应配尽配"</strong>。对新进入目录的89个谈判药品，确保<strong class="highlight">至少1家定点医疗机构或1家定点零售药店</strong>配备。</p>
+        </div>
+        
+        <div class="practice-card">
+            <div class="practice-tag">四川</div>
+            <h4>单行支付管理</h4>
+            <p>将"国谈药"中<strong class="highlight">价格昂贵、用药人群特定、用药指征明确</strong>以及年治疗费用高的药品纳入单行支付管理，实行<strong class="highlight">单独的报销政策和管理服务</strong>。</p>
+        </div>
+        
+        <div class="practice-card">
+            <div class="practice-tag">江苏</div>
+            <h4>绿色通道+839家药店</h4>
+            <p>开辟绿色通道，简化进院流程，明确要求定点医疗机构在国家药品目录发布后<strong class="highlight">一个月内</strong>将"国谈药"按需纳入药品采购目录范围，并着力打通<strong class="highlight">839家定点零售药店</strong>，实行"双通道"管理。</p>
+        </div>
+        
+        <div class="practice-card">
+            <div class="practice-tag">湖北</div>
+            <h4>医保云仓模式</h4>
+            <p>通过线上医保药品配送服务覆盖全省<strong class="highlight">17个市州</strong>，将双通道药店配送时效压缩至<strong class="highlight">48小时内</strong>，偏远县域配送覆盖率达<strong class="highlight">95%以上</strong>。</p>
+        </div>
+        
+        <div class="practice-card">
+            <div class="practice-tag">福建</div>
+            <h4>一县一药店兜底保障</h4>
+            <p>要求每个县（区）至少设立<strong class="highlight">1家双通道药店</strong>，对未配备国谈药的基层医疗机构，由县域双通道药店提供<strong class="highlight">"代购配送"服务</strong>，解决"最后一公里"用药难题。</p>
+        </div>
+    </div>
+</section>
+
+<!-- 多方共赢板块 -->
+<section class="winwin-section fade-in">
+    <h2>政策落地多方共赢，推动医疗生态系统的重构</h2>
+    
+    <div class="winwin-intro">
+        <p>随着"双通道"政策的深入实施，医药健康产业也正在发生深刻变革。这种变化不仅体现在药品流通环节，更推动着<strong class="highlight">整个医疗生态系统的重构</strong>。</p>
+    </div>
+    
+    <div class="winwin-grid">
+        <div class="winwin-card patient">
+            <div class="winwin-icon"></div>
+            <h3>患者：获得"三重自由"</h3>
+            <ul>
+                <li><strong>择医自由</strong>——无需为购药绑定特定医院</li>
+                <li><strong>择药自由</strong>——可自主选择药品品牌</li>
+                <li><strong>择地自由</strong>——就近获取药品</li>
+            </ul>
+            
+            <div class="winwin-case">
+                <h4> 异地就医案例</h4>
+                <p><strong>济南参保的王先生</strong>，退休后随儿子定居青岛西海岸新区，因患恶性肿瘤需长期服用靶向药<strong class="highlight">甲苯磺酸尼拉帕利胶囊</strong>，单次药费高达<strong class="highlight">8000余元</strong>。改革前，他不得不频繁携带病历、发票返回济南报销，垫资压力与报销周期长的问题加剧了病痛负担。</p>
+                <p>2024年青岛市全面开通"双通道"药店省内异地结算服务后，王先生在当地西海岸新区中心医院就诊时，通过<strong class="highlight">医生开具电子处方、药师在线审核、"双通道"药店联网调配</strong>，当场报销<strong class="highlight">6289.92元</strong>，个人仅需支付2000余元。</p>
+            </div>
+        </div>
+        
+        <div class="winwin-card hospital">
+            <div class="winwin-icon"></div>
+            <h3>医疗机构：获得"减压阀"效应</h3>
+            <p>"双通道"管理机制让医疗机构药品配备和医疗服务压力得以缓解，使得谈判药品供应多了一个渠道，从而解决医院受诊疗范围限制和有关政策制约产生的配备难问题，减轻医院的服务压力。</p>
+            <p class="winwin-source">——上海市卫生和健康发展研究中心 陈珉惺</p>
+        </div>
+        
+        <div class="winwin-card pharmacy">
+            <div class="winwin-icon"></div>
+            <h3>零售药店：催生专业化新业态</h3>
+            <p>处方承接能力、院内拓展能力、冷链管理、专业用药管理以及执业药师团队等患者服务方面的综合能力强的连锁药店尤其是<strong class="highlight">"院边店"</strong>会最先吃到红利。从广州公布的首批"双通道"药房名单来看，不少是"院边店"，患者出于就医拿处方后的购药便利性，<strong class="highlight">"院边店"在处方外流上占有先机</strong>。</p>
+            <p>多家龙头企业加速布局，建立<strong class="highlight">"三专"服务体系</strong>：专用仓储、专业配送、专职药师。</p>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== 总结升华板块 ==================== -->
+<section class="insight-finale" id="insightFinale">
+    <div class="insight-finale-bg"></div>
+    <div class="insight-finale-content">
+        <div class="insight-paragraph" data-delay="0">
+            <p>在"双通道"政策落地的过程中，我们看到的不仅是<strong class="insight-highlight">一张药品供应网络的升级</strong>，更是整个医疗保障体系从<strong class="insight-highlight">"疾病治疗"向"健康管理"</strong>的转型。</p>
+        </div>
+        <div class="insight-paragraph" data-delay="400">
+            <p>当患者们不再为购药奔波，当创新药械能畅通无阻地抵达患者手中，当医疗机构回归其本质价值，一个<strong class="insight-highlight">更具韧性、更富温度</strong>的健康中国正在成为现实。</p>
+        </div>
+        <div class="insight-finale-source" data-delay="1000">
+            <span class="insight-source-line"></span>
+            <p>来源 | 中国医疗保险 七月</p>
+        </div>
+    </div>
+</section>
 
 
 <!-- 未被看见过渡页 -->
@@ -908,7 +1159,7 @@
             <h3 class="layer-title">他们被看见了</h3>
             <div class="story-cards">
                 <div class="story-card">
-                    <div class="story-quote">"</div>
+                   
                     <div class="story-content">
                         <p>确诊弥漫大B细胞淋巴瘤后，医生建议使用CAR-T治疗。120万一针的费用让我绝望，但幸好我参加了<strong>西湖益联保</strong>，年缴仅<strong>150元</strong>，最终赔付了<strong>50万元</strong>。</p>
                     </div>
@@ -919,7 +1170,7 @@
                     <div class="story-tag">年缴150元 → 赔付50万</div>
                 </div>
                 <div class="story-card">
-                    <div class="story-quote">"</div>
+                    
                     <div class="story-content">
                         <p>CAR-T治疗让我重获新生。<strong>沪惠保</strong>年缴<strong>129元</strong>，为我报销了<strong>50万元</strong>的CAR-T费用。没有商保，我根本用不起这个药。</p>
                     </div>
@@ -1046,6 +1297,49 @@
                     <p class="card-detail">保障从"药"延伸到"治"，构建更完整的医疗保障体系。诊疗项目目录首次与药品目录同步调整。</p>
                 </div>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==================== 全文总结过渡页 ==================== -->
+<section class="final-reflection" id="finalReflection">
+    <div class="final-reflection-bg"></div>
+    <div class="final-reflection-content">
+        <div class="reflection-block" data-delay="0">
+            <p class="reflection-text">
+                八年医保，<strong class="reflection-highlight">看见</strong>了肿瘤患者的用药焦虑
+            </p>
+        </div>
+        <div class="reflection-block" data-delay="350">
+            <p class="reflection-text">
+                八年医保，<strong class="reflection-highlight">看见</strong>了罕见病家庭的绝望等待
+            </p>
+        </div>
+        <div class="reflection-block" data-delay="700">
+            <p class="reflection-text">
+                八年医保，<strong class="reflection-highlight">看见</strong>了慢性病老人的月月奔波
+            </p>
+        </div>
+        <div class="reflection-divider" data-delay="1100">
+            <span class="reflection-line"></span>
+        </div>
+        <div class="reflection-block" data-delay="1400">
+            <p class="reflection-text">
+                八年医保，<strong class="reflection-highlight">也承认</strong>——还有很多病，很多药，很多人
+            </p>
+        </div>
+        <div class="reflection-block" data-delay="1750">
+            <p class="reflection-text">
+                <strong class="reflection-highlight">还没被看见</strong>
+            </p>
+        </div>
+        <div class="reflection-divider" data-delay="2100">
+            <span class="reflection-line"></span>
+        </div>
+        <div class="reflection-block reflection-final" data-delay="2400">
+            <p class="reflection-text">
+                但它<strong class="reflection-highlight">从未停下</strong>
+            </p>
         </div>
     </div>
 </section>
