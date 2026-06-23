@@ -326,6 +326,26 @@ dataCards.forEach(card => dataObserver.observe(card));
 
 // ===================== 5. 地图弹窗逻辑 =====================
 const provinceData = {
+     beijing: {
+        title: "北京｜双通道政策落地",
+        data: "执行国家统一政策，221种谈判药品纳入管理",
+        people: "定点医疗机构+定点零售药店双渠道保障，确保谈判药品顺利落地"
+    },
+     jiangsu: {
+        title: "江苏｜100种药品纳入双通道",
+        data: "83个药品执行单独支付政策，不纳入医保总额控制",
+        people: "职工医保实际报销不低于70%，居民医保不低于60%；不设起付线，直接纳入统筹基金支付"
+    },
+    zhejiang: {
+        title: "浙江｜三级医院配备率不低于30%",
+        data: "国谈药品应配尽配，3个月内召开药事会",
+        people: "三级甲等医院配备率≥30%，三级乙等≥20%；每家双通道药店配备率≥30%，县域至少1家"
+    },
+     henan: {
+        title: "河南｜首批88个品种纳入双通道",
+        data: "2021年10月底前每个统筹区至少1家零售药店",
+        people: "谈判药品不纳入药占比、次均费用考核；遴选标准：临床价值高、患者急需、替代性不高"
+    },
     fujian: {
         title: "福建｜双通道药品扩至603种",
         data: "新增95个国家谈判药品，为患者提供更全面的用药保障",
@@ -1493,6 +1513,7 @@ function initRareStory() {
             conclusion.classList.remove('visible');
         }
         conclusionInView = conclusionNowInView;
+        
     }
 
     let ticking = false;
@@ -1519,6 +1540,125 @@ function initRareStory() {
 document.addEventListener('DOMContentLoaded', () => {
     initRareStory();
 });
+// ==================== 总结板块 - 逐段渐入渐出 ====================
+function initConclusionAnimation() {
+    const conclusionSection = document.querySelector('.conclusion-section');
+    if (!conclusionSection) return;
+
+    const paragraphs = conclusionSection.querySelectorAll('.conclusion-content p');
+    if (!paragraphs.length) return;
+
+    // 状态追踪
+    let sectionInView = false;
+
+    function isInViewport(el, threshold = 0.3) {
+        const rect = el.getBoundingClientRect();
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        return rect.top < windowHeight * (1 - threshold) && rect.bottom > windowHeight * threshold;
+    }
+
+    function update() {
+        const nowInView = isInViewport(conclusionSection, 0.2);
+
+        if (nowInView && !sectionInView) {
+            // 刚进入视口 → 逐段显示
+            sectionInView = true;
+            paragraphs.forEach((p, index) => {
+                setTimeout(() => {
+                    p.classList.add('visible');
+                }, index * 300);  // 每段延迟300ms
+            });
+        } else if (!nowInView && sectionInView) {
+            // 刚离开视口 → 全部隐藏，下次进入重新播放
+            sectionInView = false;
+            paragraphs.forEach(p => {
+                p.classList.remove('visible');
+            });
+        }
+    }
+
+    let ticking = false;
+
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                update();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // 初始检查
+    update();
+
+    console.log('✅ 总结板块渐入渐出动画已就绪');
+}
+
+// 在 DOMContentLoaded 中初始化
+document.addEventListener('DOMContentLoaded', () => {
+    initConclusionAnimation();
+});
+
+// ==================== 所有承上启下板块 - 重复触发渐入动画 ====================
+function initAllBridgeAnimations() {
+    // 获取所有承上启下板块
+    const bridgeSections = document.querySelectorAll('.bridge-section, .bridge-section-rare-chronic');
+    
+    if (bridgeSections.length === 0) return;
+    
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px 0px -10% 0px',
+        threshold: 0.15
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            const sequences = entry.target.querySelectorAll('.reveal-sequence, .reveal-line');
+            
+            if (entry.isIntersecting) {
+                // 进入视口 - 添加 visible 类
+                entry.target.classList.add('visible');
+                
+                // 重置并触发所有动画元素
+                sequences.forEach(el => {
+                    // 清除之前的动画状态
+                    el.style.transitionDelay = '0ms';
+                    el.classList.remove('animate-done');
+                    
+                    const delay = parseInt(el.getAttribute('data-delay')) || 0;
+                    
+                    // 重新设置延迟触发
+                    requestAnimationFrame(() => {
+                        requestAnimationFrame(() => {
+                            el.style.transitionDelay = delay + 'ms';
+                            el.classList.add('animate-done');
+                        });
+                    });
+                });
+            } else {
+                // 离开视口 - 移除 visible 类，重置动画
+                entry.target.classList.remove('visible');
+                
+                sequences.forEach(el => {
+                    el.style.transitionDelay = '0ms';
+                    el.classList.remove('animate-done');
+                });
+            }
+        });
+    }, observerOptions);
+    
+    bridgeSections.forEach(section => observer.observe(section));
+}
+
+// 页面加载完成后初始化
+document.addEventListener('DOMContentLoaded', () => {
+    initAllBridgeAnimations();
+});
+
 
 // ===================== 19. 慢性病故事页 - 视口触发动画 =====================
 function initChronicStory() {
@@ -2114,6 +2254,188 @@ document.addEventListener('DOMContentLoaded', () => {
     initInteractHintBar();
 });
 
+// ==================== 总结升华板块 - 逐段渐入渐出（可重复播放） ====================
+function initInsightFinale() {
+    const section = document.getElementById('insightFinale');
+    if (!section) return;
+
+    const paragraphs = section.querySelectorAll('.insight-paragraph');
+    const source = section.querySelector('.insight-finale-source');
+    
+    if (!paragraphs.length) return;
+
+    // 状态追踪
+    let sectionInView = false;
+
+    /**
+     * 检查元素是否进入视口
+     */
+    function isInViewport(el, threshold = 0.35) {
+        const rect = el.getBoundingClientRect();
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        return rect.top < windowHeight * (1 - threshold) && rect.bottom > windowHeight * threshold;
+    }
+
+    function update() {
+        const nowInView = isInViewport(section, 0.3);
+
+        if (nowInView && !sectionInView) {
+            // 刚进入视口 → 逐段显示
+            sectionInView = true;
+
+            paragraphs.forEach((para) => {
+                // 先清除之前的动画状态
+                para.classList.remove('revealed');
+                
+                const delay = parseInt(para.getAttribute('data-delay')) || 0;
+                
+                // 强制回流后播放动画
+                void para.offsetWidth;
+                
+                setTimeout(() => {
+                    para.classList.add('revealed');
+                }, delay);
+            });
+
+            // 来源信息最后显示
+            if (source) {
+                source.classList.remove('revealed');
+                void source.offsetWidth;
+                
+                const sourceDelay = parseInt(source.getAttribute('data-delay')) || 1000;
+                setTimeout(() => {
+                    source.classList.add('revealed');
+                }, sourceDelay);
+            }
+        } else if (!nowInView && sectionInView) {
+            // 刚离开视口 → 全部隐藏，下次进入重新播放
+            sectionInView = false;
+
+            paragraphs.forEach(para => {
+                para.classList.remove('revealed');
+            });
+
+            if (source) {
+                source.classList.remove('revealed');
+            }
+        }
+    }
+
+    let ticking = false;
+
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                update();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // 初始检查
+    update();
+
+    console.log('✅ 总结升华板块已就绪（逐段渐入渐出，可重复播放）');
+}
+
+// 在 DOMContentLoaded 中初始化
+document.addEventListener('DOMContentLoaded', () => {
+    initInsightFinale();
+});
+// ==================== 全文总结过渡页 - 逐段渐入渐出（可重复播放） ====================
+function initFinalReflection() {
+    const section = document.getElementById('finalReflection');
+    if (!section) return;
+
+    const blocks = section.querySelectorAll('.reflection-block');
+    const divider = section.querySelector('.reflection-divider');
+    
+    if (!blocks.length) return;
+
+    // 状态追踪
+    let sectionInView = false;
+
+    /**
+     * 检查元素是否进入视口
+     */
+    function isInViewport(el, threshold = 0.35) {
+        const rect = el.getBoundingClientRect();
+        const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+        return rect.top < windowHeight * (1 - threshold) && rect.bottom > windowHeight * threshold;
+    }
+
+    function update() {
+        const nowInView = isInViewport(section, 0.3);
+
+        if (nowInView && !sectionInView) {
+            // 刚进入视口 → 逐段显示
+            sectionInView = true;
+
+            // 重置所有元素
+            blocks.forEach(block => {
+                block.classList.remove('revealed');
+            });
+            if (divider) {
+                divider.classList.remove('revealed');
+            }
+
+            // 逐段播放动画
+            blocks.forEach((block) => {
+                const delay = parseInt(block.getAttribute('data-delay')) || 0;
+                
+                setTimeout(() => {
+                    block.classList.add('revealed');
+                }, delay);
+            });
+
+            // 分割线动画
+            if (divider) {
+                const dividerDelay = parseInt(divider.getAttribute('data-delay')) || 1100;
+                setTimeout(() => {
+                    divider.classList.add('revealed');
+                }, dividerDelay);
+            }
+        } else if (!nowInView && sectionInView) {
+            // 刚离开视口 → 全部隐藏，下次进入重新播放
+            sectionInView = false;
+
+            blocks.forEach(block => {
+                block.classList.remove('revealed');
+            });
+
+            if (divider) {
+                divider.classList.remove('revealed');
+            }
+        }
+    }
+
+    let ticking = false;
+
+    function onScroll() {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                update();
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // 初始检查
+    update();
+
+    console.log('✅ 全文总结过渡页已就绪（逐段渐入渐出，可重复播放）');
+}
+
+// 在 DOMContentLoaded 中初始化
+document.addEventListener('DOMContentLoaded', () => {
+    initFinalReflection();
+});
 
 // ===================== 20. 初始化完成日志 =====================
 console.log('✅ 医保目录人群地图 - 已就绪');
