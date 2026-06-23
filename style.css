@@ -1317,6 +1317,182 @@ section {
     }
 }
 
+/* ==================== 承上启下过渡板块 ==================== */
+.bridge-section {
+    padding: 60px 0;
+    background: rgb(168, 204, 178);
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+.bridge-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ==================== 分隔线装饰 ==================== */
+.bridge-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0 36px;
+}
+
+.bridge-line {
+    display: block;
+    width: 80px;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+    transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.bridge-dot {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+    box-shadow: 0 0 12px rgba(255,255,255,0.5);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.6s ease;
+}
+
+/* ==================== 文字内容卡片 ==================== */
+.bridge-content {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    padding: 36px 32px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                opacity 0.8s ease,
+                box-shadow 0.8s ease;
+}
+
+.bridge-text {
+    font-size: 16px;
+    line-height: 2;
+    color: #1a3c2a;
+    margin-bottom: 18px;
+    text-align: justify;
+    text-indent: 2em;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                opacity 0.6s ease;
+}
+
+.bridge-text:last-child {
+    margin-bottom: 0;
+}
+
+/* 高亮文字 - 适配绿色背景 */
+.bridge-text .highlight-text {
+    color: #8b1a1a;
+    font-weight: 700;
+    background: linear-gradient(180deg, transparent 58%, rgba(255, 255, 255, 0.6) 58%);
+    padding: 0 3px;
+    border-radius: 2px;
+}
+
+/* ==================== 渐入动画 - 初始隐藏状态 ==================== */
+.bridge-section .reveal-sequence {
+    opacity: 0;
+}
+
+/* 分隔线初始状态 */
+.bridge-section .bridge-divider.reveal-sequence {
+    opacity: 0;
+}
+
+.bridge-section .bridge-divider.reveal-sequence .bridge-line-left {
+    width: 0;
+}
+
+.bridge-section .bridge-divider.reveal-sequence .bridge-line-right {
+    width: 0;
+}
+
+.bridge-section .bridge-divider.reveal-sequence .bridge-dot {
+    transform: scale(0);
+    opacity: 0;
+}
+
+/* 卡片初始状态 */
+.bridge-section .bridge-content.reveal-sequence {
+    opacity: 0;
+    transform: translateY(30px);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+/* 文字行初始状态 */
+.bridge-section .bridge-text.reveal-line {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* ==================== 渐入动画 - 激活状态（进入视口） ==================== */
+.bridge-section.visible .bridge-divider.reveal-sequence {
+    opacity: 1;
+}
+
+.bridge-section.visible .bridge-divider.reveal-sequence .bridge-line-left,
+.bridge-section.visible .bridge-divider.reveal-sequence .bridge-line-right {
+    width: 80px;
+}
+
+.bridge-section.visible .bridge-divider.reveal-sequence .bridge-dot {
+    transform: scale(1);
+    opacity: 0.8;
+}
+
+.bridge-section.visible .bridge-content.reveal-sequence {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.bridge-section.visible .bridge-text.reveal-line {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 768px) {
+    .bridge-section {
+        padding: 40px 0;
+    }
+    
+    .bridge-text {
+        font-size: 14px;
+        line-height: 1.8;
+        text-indent: 1.5em;
+    }
+    
+    .bridge-line {
+        width: 40px;
+    }
+    
+    .bridge-section.visible .bridge-divider.reveal-sequence .bridge-line-left,
+    .bridge-section.visible .bridge-divider.reveal-sequence .bridge-line-right {
+        width: 40px;
+    }
+    
+    .bridge-content {
+        padding: 24px 20px;
+        border-radius: 12px;
+    }
+}
+
+
 
 /* ========== 双轴混合图表板块样式 ========== */
 .line-bar-chart-section {
@@ -1790,6 +1966,181 @@ section {
     }
 }
 
+/* ==================== 罕见病→慢性病 承上启下过渡板块 ==================== */
+.bridge-section-rare-chronic {
+    padding: 60px 0;
+    background: rgb(168, 204, 178);
+    position: relative;
+    overflow: hidden;
+}
+
+
+
+.bridge-section-rare-chronic .bridge-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ==================== 分隔线装饰 ==================== */
+.bridge-section-rare-chronic .bridge-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0 36px;
+}
+
+.bridge-section-rare-chronic .bridge-line {
+    display: block;
+    width: 80px;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+    transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.bridge-section-rare-chronic .bridge-dot {
+    display: block;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.8;
+    box-shadow: 0 0 12px rgba(255,255,255,0.5);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                opacity 0.6s ease;
+}
+
+/* ==================== 文字内容卡片 ==================== */
+.bridge-section-rare-chronic .bridge-content {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 16px;
+    padding: 36px 32px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                opacity 0.8s ease,
+                box-shadow 0.8s ease;
+}
+
+.bridge-section-rare-chronic .bridge-text {
+    font-size: 16px;
+    line-height: 2;
+    color: #1a3c2a;
+    margin-bottom: 18px;
+    text-align: justify;
+    text-indent: 2em;
+    transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                opacity 0.6s ease;
+}
+
+.bridge-section-rare-chronic .bridge-text:last-child {
+    margin-bottom: 0;
+}
+
+/* 高亮文字 */
+.bridge-section-rare-chronic .highlight-text {
+    color: #662f08;
+    font-weight: 700;
+    background: linear-gradient(180deg, transparent 58%, rgba(187, 198, 30, 0.6) 58%);
+    padding: 0 3px;
+    border-radius: 2px;
+}
+
+/* ==================== 渐入动画 - 初始隐藏状态 ==================== */
+.bridge-section-rare-chronic .reveal-sequence {
+    opacity: 0;
+}
+
+/* 分隔线初始状态 */
+.bridge-section-rare-chronic .bridge-divider.reveal-sequence {
+    opacity: 0;
+}
+
+.bridge-section-rare-chronic .bridge-divider.reveal-sequence .bridge-line-left {
+    width: 0;
+}
+
+.bridge-section-rare-chronic .bridge-divider.reveal-sequence .bridge-line-right {
+    width: 0;
+}
+
+.bridge-section-rare-chronic .bridge-divider.reveal-sequence .bridge-dot {
+    transform: scale(0);
+    opacity: 0;
+}
+
+/* 卡片初始状态 */
+.bridge-section-rare-chronic .bridge-content.reveal-sequence {
+    opacity: 0;
+    transform: translateY(30px);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+}
+
+/* 文字行初始状态 */
+.bridge-section-rare-chronic .bridge-text.reveal-line {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+/* ==================== 渐入动画 - 激活状态（进入视口） ==================== */
+.bridge-section-rare-chronic.visible .bridge-divider.reveal-sequence {
+    opacity: 1;
+}
+
+.bridge-section-rare-chronic.visible .bridge-divider.reveal-sequence .bridge-line-left,
+.bridge-section-rare-chronic.visible .bridge-divider.reveal-sequence .bridge-line-right {
+    width: 80px;
+}
+
+.bridge-section-rare-chronic.visible .bridge-divider.reveal-sequence .bridge-dot {
+    transform: scale(1);
+    opacity: 0.8;
+}
+
+.bridge-section-rare-chronic.visible .bridge-content.reveal-sequence {
+    opacity: 1;
+    transform: translateY(0);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+}
+
+.bridge-section-rare-chronic.visible .bridge-text.reveal-line {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 768px) {
+    .bridge-section-rare-chronic {
+        padding: 40px 0;
+    }
+    
+    .bridge-section-rare-chronic .bridge-text {
+        font-size: 14px;
+        line-height: 1.8;
+        text-indent: 1.5em;
+    }
+    
+    .bridge-section-rare-chronic .bridge-line {
+        width: 40px;
+    }
+    
+    .bridge-section-rare-chronic.visible .bridge-divider.reveal-sequence .bridge-line-left,
+    .bridge-section-rare-chronic.visible .bridge-divider.reveal-sequence .bridge-line-right {
+        width: 40px;
+    }
+    
+    .bridge-section-rare-chronic .bridge-content {
+        padding: 24px 20px;
+        border-radius: 12px;
+    }
+}
+
 
 
 /* ========== 慢性病图表页 ========== */
@@ -1944,7 +2295,7 @@ section {
     line-height: 1.4;
     font-weight: 700;
     color: inherit;                      /* ✅ 继承圆头颜色 */
-    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);  /* ✅ 白色阴影提亮 */
+    text-shadow: 0 1px 2px rgba(13, 12, 12, 0.8);  /* ✅ 白色阴影提亮 */
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s;
@@ -2562,49 +2913,663 @@ section {
     margin: 8px 0;
 }
 
-/* ========== 故事板块 ========== */
+/* ========== 故事板块 - 新版卡片式 ========== */
+.stories {
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+    padding: 80px 20px;
+}
+
 .stories h2 {
     font-size: clamp(1.5rem, 4vw, 2.2rem);
     font-weight: 400;
     letter-spacing: 1px;
     color: #0F3460;
-    margin-bottom: 60px;
-}
-.story-list {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;
-    max-width: 600px;
-    width: 100%;
-}
-/*.story-card {
-    background: #f5f7fa;
-    border-left: 4px solid #0F3460;
-    padding: 20px;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    color: #333;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-}*/
-.story-card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
-    border-left: 4px solid #0F3460;
-    padding: 25px 30px;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    color: #333;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    margin-bottom: 15px;
+    text-align: center;
 }
 
-.story-card:hover {
-    transform: translateX(10px);
-    box-shadow: 0 5px 20px rgba(15, 52, 96, 0.15);
+.stories-intro {
+    text-align: center;
+    color: #666;
+    font-size: 1.1rem;
+    margin-bottom: 60px;
+    letter-spacing: 0.5px;
 }
+
+.story-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* 新版故事卡片 */
+.story-card-new {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(15, 52, 96, 0.08);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    cursor: pointer;
+    position: relative;
+}
+
+.story-card-new:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 40px rgba(15, 52, 96, 0.15);
+}
+
+/* 省份标签 */
+.story-province-tag {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(15, 52, 96, 0.9);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    z-index: 2;
+    backdrop-filter: blur(10px);
+}
+
+/* 头像区域 */
+.story-avatar {
+    width: 100%;
+    height: 180px;
+    background: linear-gradient(135deg, #0F3460 0%, #1a5276 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.story-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.story-card-new:hover .story-avatar img {
+    transform: scale(1.05);
+}
+
+.avatar-placeholder {
+    font-size: 4rem;
+    opacity: 0.6;
+    position: absolute;
+}
+
+/* 故事内容 */
+.story-body {
+    padding: 25px;
+}
+
+.story-body h3 {
+    color: #0F3460;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+.story-quote {
+    color: #555;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+    position: relative;
+    padding-left: 15px;
+    border-left: 3px solid rgba(15, 52, 96, 0.2);
+}
+
+/* 数据高亮 */
+.story-data {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+.data-highlight {
+    background: linear-gradient(135deg, rgba(15, 52, 96, 0.08) 0%, rgba(15, 52, 96, 0.15) 100%);
+    color: #0F3460;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.story-person {
+    color: #999;
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .story-grid {
+        grid-template-columns: 1fr;
+        max-width: 500px;
+    }
+    
+    .story-avatar {
+        height: 150px;
+    }
+    
+    .stories {
+        padding: 60px 15px;
+    }
+}
+/* ==================== 故事引入板块 ==================== */
+.story-section {
+    padding: 60px 0;
+    background: linear-gradient(135deg, #fefefe 0%, #fdf6f3 100%);
+}
+
+.story-container {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.story-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.story-label {
+    display: inline-block;
+    background: #e74c3c;
+    color: #fff;
+    padding: 4px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.story-header h2 {
+    font-size: 30px;
+    color: #1a3c6d;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.story-subtitle {
+    font-size: 16px;
+    color: #888;
+    font-weight: 400;
+}
+
+/* 引用块 */
+.story-quote {
+    position: relative;
+    padding: 30px 50px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    margin-bottom: 16px;
+}
+
+.story-quote p {
+    font-size: 20px;
+    line-height: 1.8;
+    color: #333;
+    text-align: center;
+    font-weight: 500;
+}
+
+.quote-mark {
+    font-size: 60px;
+    color: #e74c3c;
+    font-family: Georgia, serif;
+    position: absolute;
+    line-height: 1;
+    opacity: 0.3;
+}
+
+.quote-mark:first-child {
+    top: 10px;
+    left: 20px;
+}
+
+.quote-mark.right {
+    bottom: -10px;
+    right: 20px;
+}
+
+.story-info {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.story-source {
+    font-size: 14px;
+    color: #888;
+}
+
+.story-source strong {
+    color: #1a3c6d;
+}
+
+/* 详细内容 */
+.story-detail p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #555;
+ margin-bottom: 12px;
+    text-align: justify;
+}
+
+/* ==================== 核心数据展示 ==================== */
+.data-highlight-section {
+    padding: 50px 0;
+    background: #1a3c6d;
+}
+
+.data-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.data-card {
+    text-align: center;
+    padding: 30px 20px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+}
+
+.data-number {
+    font-size: 48px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 8px;
+}
+
+.data-number span {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.data-label {
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 6px;
+}
+
+.data-trend {
+    font-size: 12px;
+    color: #f39c12;
+    font-weight: 600;
+}
+
+/* ==================== 破解困局板块 ==================== */
+.problem-section {
+    padding: 60px 0;
+}
+
+.problem-section h2 {
+    text-align: center;
+    font-size: 26px;
+    color: #1a3c6d;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+.problem-content {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.problem-intro {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #555;
+    text-align: justify;
+    margin-bottom: 30px;
+}
+
+.problem-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.problem-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border-top: 4px solid #e74c3c;
+}
+
+.problem-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.problem-card h4 {
+    font-size: 17px;
+    color: #1a3c6d;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.problem-card p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #666;
+}
+
+/* ==================== 各地创新实践板块 ==================== */
+.practice-section {
+    padding: 60px 0;
+    background: rgb(168, 204, 178);
+}
+
+.practice-section h2 {
+    text-align: center;
+    font-size: 26px;
+    color: #1a3c6d;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.practice-intro {
+    max-width: 900px;
+    margin: 0 auto 36px;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.practice-intro p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #555;
+}
+
+.practice-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.practice-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-left: 4px solid #3498db;
+}
+
+.practice-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.practice-tag {
+    display: inline-block;
+    background: #eef6ff;
+    color: #2980b9;
+    padding: 3px 12px;
+    border-radius: 14px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.practice-card h4 {
+    font-size: 16px;
+    color: #1a3c6d;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.practice-card p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #666;
+}
+
+/* ==================== 多方共赢板块 ==================== */
+.winwin-section {
+    padding: 60px 0;
+}
+
+.winwin-section h2 {
+    text-align: center;
+    font-size: 26px;
+    color: #1a3c6d;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.winwin-intro {
+    max-width: 900px;
+    margin: 0 auto 36px;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.winwin-intro p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #555;
+}
+
+.winwin-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.winwin-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+    transition: transform 0.3s ease;
+}
+
+.winwin-card:hover {
+    transform: translateY(-4px);
+}
+
+.winwin-card.patient {
+    border-top: 4px solid #27ae60;
+}
+
+.winwin-card.hospital {
+    border-top: 4px solid #2980b9;
+}
+
+.winwin-card.pharmacy {
+    border-top: 4px solid #e67e22;
+}
+
+.winwin-icon {
+    font-size: 40px;
+    margin-bottom: 14px;
+}
+
+.winwin-card h3 {
+    font-size: 18px;
+    color: #1a3c6d;
+    margin-bottom: 14px;
+    font-weight: 700;
+}
+
+.winwin-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 16px;
+}
+
+.winwin-card ul li {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #555;
+    padding-left: 20px;
+    position: relative;
+}
+
+.winwin-card ul li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #27ae60;
+    font-weight: 700;
+}
+
+.winwin-card p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #555;
+}
+
+.winwin-source {
+    font-size: 12px !important;
+    color: #999 !important;
+    font-style: italic;
+    margin-top: 8px;
+}
+
+/* 案例卡片 */
+.winwin-case {
+    margin-top: 16px;
+    padding: 16px;
+    background: #fefdf5;
+    border-radius: 10px;
+    border: 1px solid #f0e8c8;
+}
+
+.winwin-case h4 {
+    font-size: 14px;
+    color: #8b6914;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.winwin-case p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #666;
+    margin-bottom: 6px;
+}
+
+/* ==================== 总结升华板块 ==================== */
+
+
+.conclusion-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.conclusion-content p {
+    font-size: 17px;
+    line-height: 2;
+    color: rgba(10, 9, 9, 0.9);
+    margin-bottom: 16px;
+}
+
+.conclusion-content .highlight {
+    color: #bd5718;
+    font-weight: 700;
+    background: none;
+}
+
+.conclusion-source {
+    font-size: 13px !important;
+    color: rgba(255,255,255,0.5) !important;
+    margin-top: 24px !important;
+}
+
+/* ==================== 通用高亮样式 ==================== */
+.highlight {
+    color: #c0392b;
+    font-weight: 700;
+    background: linear-gradient(180deg, transparent 60%, #fde8e8 60%);
+    padding: 0 2px;
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 768px) {
+    .data-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .problem-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .practice-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .winwin-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .story-quote p {
+        font-size: 17px;
+    }
+    
+    .story-header h2 {
+        font-size: 24px;
+    }
+    
+    .data-number {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 480px) {
+    .practice-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .story-quote {
+        padding: 20px 30px;
+    }
+    
+    .story-quote p {
+        font-size: 15px;
+    }
+    
+    .conclusion-content p {
+        font-size: 15px;
+    }
+}
+
 
 /* ==================== 板块6：谁还没被看见 ==================== */
 .section-6 {
@@ -3211,15 +4176,20 @@ section {
 
 .story-quote {
     font-family: Georgia, "Noto Serif SC", serif;
-    font-size: 4rem;
-    color: rgba(232, 85, 61, 0.2);
+    font-size: 3rem;  /* 👈 从 4rem 减小到 3rem */
+    color: rgba(232, 85, 61, 0.15);  /* 👈 降低不透明度 */
     position: absolute;
-    top: 8px;
-    left: 20px;
+    top: 4px;
+    left: 16px;
     line-height: 1;
+    pointer-events: none;  /* 👈 防止引号阻挡点击 */
+    z-index: 0;  /* 👈 放在内容下方 */
 }
 
+/* 确保故事内容在引号上方 */
 .story-content {
+    position: relative;
+    z-index: 1;
     font-size: 0.95rem;
     color: #444;
     line-height: 1.8;
@@ -3253,6 +4223,8 @@ section {
 }
 
 .story-tag {
+    position: relative;
+    z-index: 1;
     display: inline-block;
     background: linear-gradient(135deg, rgba(232,85,61,0.1), rgba(243,156,18,0.1));
     border: 1px solid rgba(232,85,61,0.25);
@@ -3924,4 +4896,308 @@ section {
     border-radius: 16px;
     padding: 25px 30px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+/* ==================== 总结升华板块 ==================== */
+.insight-finale {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 40px;
+    overflow: hidden;
+    z-index: 2;
+}
+
+
+/* 内容容器 */
+.insight-finale-content {
+    position: relative;
+    z-index: 3;
+    max-width: 780px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* 每个段落包裹层 */
+.insight-paragraph {
+    margin-bottom: 36px;
+    /* 初始隐藏状态 */
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 进入视口后显示 */
+.insight-paragraph.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 段落文字 */
+.insight-paragraph p {
+    font-family: "Noto Serif SC", "PingFang SC", serif;
+    font-size: 1.45rem;
+    line-height: 2.3;
+    color: #2c3e50;
+    letter-spacing: 1.5px;
+    margin: 0;
+    text-align: center;
+}
+
+/* 高亮关键词 */
+.insight-highlight {
+    color: #681208;
+    font-weight: 700;
+    position: relative;
+    padding: 0 4px;
+    background: linear-gradient(
+        to bottom,
+        transparent 60%,
+        rgba(232, 85, 61, 0.12) 60%
+    );
+}
+
+/* 来源信息 */
+.insight-finale-source {
+    margin-top: 60px;
+    /* 初始隐藏状态 */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease 0.3s,
+                transform 0.8s ease 0.3s;
+}
+
+.insight-finale-source.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 来源分割线 */
+.insight-source-line {
+    display: block;
+    width: 60px;
+    height: 1.5px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(232, 85, 61, 0.4),
+        transparent
+    );
+    margin: 0 auto 16px;
+}
+
+/* 来源文字 */
+.insight-finale-source p {
+    font-family: "Noto Sans SC", "PingFang SC", sans-serif;
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.35);
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 768px) {
+    .insight-finale {
+        padding: 80px 24px;
+        min-height: 80vh;
+    }
+
+    .insight-paragraph p {
+        font-size: 1.15rem;
+        line-height: 2;
+        letter-spacing: 1px;
+    }
+
+    .insight-paragraph {
+        margin-bottom: 28px;
+    }
+
+    .insight-finale-source {
+        margin-top: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .insight-finale {
+        padding: 60px 20px;
+        min-height: 70vh;
+    }
+
+    .insight-paragraph p {
+        font-size: 1.05rem;
+        line-height: 1.9;
+    }
+
+    .insight-paragraph {
+        margin-bottom: 24px;
+    }
+}
+/* ==================== 全文总结过渡页 ==================== */
+.final-reflection {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 40px;
+    overflow: hidden;
+    z-index: 2;
+}
+
+
+
+/* 内容容器 */
+.final-reflection-content {
+    position: relative;
+    z-index: 3;
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* 每个文本块 */
+.reflection-block {
+    margin-bottom: 20px;
+    /* 初始隐藏状态 */
+    opacity: 0;
+    transform: translateY(36px);
+    transition: opacity 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* 进入视口后显示 */
+.reflection-block.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 文本样式 */
+.reflection-text {
+    font-family: "Noto Serif SC", "PingFang SC", serif;
+    font-size: 1.5rem;
+    line-height: 2.2;
+    color: #2c3e50;
+    letter-spacing: 1.8px;
+    margin: 0;
+    text-align: center;
+}
+
+/* 高亮数字/关键词 */
+.reflection-highlight {
+    color: #086716;
+    font-weight: 700;
+    position: relative;
+    padding: 0 3px;
+    background: linear-gradient(
+        to bottom,
+        transparent 55%,
+        rgba(222, 149, 137, 0.1) 55%
+    );
+}
+
+/* 分割线 */
+.reflection-divider {
+    margin: 36px auto;
+    /* 初始隐藏状态 */
+    opacity: 0;
+    transform: scaleX(0);
+    transition: opacity 0.8s ease,
+                transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.reflection-divider.revealed {
+    opacity: 1;
+    transform: scaleX(1);
+}
+
+.reflection-line {
+    display: block;
+    width: 80px;
+    height: 1.5px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(192, 57, 43, 0.5),
+        transparent
+    );
+    margin: 0 auto;
+}
+
+/* 最后一段 - 总结升华 */
+.reflection-final {
+    margin-top: 36px;
+}
+
+.reflection-final .reflection-text {
+    font-size: 1.35rem;
+    line-height: 2.4;
+}
+
+.reflection-sub {
+    margin-top: 8px;
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 768px) {
+    .final-reflection {
+        padding: 80px 24px;
+        min-height: 80vh;
+    }
+
+    .reflection-text {
+        font-size: 1.2rem;
+        line-height: 2;
+        letter-spacing: 1.2px;
+    }
+
+    .reflection-final .reflection-text {
+        font-size: 1.1rem;
+        line-height: 2.2;
+    }
+
+    .reflection-block {
+        margin-bottom: 16px;
+    }
+
+    .reflection-divider {
+        margin: 28px auto;
+    }
+
+    .reflection-final {
+        margin-top: 28px;
+    }
+}
+
+@media (max-width: 480px) {
+    .final-reflection {
+        padding: 60px 20px;
+        min-height: 70vh;
+    }
+
+    .reflection-text {
+        font-size: 1.05rem;
+        line-height: 1.9;
+        letter-spacing: 1px;
+    }
+
+    .reflection-final .reflection-text {
+        font-size: 1rem;
+        line-height: 2;
+    }
+
+    .reflection-block {
+        margin-bottom: 14px;
+    }
+
+    .reflection-divider {
+        margin: 24px auto;
+    }
+
+    .reflection-final {
+        margin-top: 24px;
+    }
 }
