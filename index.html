@@ -29,10 +29,6 @@
     <div class="fixed-background"></div>
     <!-- 👇 新增：全局遮罩层 -->
     <div class="global-overlay"></div>
-    <!-- 其余内容不变 -->
-</body>
-     <!-- 固定背景层 -->
-    <div class="fixed-background"></div>
     <!-- 顶部滚动进度条 -->
     <div class="progress-bar"></div>
 
@@ -50,9 +46,6 @@
     <div class="nav-dot" data-target="chronic-transition"></div>
     <div class="nav-dot" data-target="chronic-chart-section"></div>
     <div class="nav-dot" data-target="chronic-story"></div>
-    <div class="nav-dot" data-target="map-transition"></div>
-    <div class="nav-dot" data-target="map-section"></div>
-    <div class="nav-dot" data-target="stories"></div>
     <div class="nav-dot" data-target="unseen-transition"></div>
     <div class="nav-dot" data-target="policy-timeline"></div>
     <div class="nav-dot" data-target="conclusion"></div>
@@ -125,6 +118,7 @@
 </section>
 
 
+
    <!-- 2. 数据总览页 -->
 <section class="data-overview fade-in">
     <h2>8年织密一张网，惠及亿万国人</h2>
@@ -164,7 +158,7 @@
 
    <!-- 4. 过渡页：肿瘤——最先被看见 -->
 <section class="disease-transition fade-in" id="tumor-transition">
-    <div class="transition-bg"></div>
+    <div class="transition-bg" style="background-image: url('images/transition-tumor.jpg');"></div>
     <div class="transition-content">
         <h1 class="transition-title">肿瘤——最先被看见</h1>
         <p class="transition-subtitle">在医保的聚光灯下，肿瘤是最早被照亮的那一群人</p>
@@ -359,6 +353,7 @@
 
 <!-- 罕见病过渡页 - 镂空横栏效果 -->
 <section class="disease-transition fade-in" id="rare-transition">
+    <div class="transition-bg" style="background-image: url('images/transition-rare.jpg');"></div>
     <div class="transition-content">
         <h1 class="transition-title">罕见病——从小众到熟知</h1>
         <p class="transition-subtitle">每一个小群体，都不该被放弃</p>
@@ -525,6 +520,7 @@
 
 <!-- 慢性病过渡页 -->
 <section class="disease-transition fade-in" id="chronic-transition">
+     <div class="transition-bg" style="background-image: url('images/transition-chronic.jpg');"></div>
     <div class="transition-content">
         <h1 class="transition-title">慢性病——隐形民生减负</h1>
         <p class="transition-subtitle">他们是医保目录的基石，也是受益最广的人群</p>
@@ -776,8 +772,9 @@
     </div>  <!-- ← 补上这个！chronic-story-container 闭合 -->
 </section>
 
-<!-- 地图过渡页 -->
+<!-- 地图过渡页
 <section class="disease-transition fade-in" id="map-transition">
+     <div class="transition-bg" style="background-image: url('images/transition-map.jpg');"></div>
     <div class="transition-content">
         <h1 class="transition-title">落地有声——医保在全国</h1>
         <p class="transition-subtitle">从国家目录到地方执行，每一省都在行动</p>
@@ -785,28 +782,28 @@
 </section>
 
 
-   <!-- 6. 人群地图页 -->
+    6. 人群地图页 
 <section class="map-section fade-in">
     <h2>点击省份，查看双通道药品管理数量</h2>
     <div class="map-container map-bg-img">
-        <!-- 华北 -->
+         华北 
         <div class="map-point" data-province="beijing" style="top: 41%; left: 63%;"></div>
         <div class="map-point" data-province="hebei" style="top: 44%; left: 61%;"></div>
         
         
-        <!-- 华东 -->
+        < 华东 
         <div class="map-point" data-province="jiangsu" style="top: 53%; left: 68%;"></div>
         <div class="map-point" data-province="zhejiang" style="top: 61%; left: 69%;"></div>
         <div class="map-point" data-province="fujian" style="top: 69%; left: 66%;"></div>
         
-        <!-- 华中 -->
+         华中 
         <div class="map-point" data-province="henan" style="top: 53%; left: 59%;"></div>
         <div class="map-point" data-province="jiangxi" style="top: 67%; left: 62%;"></div>
         
     </div>
 </section>
 
-<!-- 地图弹窗 -->
+ 地图弹窗 
 <div class="map-popup" id="popup">
     <div class="popup-content">
         <span class="close-btn">&times;</span>
@@ -816,13 +813,13 @@
     </div>
 </div>
 
-    <!-- 7. 受益故事页 -->
+     7. 受益故事页 
 <section class="stories fade-in">
     <h2>每一个数字背后，都是一个被照亮的人生</h2>
     <p class="stories-intro">从北到南，从东到西，医保双通道正在改变千万家庭</p>
     
     <div class="story-grid">
-        <!-- 故事卡片 1 -->
+        故事卡片 1 
         <div class="story-card-new fade-in">
             <div class="story-province-tag">📍 河北</div>
             <div class="story-avatar">
@@ -840,7 +837,7 @@
             </div>
         </div>
 
-        <!-- 故事卡片 2 -->
+         故事卡片 2 
         <div class="story-card-new fade-in">
             <div class="story-province-tag">📍 福建</div>
             <div class="story-avatar">
@@ -858,7 +855,7 @@
             </div>
         </div>
 
-        <!-- 故事卡片 3 -->
+         故事卡片 3 
         <div class="story-card-new fade-in">
             <div class="story-province-tag">📍 江西</div>
             <div class="story-avatar">
@@ -878,7 +875,7 @@
     </div>
 </section>
 
-<!-- 破解困局板块 -->
+ 破解困局板块 
 <section class="problem-section fade-in">
     <h2>破解"最后一公里"困局背后的制度密码</h2>
     
@@ -901,7 +898,7 @@
     </div>
 </section>
 
-<!-- 各地创新实践板块 -->
+- 各地创新实践板块 
 <section class="practice-section fade-in">
     <h2>全国多地推进双通道政策落地</h2>
     
@@ -948,7 +945,7 @@
     </div>
 </section>
 
-<!-- 多方共赢板块 -->
+多方共赢板块 
 <section class="winwin-section fade-in">
     <h2>政策落地多方共赢，推动医疗生态系统的重构</h2>
     
@@ -989,7 +986,7 @@
     </div>
 </section>
 
-<!-- ==================== 总结升华板块 ==================== -->
+ ==================== 总结升华板块 ====================
 <section class="insight-finale" id="insightFinale">
     <div class="insight-finale-bg"></div>
     <div class="insight-finale-content">
@@ -1005,10 +1002,11 @@
         </div>
     </div>
 </section>
-
+ -->
 
 <!-- 未被看见过渡页 -->
 <section class="disease-transition fade-in" id="unseen-transition">
+     <div class="transition-bg" style="background-image: url('images/transition-unseen.jpg');"></div>
     <div class="transition-content">
         <h1 class="transition-title">未被看见——聚光灯之外</h1>
         <p class="transition-subtitle">医保的边界仍在扩展，还有人在等待那一束光</p>
@@ -1346,12 +1344,23 @@
 
 
 
-    <!-- 8. 结语页 -->
-    <section class="conclusion fade-in">
+<!-- 结语页 - 与封面背景完全统一 -->
+<section class="conclusion fade-in" id="conclusion">
+    <!-- 背景层（和封面一模一样） -->
+    <div class="conclusion-bg"></div>
+    <canvas id="conclusionParticleCanvas"></canvas>
+    <div class="conclusion-glow conclusion-glow-1"></div>
+    <div class="conclusion-glow conclusion-glow-2"></div>
+    <div class="conclusion-grid"></div>
+    
+    <!-- 内容层 -->
+    <div class="conclusion-content">
         <h2>8年医保，聚光灯下，是亿万普通人的健康与尊严</h2>
         <p class="summary">949种药 · 4600亿医保支出 · 9300亿元减负</p>
         <p class="ending">医保，让每一份期待都不被辜负</p>
-    </section>
+    </div>
+</section>
+
 
     <!-- 引入脚本 -->
     <script src="script.js"></script>
