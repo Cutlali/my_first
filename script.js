@@ -326,12 +326,12 @@ dataCards.forEach(card => dataObserver.observe(card));
 
 // ===================== 5. 地图弹窗逻辑 =====================
 const provinceData = {
-     beijing: {
+    beijing: {
         title: "北京｜双通道政策落地",
         data: "执行国家统一政策，221种谈判药品纳入管理",
         people: "定点医疗机构+定点零售药店双渠道保障，确保谈判药品顺利落地"
     },
-     jiangsu: {
+    jiangsu: {
         title: "江苏｜100种药品纳入双通道",
         data: "83个药品执行单独支付政策，不纳入医保总额控制",
         people: "职工医保实际报销不低于70%，居民医保不低于60%；不设起付线，直接纳入统筹基金支付"
@@ -341,7 +341,7 @@ const provinceData = {
         data: "国谈药品应配尽配，3个月内召开药事会",
         people: "三级甲等医院配备率≥30%，三级乙等≥20%；每家双通道药店配备率≥30%，县域至少1家"
     },
-     henan: {
+    henan: {
         title: "河南｜首批88个品种纳入双通道",
         data: "2021年10月底前每个统筹区至少1家零售药店",
         people: "谈判药品不纳入药占比、次均费用考核；遴选标准：临床价值高、患者急需、替代性不高"
@@ -363,6 +363,7 @@ const provinceData = {
     }
 };
 
+// 👇 先检查这些元素是否存在
 const points = document.querySelectorAll('.map-point');
 const popup = document.getElementById('popup');
 const popupTitle = document.getElementById('popup-title');
@@ -370,44 +371,53 @@ const popupData = document.getElementById('popup-data');
 const popupPeople = document.getElementById('popup-people');
 const closeBtn = document.querySelector('.close-btn');
 
-points.forEach(point => {
-    point.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const province = point.dataset.province;
-        const data = provinceData[province];
-        if (data) {
-            popupTitle.textContent = data.title;
-            popupData.textContent = data.data;
-            popupPeople.textContent = data.people;
-            popup.style.display = 'flex';
-            setTimeout(() => {
-                popup.querySelector('.popup-content').style.transform = 'scale(1)';
-                popup.querySelector('.popup-content').style.opacity = '1';
-            }, 10);
+// 👇 只有弹窗相关元素都存在，才执行后续逻辑
+if (popup && popupTitle && popupData && popupPeople && closeBtn) {
+    
+    points.forEach(point => {
+        point.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const province = point.dataset.province;
+            const data = provinceData[province];
+            if (data) {
+                popupTitle.textContent = data.title;
+                popupData.textContent = data.data;
+                popupPeople.textContent = data.people;
+                popup.style.display = 'flex';
+                setTimeout(() => {
+                    popup.querySelector('.popup-content').style.transform = 'scale(1)';
+                    popup.querySelector('.popup-content').style.opacity = '1';
+                }, 10);
+            }
+        });
+    });
+
+    function closePopup() {
+        popup.querySelector('.popup-content').style.transform = 'scale(0.8)';
+        popup.querySelector('.popup-content').style.opacity = '0';
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 300);
+    }
+
+    closeBtn.addEventListener('click', closePopup);
+    popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+            closePopup();
         }
     });
-});
 
-function closePopup() {
-    popup.querySelector('.popup-content').style.transform = 'scale(0.8)';
-    popup.querySelector('.popup-content').style.opacity = '0';
-    setTimeout(() => {
-        popup.style.display = 'none';
-    }, 300);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && popup.style.display === 'flex') {
+            closePopup();
+        }
+    });
+    
+} else {
+    // 元素不存在时只打印警告，不报错
+    console.warn('⚠️ 地图弹窗元素未找到，跳过地图交互逻辑');
 }
 
-closeBtn.addEventListener('click', closePopup);
-popup.addEventListener('click', (e) => {
-    if (e.target === popup) {
-        closePopup();
-    }
-});
-
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && popup.style.display === 'flex') {
-        closePopup();
-    }
-});
 // ===================== 6. 环形递进图表：肿瘤药物 =====================
 let tumorChart = null;
 const tumorSection = document.querySelector('.chart-section');
@@ -2081,48 +2091,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-// ===================== 18. 全局遮罩：过渡页位置镂空 =====================
+// ===================== 全局遮罩：过渡页位置镂空 + 背景激活 =====================
 function updateGlobalOverlay() {
     const overlay = document.querySelector('.global-overlay');
     if (!overlay) return;
 
     const viewportHeight = window.innerHeight;
-
-    // 找到所有过渡页
     const transitions = document.querySelectorAll('.disease-transition');
 
     if (transitions.length === 0) {
-        overlay.style.webkitMaskImage = 'none';
-        overlay.style.maskImage = 'none';
+        overlay.style.webkitMaskImage = 'linear-gradient(to bottom, black 0%, black 100%)';
+        overlay.style.maskImage = 'linear-gradient(to bottom, black 0%, black 100%)';
         return;
     }
 
-    // 构建渐变：默认不透明，在过渡页位置透明
-    let gradientParts = [];
-
+    // 收集所有需要镂空的区域
+    let holes = [];
+    
     transitions.forEach((el) => {
         const rect = el.getBoundingClientRect();
-        const top = (rect.top / viewportHeight) * 100;
-        const height = (rect.height / viewportHeight) * 100;
-        const bottom = top + height;
-
-       // 镂空区域：过渡页中间 50% 透明，边缘羽化更柔和
-const holeTop = top + height * 0.25;      // 👈 往上扩（原来是 0.35）
-const holeBottom = top + height * 0.75;   // 👈 往下扩（原来是 0.65）
-
-gradientParts.push(
-    `black ${holeTop}%`,
-    `transparent ${holeTop + 5}%`,        // 👈 羽化更柔和（原来是 2%）
-    `transparent ${holeBottom - 5}%`,     // 👈 羽化更柔和（原来是 2%）
-    `black ${holeBottom}%`
-);
-
+        const bg = el.querySelector('.transition-bg');
+        
+        // 判断过渡页是否在视口内
+        const isInView = rect.top < viewportHeight && rect.bottom > 0;
+        
+        if (isInView && bg) {
+            bg.classList.add('active');
+            
+            // 计算镂空区域（过渡页中间 60% 区域透明）
+            const top = (rect.top / viewportHeight) * 100;
+            const height = (rect.height / viewportHeight) * 100;
+            const bottom = top + height;
+            
+            // 镂空范围：过渡页的 20%-80% 区域
+            const holeTop = top + height * 0.20;
+            const holeBottom = top + height * 0.80;
+            
+            holes.push({
+                top: Math.max(0, holeTop),
+                bottom: Math.min(100, holeBottom)
+            });
+        } else if (bg) {
+            bg.classList.remove('active');
+        }
     });
+
+    // 构建 mask 渐变
+    if (holes.length === 0) {
+        overlay.style.webkitMaskImage = 'linear-gradient(to bottom, black 0%, black 100%)';
+        overlay.style.maskImage = 'linear-gradient(to bottom, black 0%, black 100%)';
+        return;
+    }
+
+    // 按位置排序
+    holes.sort((a, b) => a.top - b.top);
+
+    // 构建渐变：默认不透明，在镂空区域透明
+    let gradientParts = ['black 0%'];
+    
+    holes.forEach((hole, index) => {
+        // 在当前镂空区域之前保持不透明
+        gradientParts.push(`black ${hole.top}%`);
+        // 镂空区域透明
+        gradientParts.push(`transparent ${hole.top + 1}%`);
+        gradientParts.push(`transparent ${hole.bottom - 1}%`);
+        // 镂空区域之后恢复不透明
+        gradientParts.push(`black ${hole.bottom}%`);
+    });
+    
+    // 最后到 100% 保持不透明
+    gradientParts.push('black 100%');
 
     const maskValue = `linear-gradient(to bottom, ${gradientParts.join(', ')})`;
     overlay.style.webkitMaskImage = maskValue;
     overlay.style.maskImage = maskValue;
 }
+
 
 // 滚动时更新遮罩
 let overlayTicking = false;
@@ -2138,6 +2182,7 @@ window.addEventListener('scroll', () => {
 
 // 初始调用
 updateGlobalOverlay();
+
 
 // ===================== 19. 交互提示条逻辑 =====================
 function initInteractHintBar() {
@@ -2435,6 +2480,105 @@ function initFinalReflection() {
 // 在 DOMContentLoaded 中初始化
 document.addEventListener('DOMContentLoaded', () => {
     initFinalReflection();
+});
+// ===================== 结语页粒子动画（复用封面逻辑） =====================
+function initConclusionParticles() {
+    const canvas = document.getElementById('conclusionParticleCanvas');
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let animationId;
+    
+    function resize() {
+        canvas.width = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+    }
+    
+    resize();
+    window.addEventListener('resize', resize);
+    
+    class Particle {
+        constructor() {
+            this.reset();
+        }
+        
+        reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 0.5;
+            this.speedX = (Math.random() - 0.5) * 0.3;
+            this.speedY = (Math.random() - 0.5) * 0.3;
+            this.opacity = Math.random() * 0.5 + 0.1;
+            this.opacitySpeed = (Math.random() - 0.5) * 0.005;
+        }
+        
+        update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.opacity += this.opacitySpeed;
+            
+            if (this.opacity <= 0.05 || this.opacity >= 0.6) {
+                this.opacitySpeed *= -1;
+            }
+            
+            if (this.x < 0 || this.x > canvas.width || 
+                this.y < 0 || this.y > canvas.height) {
+                this.reset();
+            }
+        }
+        
+        draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(74, 144, 226, ${this.opacity})`;
+            ctx.fill();
+        }
+    }
+    
+    const particleCount = 80;
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+    }
+    
+    function drawLines() {
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < 150) {
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.strokeStyle = `rgba(74, 144, 226, ${0.08 * (1 - distance / 150)})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+    
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        particles.forEach(particle => {
+            particle.update();
+            particle.draw();
+        });
+        
+        drawLines();
+        
+        animationId = requestAnimationFrame(animate);
+    }
+    
+    animate();
+}
+
+// 在 DOMContentLoaded 中调用
+document.addEventListener('DOMContentLoaded', () => {
+    initConclusionParticles();
 });
 
 // ===================== 20. 初始化完成日志 =====================
