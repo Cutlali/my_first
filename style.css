@@ -25,9 +25,9 @@ body {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    background-attachment: fixed;
 }
-/* ========== 全局遮罩层（固定定位，用 JS 动态控制镂空） ========== */
+
+/* ========== 全局遮罩层（保持 z-index: 0） ========== */
 .global-overlay {
     position: fixed;
     top: 0;
@@ -37,7 +37,140 @@ body {
     z-index: 0;
     pointer-events: none;
     background: rgb(168, 204, 178);
-    /* mask-image 由 JS 动态设置 */
+    /* 默认全覆盖，JS 动态修改 mask */
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black 100%);
+    mask-image: linear-gradient(to bottom, black 0%, black 100%);
+}
+
+
+/* ========== 封面页底部羽化 ========== */
+.cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(168, 204, 178, 0.05) 20%,
+        rgba(168, 204, 178, 0.2) 45%,
+        rgba(168, 204, 178, 0.5) 70%,
+        rgba(168, 204, 178, 0.85) 90%,
+        rgb(168, 204, 178) 100%
+    );
+    z-index: 3;
+    pointer-events: none;
+}
+/* ========== 数据总览页顶部羽化 ========== */
+.data-overview {
+    position: relative;
+}
+
+.data-overview::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: -50px;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(168, 204, 178, 0.15) 15%,
+        rgba(168, 204, 178, 0.5) 45%,
+        rgba(168, 204, 178, 0.85) 75%,
+        rgb(168, 204, 178) 100%
+    );
+    z-index: 2;
+    pointer-events: none;
+}
+
+
+
+/* ========== 过渡页专属背景层 ========== */
+
+.disease-transition {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    z-index: 1;
+}
+
+/* ========== 顶部羽化遮罩 ========== */
+.disease-transition::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;  /* 羽化高度，可调整 */
+    background: linear-gradient(
+        to bottom,
+        rgb(168, 204, 178) 0%,
+        rgba(168, 204, 178, 0.85) 25%,
+        rgba(168, 204, 178, 0.5) 55%,
+        rgba(168, 204, 178, 0.1) 85%,
+        transparent 100%
+    );
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* ========== 底部羽化遮罩 ========== */
+.disease-transition::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;  /* 羽化高度，可调整 */
+    background: linear-gradient(
+        to top,
+        rgb(168, 204, 178) 0%,
+        rgba(168, 204, 178, 0.85) 25%,
+        rgba(168, 204, 178, 0.5) 55%,
+        rgba(168, 204, 178, 0.1) 85%,
+        transparent 100%
+    );
+    z-index: 3;
+    pointer-events: none;
+}
+
+.disease-transition .transition-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;  /* 改回 -1，在遮罩下方 */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.disease-transition .transition-bg.active {
+    opacity: 1;
+}
+
+/* 过渡页内容 */
+.disease-transition .transition-content {
+    position: relative;
+    z-index: 1;              /* 在遮罩之上 */
+}
+
+/* bridge-section 内容 */
+.bridge-container {
+    position: relative;
+    z-index: 1;              /* 在遮罩之上 */
 }
 
 /* ========== 重置各板块背景 ========== */
@@ -5199,5 +5332,125 @@ section {
 
     .reflection-final {
         margin-top: 24px;
+    }
+}
+/* ==================== 结语页 - 背景与封面完全统一 ==================== */
+.conclusion {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #0a0e27;
+}
+
+/* 背景渐变（和 .cover-bg 一模一样） */
+.conclusion-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(74, 144, 226, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 50%, rgba(74, 144, 226, 0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(15, 52, 96, 0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(74, 144, 226, 0.1) 0%, transparent 50%),
+        linear-gradient(180deg, #0a0e27 0%, #0f1535 50%, #0a0e27 100%);
+}
+
+/* 粒子画布（和 #particleCanvas 一模一样） */
+#conclusionParticleCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* 光晕效果（和 .cover-glow 一模一样） */
+.conclusion-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    z-index: 0;
+    animation: glowPulse 6s ease-in-out infinite;
+}
+
+.conclusion-glow-1 {
+    width: 400px;
+    height: 400px;
+    background: rgba(74, 144, 226, 0.15);
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.conclusion-glow-2 {
+    width: 300px;
+    height: 300px;
+    background: rgba(100, 180, 255, 0.1);
+    bottom: 25%;
+    right: 15%;
+    animation-delay: 3s;
+}
+
+/* 网格线装饰（和 .cover-grid 一模一样） */
+.conclusion-grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-image: 
+        linear-gradient(rgba(74, 144, 226, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(74, 144, 226, 0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+}
+
+/* 内容层 */
+.conclusion-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 40px 20px;
+    max-width: 900px;
+}
+
+.conclusion-content h2 {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 1.5rem;
+    letter-spacing: 4px;
+}
+
+.conclusion-content .summary {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 2rem;
+    letter-spacing: 2px;
+}
+
+.conclusion-content .ending {
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    color: #4a90e2;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+    .conclusion-glow-1 {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .conclusion-glow-2 {
+        width: 150px;
+        height: 150px;
     }
 }
