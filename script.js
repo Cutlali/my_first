@@ -1,5 +1,4 @@
 // ===================== 1. 全局渐入元素：移出视口重置，进入重新播放动画 =====================
-
 const fadeElements = document.querySelectorAll('.fade-in');
 const fadeObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -2481,7 +2480,7 @@ function initFinalReflection() {
 document.addEventListener('DOMContentLoaded', () => {
     initFinalReflection();
 });
-// ===================== 结语页粒子动画（复用封面逻辑） =====================
+// ===================== 结语页粒子动画（更新版） =====================
 function initConclusionParticles() {
     const canvas = document.getElementById('conclusionParticleCanvas');
     if (!canvas) return;
@@ -2491,12 +2490,18 @@ function initConclusionParticles() {
     let animationId;
     
     function resize() {
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
+        // 让画布覆盖整个section（包括滚动内容）
+        const section = document.getElementById('conclusion');
+        canvas.width = section.offsetWidth;
+        canvas.height = section.scrollHeight;
     }
     
     resize();
     window.addEventListener('resize', resize);
+    
+    // 监听内容变化重新调整画布大小
+    const observer = new ResizeObserver(() => resize());
+    observer.observe(document.getElementById('conclusion'));
     
     class Particle {
         constructor() {
@@ -2536,7 +2541,7 @@ function initConclusionParticles() {
         }
     }
     
-    const particleCount = 80;
+    const particleCount = 120; // 增加粒子数量以适应更长页面
     for (let i = 0; i < particleCount; i++) {
         particles.push(new Particle());
     }
@@ -2574,12 +2579,22 @@ function initConclusionParticles() {
     }
     
     animate();
+    
+    // 点击滚动提示平滑滚动
+    const scrollHint = document.querySelector('.scroll-hint');
+    if (scrollHint) {
+        scrollHint.addEventListener('click', () => {
+            const teamSection = document.querySelector('.conclusion-team');
+            teamSection.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
 }
 
 // 在 DOMContentLoaded 中调用
 document.addEventListener('DOMContentLoaded', () => {
     initConclusionParticles();
 });
+
 
 // ===================== 20. 初始化完成日志 =====================
 console.log('✅ 医保目录人群地图 - 已就绪');
