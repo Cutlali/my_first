@@ -5232,33 +5232,7 @@ section {
     );
 }
 
-/* 分割线 */
-.reflection-divider {
-    margin: 36px auto;
-    /* 初始隐藏状态 */
-    opacity: 0;
-    transform: scaleX(0);
-    transition: opacity 0.8s ease,
-                transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
 
-.reflection-divider.revealed {
-    opacity: 1;
-    transform: scaleX(1);
-}
-
-.reflection-line {
-    display: block;
-    width: 80px;
-    height: 1.5px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(192, 57, 43, 0.5),
-        transparent
-    );
-    margin: 0 auto;
-}
 
 /* 最后一段 - 总结升华 */
 .reflection-final {
@@ -5452,5 +5426,216 @@ section {
     .conclusion-glow-2 {
         width: 150px;
         height: 150px;
+    }
+}
+/* ==================== 结语页扩展样式 ==================== */
+
+/* 外层包裹器 - 支持滚动 */
+.conclusion-wrapper {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 结语主体 - 占满整个视口 */
+.conclusion-main {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+/* 向下滚动提示 */
+.scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(74, 144, 226, 0.4);
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    animation: floatDown 2s ease-in-out infinite;
+    cursor: pointer;
+}
+
+@keyframes floatDown {
+    0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.4; }
+    50% { transform: translateX(-50%) translateY(8px); opacity: 0.8; }
+}
+
+.scroll-hint:hover {
+    color: rgba(74, 144, 226, 0.8);
+}
+
+/* ==================== 团队分工区域 ==================== */
+.conclusion-team {
+    width: 100%;
+    max-width: 900px;
+    padding: 60px 20px 40px;
+    text-align: center;
+}
+
+.conclusion-team h3 {
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2.5rem;
+    letter-spacing: 3px;
+    position: relative;
+    display: inline-block;
+}
+
+.conclusion-team h3::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background: rgba(74, 144, 226, 0.5);
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 20px;
+    margin-top: 1rem;
+}
+
+.team-card {
+    background: rgba(74, 144, 226, 0.05);
+    border: 1px solid rgba(74, 144, 226, 0.15);
+    border-radius: 12px;
+    padding: 25px 20px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.team-card:hover {
+    background: rgba(74, 144, 226, 0.1);
+    border-color: rgba(74, 144, 226, 0.3);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.1);
+}
+
+.team-role {
+    font-size: 0.85rem;
+    color: rgba(74, 144, 226, 0.7);
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+}
+
+.team-name {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    letter-spacing: 1px;
+}
+
+/* ==================== 文献参考区域 ==================== */
+.conclusion-reference {
+    width: 100%;
+    max-width: 900px;
+    padding: 40px 20px 80px;
+    text-align: center;
+}
+
+.conclusion-reference h3 {
+    font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 2.5rem;
+    letter-spacing: 3px;
+    position: relative;
+    display: inline-block;
+}
+
+.conclusion-reference h3::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 2px;
+    background: rgba(74, 144, 226, 0.5);
+}
+
+.reference-list {
+    text-align: left;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.reference-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-left: 2px solid transparent;
+    transition: all 0.3s ease;
+    border-radius: 0 8px 8px 0;
+}
+
+.reference-item:hover {
+    background: rgba(74, 144, 226, 0.05);
+    border-left-color: rgba(74, 144, 226, 0.5);
+}
+
+.ref-number {
+    color: rgba(74, 144, 226, 0.6);
+    font-size: 0.85rem;
+    font-weight: 600;
+    min-width: 30px;
+    flex-shrink: 0;
+}
+
+.ref-content {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+}
+
+/* ==================== 响应式调整 ==================== */
+@media (max-width: 768px) {
+    .conclusion-main {
+        padding: 0 15px;
+    }
+    
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .team-card {
+        padding: 20px 15px;
+    }
+    
+    .conclusion-team,
+    .conclusion-reference {
+        padding: 40px 15px;
+    }
+    
+    .reference-item {
+        padding: 10px 12px;
+    }
+    
+    .ref-content {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .team-grid {
+        grid-template-columns: 1fr;
     }
 }
