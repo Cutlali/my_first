@@ -26,6 +26,64 @@
 </div>
 
 <body>
+    <!-- 左侧导航 -->
+<nav class="left-nav" id="leftNav">
+    <button class="left-nav-toggle" id="leftNavToggle" aria-label="展开导航">
+        <span class="toggle-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="6" x2="20" y2="6"></line>
+                <line x1="4" y1="12" x2="20" y2="12"></line>
+                <line x1="4" y1="18" x2="20" y2="18"></line>
+            </svg>
+        </span>
+    </button>
+    
+    <div class="left-nav-panel" id="leftNavPanel">
+        <div class="left-nav-header">
+            <span class="nav-title">目录导航</span>
+        </div>
+        
+        <ul class="left-nav-list">
+            <li class="left-nav-item">
+                <a href="#tumor-transition" class="left-nav-link" data-target="tumor-transition">
+                    <span class="nav-icon"></span>
+                    <span class="nav-text">肿瘤用药</span>
+                </a>
+            </li>
+            <li class="left-nav-item">
+                <a href="#rare-transition" class="left-nav-link" data-target="rare-transition">
+                    <span class="nav-icon"></span>
+                    <span class="nav-text">罕见病</span>
+                </a>
+            </li>
+            <li class="left-nav-item">
+                <a href="#chronic-transition" class="left-nav-link" data-target="chronic-transition">
+                    <span class="nav-icon"></span>
+                    <span class="nav-text">慢性病</span>
+                </a>
+            </li>
+            <li class="left-nav-item">
+                <a href="#unseen-transition" class="left-nav-link" data-target="unseen-transition">
+                    <span class="nav-icon"></span>
+                    <span class="nav-text">未被看见</span>
+                </a>
+            </li>
+            <li class="left-nav-item">
+                <a href="#policy-timeline" class="left-nav-link" data-target="policy-timeline">
+                    <span class="nav-icon"></span>
+                    <span class="nav-text">政策演变</span>
+                </a>
+            </li>
+            <li class="left-nav-item">
+                <a href="#conclusion" class="left-nav-link" data-target="conclusion">
+                    <span class="nav-icon"></span>
+                    <span class="nav-text">结语</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
     <div class="fixed-background"></div>
     <!-- 👇 新增：全局遮罩层 -->
     <div class="global-overlay"></div>
@@ -141,9 +199,10 @@
                 <div class="desc">累计减负</div>
             </div>
         </div>
-        <div class="overview-text">
-            <p>2018—2026年，国家医保目录历经8轮调整，药品总数从2018年的2500余种增至2025年的3253种。其中，肿瘤、罕见病、慢性病三类药品，从"边缘补充"成长为目录核心，占比逐年攀升，清晰勾勒出医保"保救命、补短板、惠民生"的八年轨迹。</p>
-        </div>
+       <div class="overview-text">
+    <p><span class="highlight-year">2018</span>—<span class="highlight-year">2026</span>年，国家医保目录历经<span class="highlight-number">8</span>轮调整，药品总数从<span class="highlight-year">2018</span>年的<span class="highlight-number">2500</span>余种增至<span class="highlight-year">2025</span>年的<span class="highlight-number">3253</span>种。其中，肿瘤、罕见病、慢性病三类药品，从"边缘补充"成长为目录核心，占比逐年攀升，清晰勾勒出医保"保救命、补短板、惠民生"的八年轨迹。</p>
+</div>
+
     </div>
 </section>
 
@@ -764,7 +823,8 @@
                     但随着<span class="highlight-warm">2026年医保新政</span>的落地——门诊慢特病全国统一认定、长处方一次开3个月、集采药价格降幅超50%，慢性病用药正在从<span class="highlight-warm">"负担"变成"保障"</span>。
                 </p>
                 <p class="chronic-story-ending">
-                    医保传递的不只是价格，更是<span class="highlight-warm">温度</span>——让"病有所医"从口号变成触手可及的现实。
+                    
+                    医保传递的不只是价格<br>更是<span class="highlight-warm">温度</span>——让"病有所医"从口号<br></span><span class="highlight-warm"></span>变成触手可及的现实
                 </p>
             </div>
         </div>
@@ -1117,7 +1177,7 @@
         </div>
     </div>
     <!-- 底部解说 -->
-    <p class="compare-note">PD-1抑制剂经医保报销后年自付约<strong>6.8万元</strong>，而CAR-T单针费用高达<strong>99.9万-129万元</strong>，且需完全自费，费用相差悬殊。</p>
+    <p class="compare-note">PD-1抑制剂经医保报销后年自付约<strong>6.8万元<br></strong>而CAR-T单针费用高达<strong>99.9万-129万元</strong><br>且需完全自费，费用相差悬殊。</p>
 </div>
 
         <!-- ========== 层次3：5款CAR-T气泡图（点击弹图片+简介） ========== -->
@@ -1410,6 +1470,7 @@
                 <div class="reference-item">
                     <span class="ref-number">[8]</span>
                     <span class="ref-content">国家医保服务平台</span>
+                    <div class="reference-item">
                 </div>
             </div>
         </div>
