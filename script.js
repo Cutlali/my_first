@@ -1725,7 +1725,7 @@ document.addEventListener('DOMContentLoaded', () => {
             price: 120,
             indication: '大B细胞淋巴瘤',
             desc: '中国首款获批上市的CAR-T细胞治疗产品，用于治疗既往接受二线或以上系统性治疗后复发或难治性大B细胞淋巴瘤成人患者。',
-            color: '#e74c3c',
+            color: '#319a44',
             image: 'images/yikaida.jpg'
         },
         {
@@ -1734,7 +1734,7 @@ document.addEventListener('DOMContentLoaded', () => {
             price: 129,
             indication: '大B细胞淋巴瘤',
             desc: '靶向CD19的自体CAR-T细胞免疫治疗产品，用于治疗经过二线或以上系统性治疗后复发或难治性大B细胞淋巴瘤。',
-            color: '#e8553d',
+            color: '#d58721',
             image: 'images/beinuoda.jpg'
         },
         {
@@ -1743,7 +1743,7 @@ document.addEventListener('DOMContentLoaded', () => {
             price: 99.9,
             indication: '多发性骨髓瘤',
             desc: '全人源BCMA靶向CAR-T细胞治疗产品，用于治疗复发或难治性多发性骨髓瘤，是首款国产BCMA CAR-T产品。',
-            color: '#f39c12',
+            color: '#126cf3',
             image: 'images/fukesu.jpg'
         },
         {
@@ -2594,6 +2594,103 @@ function initConclusionParticles() {
 document.addEventListener('DOMContentLoaded', () => {
     initConclusionParticles();
 });
+// ==================== 左侧导航功能 ====================
+(function() {
+    const leftNav = document.getElementById('leftNav');
+    const leftNavToggle = document.getElementById('leftNavToggle');
+    const leftNavLinks = document.querySelectorAll('.left-nav-link');
+    const leftNavPanel = document.getElementById('leftNavPanel');
+    
+    // 切换导航展开/收起
+    leftNavToggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        leftNav.classList.toggle('open');
+    });
+    
+    // 点击导航项 - 平滑滚动到目标
+    leftNavLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+            
+            if (targetElement) {
+                // 平滑滚动
+                targetElement.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+                
+                // 更新激活状态
+                updateActiveLink(targetId);
+                
+                // 移动端自动收起导航
+                if (window.innerWidth <= 768) {
+                    leftNav.classList.remove('open');
+                }
+            }
+        });
+    });
+    
+    // 点击导航面板外部关闭
+    document.addEventListener('click', function(e) {
+        if (!leftNav.contains(e.target) && leftNav.classList.contains('open')) {
+            leftNav.classList.remove('open');
+        }
+    });
+    
+    // 滚动时自动更新激活状态
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+        if (scrollTimeout) clearTimeout(scrollTimeout);
+        
+        scrollTimeout = setTimeout(() => {
+            const sections = Array.from(leftNavLinks).map(link => {
+                const targetId = link.getAttribute('data-target');
+                return document.getElementById(targetId);
+            }).filter(Boolean);
+            
+            let currentSection = null;
+            const scrollPosition = window.scrollY + 200;
+            
+            for (let i = sections.length - 1; i >= 0; i--) {
+                if (sections[i] && sections[i].offsetTop <= scrollPosition) {
+                    currentSection = sections[i].id;
+                    break;
+                }
+            }
+            
+            if (currentSection) {
+                updateActiveLink(currentSection);
+            }
+        }, 100);
+    });
+    
+    // 更新激活状态
+    function updateActiveLink(targetId) {
+        leftNavLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-target') === targetId) {
+                link.classList.add('active');
+            }
+        });
+    }
+    
+    // 初始化：默认展开（可选，改为注释掉下面这行则默认收起）
+    // leftNav.classList.add('open');
+    
+    // 键盘快捷键：按 'M' 键切换导航
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'm' || e.key === 'M') {
+            // 不在输入框中才触发
+            if (document.activeElement === document.body || 
+                document.activeElement === null) {
+                e.preventDefault();
+                leftNav.classList.toggle('open');
+            }
+        }
+    });
+})();
 
 
 // ===================== 20. 初始化完成日志 =====================
