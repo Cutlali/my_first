@@ -577,7 +577,7 @@ section {
 
 /* 数字高亮 */
 .highlight-number {
-    color: #b34925;
+    color: #d45806;
     font-weight: 700;
     font-size: 1.05em;
 }
@@ -1834,7 +1834,7 @@ section {
 
 /* 关键词金色高亮 */
 .highlight-gold {
-    color: #7a5a10;
+    color: #a15b0c;
     font-weight: 700;
    
     padding: 0 6px;
@@ -5229,14 +5229,14 @@ section {
 
 /* 高亮数字/关键词 */
 .reflection-highlight {
-    color: #086716;
+    color: #a37f30;
     font-weight: 700;
     position: relative;
     padding: 0 3px;
     background: linear-gradient(
         to bottom,
         transparent 55%,
-        rgba(222, 149, 137, 0.1) 55%
+        rgba(163, 127, 48, 0.1) 55%
     );
 }
 
